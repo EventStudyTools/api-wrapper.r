@@ -1,0 +1,14 @@
+Package: EventStudy
+Type: Package
+Title: What the Package Does (Title Case)
+Version: 0.1.0
+Author: Dr. Simon Müller
+Maintainer: Dr. Simon Müller <simon.mueller@muon-stat.com>
+Description: Description
+Encoding: UTF-8
+LazyData: true
+Depends:
+    jsonlite,
+    dplyr,
+    curl
+RoxygenNote: 5.0.1
