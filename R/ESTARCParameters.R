@@ -70,13 +70,13 @@ ESTARCParameters <- R6::R6Class(classname = "ESTParameters",
                                   },
                                   # returns available test statistics
                                   getTestStatistics = function() {
-                                    private$test_statistics
+                                    private$allowed_test_statistics
                                   }
                                 ),
                                 private = list(
-                                  test_statistics = NULL,
+                                  allowed_test_statistics = NULL,
                                   getTestStatisticNames = function() {
-                                    private$test_statistics = names(self[["test_statistics"]])
+                                    private$allowed_test_statistics = names(self[["test_statistics"]])
                                   }
                                 )
 )
