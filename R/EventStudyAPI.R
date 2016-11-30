@@ -1,3 +1,5 @@
+#' API for EventStudyTools.com
+#'
 #' @export
 EventStudyAPI <- R6::R6Class(classname = "EventStudyAPI",
                              public = list(
