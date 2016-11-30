@@ -32,8 +32,8 @@ EventStudyAPI <- R6::R6Class(classname = "EventStudyAPI",
                                },
                                configureTask = function(input) {
 
-                                 if (!is(input, "ApplicationInputInterface") || is.null(private$token))
-                                   stop("Error: required parameters are not set")
+                                 if (!is(input, "ArcApplicationInput") || !is(input, "CataApplicationInput") || is.null(private$token))
+                                   stop("Error in configureTask: required parameters are not set")
 
                                  new_handle() %>%
                                    handle_setopt(customrequest = "POST") %>%
@@ -41,6 +41,19 @@ EventStudyAPI <- R6::R6Class(classname = "EventStudyAPI",
                                    handle_setheaders("Content-Type" = "application/json",
                                                      "X-Task-Key"   = private$token) -> handle
 
+                                 json <- input$toJson()
+
+                                 handle %>%
+                                   handle_setopt(postfields = json) -> handle
+
+                                 # fetch result
+                                 ch <- curl_fetch_memory(url    = paste0(private$apiServerUrl, "/task/conf"),
+                                                         handle = handle)
+
+                                 rawToChar(ch$content) %>%
+                                   jsonlite::fromJSON() %>%
+                                   private$checkAndNormalizeResponse(httpcode = ch$status_code,
+                                                                     method   = "configureTask") -> result
 
                                  if (!result)
                                    stop(paste0("Error in configureTask: configuration error"))
@@ -54,6 +67,8 @@ EventStudyAPI <- R6::R6Class(classname = "EventStudyAPI",
 
                                  if (!file.exists(filename))
                                    stop("Error: file do not exist")
+
+
                                },
                                # Parameters
                                get_token = function() {
