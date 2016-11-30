@@ -60,15 +60,36 @@ EventStudyAPI <- R6::R6Class(classname = "EventStudyAPI",
 
                                  return(TRUE)
                                },
-                               uploadFile = function(fileKey, fileName, partNumber) {
+                               uploadFile = function(fileKey, fileName, partNumber = 0) {
 
                                  if (is.null(private$token) || is.null(fileKey) || is.null(fileName))
-                                   stop("Error: configuration error")
+                                   stop("Error in uploadFile: configuration error")
 
                                  if (!file.exists(filename))
                                    stop("Error: file do not exist")
 
+                                 # TODO: split file
+                                 new_handle() %>%
+                                   handle_setopt(customrequest = "POST") %>%
+                                   handle_setheaders("Content-Type" = "application/octet-stream",
+                                                     "X-Task-Key"   = private$token) -> handle
 
+                                 new_handle() %>%
+                                   handle_setopt(upload = TRUE) %>%
+                                   handle_setopt(infile = fileName) -> new_handle
+
+                                 ch <- curl_fetch_memory(url    = paste0(private$apiServerUrl, "/task/content/", fileKey, "/", partNumber),
+                                                         handle = handle)
+
+                                 rawToChar(ch$content) %>%
+                                   jsonlite::fromJSON() %>%
+                                   private$checkAndNormalizeResponse(httpcode = ch$status_code,
+                                                                     method   = "uploadFile") -> result
+
+                                 if (!result)
+                                   stop(paste0("Error in uploadFile: configuration error"))
+
+                                 return(TRUE)
                                },
                                # Parameters
                                get_token = function() {
