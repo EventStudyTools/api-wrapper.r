@@ -30,11 +30,9 @@ ApplicationInputInterface <- R6::R6Class(classname = "ApplicationInputInterface"
                                              }
                                            },
                                            toJson = function() {
-                                             private$getMember() %>%
+                                             self$getMember() %>%
                                                jsonlite::toJSON(auto_unbox = T)
-                                           }
-                                         ),
-                                         private = list(
+                                           },
                                            getMember = function() {
                                              setdiff(x = ls(self),
                                                      y = lsf.str(self)) %>%
