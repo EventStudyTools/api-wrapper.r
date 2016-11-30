@@ -91,6 +91,12 @@ EventStudyAPI <- R6::R6Class(classname = "EventStudyAPI",
 
                                  return(TRUE)
                                },
+                               deleteFileParts = function(parts) {
+                                 # TODO
+                               },
+                               splitFile = function(fileName, maxChunkSize) {
+                                 # TODO
+                               },
                                # Parameters
                                get_token = function() {
                                  return(private$token)
@@ -187,15 +193,6 @@ EventStudyAPI <- R6::R6Class(classname = "EventStudyAPI",
                                # private members
                                token        = NULL,
                                apiServerUrl = NULL,
-                               deleteFileParts = function(parts) {
-
-                               },
-                               splitFile = function(fileName, maxChunkSize) {
-
-                                 partFileNames <- c()
-                                 i <- 0
-
-                               },
                                checkAndNormalizeResponse = function(response, httpcode, method, exceptionOnError = T) {
 
                                  if ("error" %in% names(response)) {
