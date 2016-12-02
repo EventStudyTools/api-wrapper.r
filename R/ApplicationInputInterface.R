@@ -2,32 +2,32 @@
 ApplicationInputInterface <- R6::R6Class(classname = "ApplicationInputInterface",
                                          lock_objects = F,
                                          public = list(
+                                           parameters = NULL,
                                            setNamedList = function(parentLevel,
                                                                    secondLevel = NULL,
                                                                    thirthLevel = NULL,
                                                                    parameterList) {
-                                             if (is.null(self[[parentLevel]])) {
+                                             if (is.null(self$parameters[[parentLevel]])) {
                                                tmpList <- list(var = list())
-                                               names(tmpList) <- parentLevel
-                                               self[[parentLevel]] <- tmpList
+                                               self$parameters[[parentLevel]] <- list()
                                              }
 
                                              if (is.null(secondLevel)) {
                                                if(is.null(parameterList)) {
-                                                 self[[parentLevel]] <- list()
+                                                 self$parameters[[parentLevel]] <- list()
                                                } else {
-                                                 self[[parentLevel]] <- parameterList
+                                                 self$parameters[[parentLevel]] <- parameterList
                                                }
                                              } else {
                                                if(is.null(parameterList)) {
-                                                 self[[parentLevel]][[secondLevel]] <- list()
+                                                 self$parameters[[parentLevel]][[secondLevel]] <- list()
                                                } else {
-                                                 self[[parentLevel]][[secondLevel]] <- parameterList
+                                                 self$parameters[[parentLevel]][[secondLevel]] <- parameterList
                                                }
                                              }
 
                                              if (!is.null(thirthLevel)) {
-                                               self[[parentLevel]][[secondLevel]][[thirthLevel]] <- parameterList
+                                               self$parameters[[parentLevel]][[secondLevel]][[thirthLevel]] <- parameterList
                                              }
                                            },
                                            toJson = function() {

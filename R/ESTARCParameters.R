@@ -36,11 +36,9 @@ ESTARCParameters <- R6::R6Class(classname = "ESTParameters",
                                     aarcdat       = "1",
                                     aarjackknivet = "1"
                                   ),
-                                  data_sources = list(
-                                    request_file = "csv",
-                                    firm_data    = "csv",
-                                    market_data  = "csv"
-                                  ),
+                                  request_file = "csv",
+                                  firm_data    = "csv",
+                                  market_data  = "csv",
                                   # initialize object
                                   initialize = function() {
                                     private$getTestStatisticNames()

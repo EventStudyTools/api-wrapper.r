@@ -34,7 +34,7 @@ EventStudyAPI <- R6::R6Class(classname = "EventStudyAPI",
                                },
                                configureTask = function(input) {
 
-                                 if (!is(input, "ArcApplicationInput") || !is(input, "CataApplicationInput") || is.null(private$token))
+                                 if (!is(input, "ApplicationInputInterface") || is.null(private$token))
                                    stop("Error in configureTask: required parameters are not set")
 
                                  new_handle() %>%
