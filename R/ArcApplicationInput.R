@@ -14,7 +14,6 @@ ArcApplicationInput <- R6::R6Class(classname = "ArcApplicationInput",
                                                          thirthLevel   = NULL,
                                                          parameterList = parameters[["task"]])
 
-
                                        # Application ----
                                        # set key
                                        if (is.null(parameters[["application"]][["key"]]))

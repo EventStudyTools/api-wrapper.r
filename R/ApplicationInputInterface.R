@@ -18,16 +18,25 @@ ApplicationInputInterface <- R6::R6Class(classname = "ApplicationInputInterface"
                                                } else {
                                                  self$parameters[[parentLevel]] <- parameterList
                                                }
-                                             } else {
+                                             } else if (is.null(thirthLevel)) {
                                                if(is.null(parameterList)) {
                                                  self$parameters[[parentLevel]][[secondLevel]] <- list()
                                                } else {
-                                                 self$parameters[[parentLevel]][[secondLevel]] <- parameterList
+                                                 if (length(parameterList) == 1) {
+                                                   self$parameters[[parentLevel]][[secondLevel]] <- parameterList
+                                                 } else {
+                                                   self$parameters[[parentLevel]][[secondLevel]] <- list(unlist(parameterList))
+                                                 }
                                                }
                                              }
 
                                              if (!is.null(thirthLevel)) {
-                                               self$parameters[[parentLevel]][[secondLevel]][[thirthLevel]] <- parameterList
+                                               if (length(parameterList) == 1) {
+                                                 self$parameters[[parentLevel]][[secondLevel]][[thirthLevel]] <- parameterList
+                                               } else {
+                                                 self$parameters[[parentLevel]][[secondLevel]][[thirthLevel]] <- list(unlist(parameterList))
+                                               }
+
                                              }
                                            },
                                            toJson = function() {

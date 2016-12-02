@@ -4,6 +4,7 @@
 ESTARCParameters <- R6::R6Class(classname = "ESTParameters",
                                 inherit = ApplicationInputInterface,
                                 public = list(
+                                  task = list(locale = 'en'),
                                   result_file_type = "xls",
                                   benchmark_model  = "mm",
                                   return_type      = "log",
@@ -36,9 +37,18 @@ ESTARCParameters <- R6::R6Class(classname = "ESTParameters",
                                     aarcdat       = "1",
                                     aarjackknivet = "1"
                                   ),
-                                  request_file = "csv",
-                                  firm_data    = "csv",
-                                  market_data  = "csv",
+                                  request_file = list(
+                                    key = "request_file",
+                                    type = "csv"
+                                  ),
+                                  firm_data    = list(
+                                    key = "firm_data",
+                                    type = "csv"
+                                  ),
+                                  market_data  = list(
+                                    key = "market_data",
+                                    type = "csv"
+                                  ),
                                   # initialize object
                                   initialize = function() {
                                     private$getTestStatisticNames()
@@ -46,6 +56,10 @@ ESTARCParameters <- R6::R6Class(classname = "ESTParameters",
                                   # get parameters
                                   getParameters = function() {
                                     self$getMember()
+                                  },
+                                  # set email
+                                  setEMail = function(eMail) {
+                                    self$task[[email]] <- eMail
                                   },
                                   # set benchmark model
                                   setBenchmarkModel = function(model) {
