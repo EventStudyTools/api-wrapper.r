@@ -40,7 +40,7 @@ ApplicationInputInterface <- R6::R6Class(classname = "ApplicationInputInterface"
                                              }
                                            },
                                            toJson = function() {
-                                             self$getMember() %>%
+                                             self$getMember()[["parameters"]] %>%
                                                jsonlite::toJSON(auto_unbox = T)
                                            },
                                            getMember = function() {

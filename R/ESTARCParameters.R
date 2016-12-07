@@ -59,7 +59,7 @@ ESTARCParameters <- R6::R6Class(classname = "ESTParameters",
                                   },
                                   # set email
                                   setEMail = function(eMail) {
-                                    self$task[[email]] <- eMail
+                                    self$task[["email"]] <- eMail
                                   },
                                   # set benchmark model
                                   setBenchmarkModel = function(model) {
