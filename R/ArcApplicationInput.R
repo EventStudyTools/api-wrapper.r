@@ -27,39 +27,30 @@ ArcApplicationInput <- R6::R6Class(classname = "ArcApplicationInput",
                                        self$setNamedList(parentLevel   = "application",
                                                          secondLevel   = "data_sources",
                                                          thirthLevel   = "request_file",
-                                                         parameterList = parameters[["request_file"]])
+                                                         parameterList = as.list(parameters[["request_file"]]))
                                        self$setNamedList(parentLevel   = "application",
                                                          secondLevel   = "data_sources",
                                                          thirthLevel   = "firm_data",
-                                                         parameterList = parameters[["firm_data"]])
+                                                         parameterList = as.list(parameters[["firm_data"]]))
                                        self$setNamedList(parentLevel   = "application",
                                                          secondLevel   = "data_sources",
                                                          thirthLevel   = "market_data",
-                                                         parameterList = parameters[["market_data"]])
+                                                         parameterList = as.list(parameters[["market_data"]]))
+                                       self$parameters$application$data_sources <- unname(self$parameters$application$data_sources)
 
 
                                        # Parameters ----
-                                       self$setNamedList(parentLevel   = "application",
-                                                         secondLevel   = "parameters",
-                                                         thirthLevel   = "non_trading_days",
-                                                         parameterList = parameters[["non_trading_days"]])
-                                       self$setNamedList(parentLevel   = "application",
-                                                         secondLevel   = "parameters",
-                                                         thirthLevel   = "result_file_type",
-                                                         parameterList = parameters[["result_file_type"]])
-                                       self$setNamedList(parentLevel   = "application",
-                                                         secondLevel   = "parameters",
-                                                         thirthLevel   = "return_type",
-                                                         parameterList = parameters[["return_type"]])
-                                       self$setNamedList(parentLevel   = "application",
-                                                         secondLevel   = "parameters",
-                                                         thirthLevel   = "benchmark_model",
-                                                         parameterList = parameters[["benchmark_model"]])
+                                       self$parameters$application[["parameters"]] <- c(
+                                         parameters[["return_type"]],
+                                         parameters[["result_file_type"]],
+                                         parameters[["non_trading_days"]],
+                                         parameters[["benchmark_model"]],
+                                         test_statistics = list(parameters[["test_statistics"]]))
 
-                                       # set test statistics
+                                        # set test statistics
                                        self$setNamedList(parentLevel   = "application",
                                                          secondLevel   = "parameters",
                                                          thirthLevel   = "test_statistics",
-                                                         parameterList = parameters[["test_statistics"]])
+                                                         parameterList = unlist(parameters[["test_statistics"]]))
                                      }
                                    ))

@@ -34,14 +34,20 @@ ApplicationInputInterface <- R6::R6Class(classname = "ApplicationInputInterface"
                                                if (length(parameterList) == 1) {
                                                  self$parameters[[parentLevel]][[secondLevel]][[thirthLevel]] <- parameterList
                                                } else {
-                                                 self$parameters[[parentLevel]][[secondLevel]][[thirthLevel]] <- list(unlist(parameterList))
+                                                 self$parameters[[parentLevel]][[secondLevel]][[thirthLevel]] <- parameterList
                                                }
 
                                              }
                                            },
-                                           toJson = function() {
-                                             self$getMember()[["parameters"]] %>%
-                                               jsonlite::toJSON(auto_unbox = T)
+                                           toJson = function(level = NULL) {
+                                             if (is.null(level)) {
+                                               self$getMember() %>%
+                                                 jsonlite::toJSON(auto_unbox = T)
+                                             } else {
+                                               self$getMember()[[level]] %>%
+                                                 jsonlite::toJSON(auto_unbox = T)
+                                             }
+
                                            },
                                            getMember = function() {
                                              setdiff(x = ls(self),
