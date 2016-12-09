@@ -27,10 +27,6 @@ ESTARCParameters <- R6::R6Class(classname = "ESTParameters",
                                     key  = "market_data",
                                     type = "csv"
                                   ),
-                                  # initialize object
-                                  initialize = function() {
-                                    private$getTestStatisticNames()
-                                  },
                                   # get parameters
                                   getParameters = function() {
                                     self$getMember()

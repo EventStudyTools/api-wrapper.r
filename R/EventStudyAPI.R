@@ -43,7 +43,7 @@ EventStudyAPI <- R6::R6Class(classname = "EventStudyAPI",
                                    handle_setheaders("Content-Type" = "application/json",
                                                      "X-Task-Key"   = private$token) -> handle
 
-                                 json <- input$toJson()
+                                 json <- input$toJson(level = "parameters")
 
                                  handle %>%
                                    handle_setopt(postfields = json) -> handle
