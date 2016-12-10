@@ -67,8 +67,27 @@ EventStudyAPI <- R6::R6Class(classname = "EventStudyAPI",
                                  if (is.null(private$token) || is.null(fileKey) || is.null(fileName))
                                    stop("Error in uploadFile: configuration error")
 
-                                 if (!file.exists(filename))
+                                 if (!file.exists(fileName))
                                    stop("Error: file do not exist")
+
+                                 fSize <- file.size(fileName)
+                                 fd <- file(fileName, "r", method = "libcurl")
+
+                                 browser()
+
+
+                                 POST(url=paste0(private$apiServerUrl, "/task/content/", fileKey, "/0"),
+                                      body = list(file=upload_file(
+                                        path =  fileName,
+                                        type = 'text/txt'
+                                      )
+
+                                      ),
+                                      verbose(),
+                                      add_headers("Content-Type" = "application/octet-stream",
+                                                  "X-Task-Key"   = private$token)
+                                 )
+
 
                                  # TODO: split file
                                  new_handle() %>%
@@ -76,11 +95,12 @@ EventStudyAPI <- R6::R6Class(classname = "EventStudyAPI",
                                    handle_setheaders("Content-Type" = "application/octet-stream",
                                                      "X-Task-Key"   = private$token) -> handle
 
-                                 new_handle() %>%
+                                 handle %>%
                                    handle_setopt(upload = TRUE) %>%
-                                   handle_setopt(infile = fileName) -> new_handle
+                                   handle_setopt(infilesize = file.size(fileName)) %>%
+                                   handle_setopt(readdata = "fd") -> handle
 
-                                 ch <- curl_fetch_memory(url    = paste0(private$apiServerUrl, "/task/content/", fileKey, "/", partNumber),
+                                 ch <- curl_fetch_memory(url    = paste0(private$apiServerUrl, "/task/content/", fileKey, "/0"),
                                                          handle = handle)
 
                                  rawToChar(ch$content) %>%
