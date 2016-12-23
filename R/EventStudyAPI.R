@@ -73,35 +73,26 @@ EventStudyAPI <- R6::R6Class(classname = "EventStudyAPI",
                                  fSize <- file.size(fileName)
                                  fd <- file(fileName, "r", method = "libcurl")
 
-                                 browser()
-
-
-                                 POST(url=paste0(private$apiServerUrl, "/task/content/", fileKey, "/0"),
-                                      body = list(file=upload_file(
-                                        path =  fileName,
-                                        type = 'text/txt'
-                                      )
-
-                                      ),
-                                      verbose(),
-                                      add_headers("Content-Type" = "application/octet-stream",
-                                                  "X-Task-Key"   = private$token)
+                                 ch <- POST(url=paste0(private$apiServerUrl, "/task/content/", fileKey, "/0"),
+                                            body = upload_file(path =  fileName),
+                                            add_headers('Content-Type' = "application/octet-stream",
+                                                        "X-Task-Key"   = private$token)
                                  )
 
 
                                  # TODO: split file
-                                 new_handle() %>%
-                                   handle_setopt(customrequest = "POST") %>%
-                                   handle_setheaders("Content-Type" = "application/octet-stream",
-                                                     "X-Task-Key"   = private$token) -> handle
-
-                                 handle %>%
-                                   handle_setopt(upload = TRUE) %>%
-                                   handle_setopt(infilesize = file.size(fileName)) %>%
-                                   handle_setopt(readdata = "fd") -> handle
-
-                                 ch <- curl_fetch_memory(url    = paste0(private$apiServerUrl, "/task/content/", fileKey, "/0"),
-                                                         handle = handle)
+                                 # new_handle() %>%
+                                 #   handle_setopt(customrequest = "POST") %>%
+                                 #   handle_setheaders("Content-Type" = "application/octet-stream",
+                                 #                     "X-Task-Key"   = private$token) -> handle
+                                 #
+                                 # handle %>%
+                                 #   handle_setopt(upload = TRUE) %>%
+                                 #   handle_setopt(infilesize = file.size(fileName)) %>%
+                                 #   handle_setopt(readdata = "fd") -> handle
+                                 #
+                                 # ch <- curl_fetch_memory(url    = paste0(private$apiServerUrl, "/task/content/", fileKey, "/0"),
+                                 #                         handle = handle)
 
                                  rawToChar(ch$content) %>%
                                    jsonlite::fromJSON() %>%

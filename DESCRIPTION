@@ -10,5 +10,6 @@ LazyData: true
 Depends:
     jsonlite,
     dplyr,
+    httr,
     curl
 RoxygenNote: 5.0.1
