@@ -32,6 +32,29 @@ EventStudyAPI <- R6::R6Class(classname = "EventStudyAPI",
                                  private$token <- result$token
                                  return(TRUE)
                                },
+                               processTask = function() {
+                                 if (is.null(private$token) || is.null(private$apiServerUrl))
+                                   stop("Error in uploadFile: configuration error")
+
+                                 new_handle() %>%
+                                   handle_setopt(customrequest = "POST") %>%
+                                   handle_setopt(postfields = "") %>%
+                                   handle_setheaders("Content-Type" = "application/json",
+                                                     "X-Task-Key"   = private$token) -> handle
+
+                                 ch <- curl_fetch_memory(url    = paste0(private$apiServerUrl, "/task/process"),
+                                                         handle = handle)
+
+                                 rawToChar(ch$content) %>%
+                                   jsonlite::fromJSON() %>%
+                                   private$checkAndNormalizeResponse(httpcode = ch$status_code,
+                                                                     method   = "processTask") -> result
+
+                                 if (!result)
+                                   stop(paste0("Error in processTask: Application launch error"))
+
+                                 return(TRUE)
+                               },
                                configureTask = function(input) {
 
                                  if (!is(input, "ApplicationInputInterface") || is.null(private$token))
@@ -131,7 +154,7 @@ EventStudyAPI <- R6::R6Class(classname = "EventStudyAPI",
                                  rawToChar(ch$content) %>%
                                    jsonlite::fromJSON() %>%
                                    private$checkAndNormalizeResponse(httpcode = ch$status_code,
-                                                                     method   = "getTaskResults") -> result
+                                                                     method   = "commitData") -> result
 
                                  if (!is(result, "list") || is.null(result$log))
                                    stop("Error in commitData: response is invalid")
@@ -210,7 +233,7 @@ EventStudyAPI <- R6::R6Class(classname = "EventStudyAPI",
 
                                  if ("error" %in% names(response)) {
                                    if (exceptionOnError) {
-                                     stop(paste0("Error in ", method, ': request to api failed'))
+                                     stop(paste0("Error in ", method, ': ', response$error))
                                    } else {
                                      return(FALSE)
                                    }
