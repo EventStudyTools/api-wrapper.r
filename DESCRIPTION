@@ -11,5 +11,6 @@ Depends:
     jsonlite,
     dplyr,
     httr,
+    stringr,
     curl
 RoxygenNote: 5.0.1
