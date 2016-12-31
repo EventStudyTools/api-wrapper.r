@@ -3,6 +3,7 @@
 #' @export
 EventStudyAPI <- R6::R6Class(classname = "EventStudyAPI",
                              public = list(
+                               resultFiles = NULL,
                                initialize = function(apiServerUrl) {
                                  private$apiServerUrl <- apiServerUrl
                                },
@@ -50,10 +51,8 @@ EventStudyAPI <- R6::R6Class(classname = "EventStudyAPI",
                                    private$checkAndNormalizeResponse(httpcode = ch$status_code,
                                                                      method   = "processTask") -> result
 
-                                 if (!result)
-                                   stop(paste0("Error in processTask: Application launch error"))
-
-                                 return(TRUE)
+                                 self$resultFiles <- result$results
+                                 result
                                },
                                configureTask = function(input) {
 
@@ -182,26 +181,20 @@ EventStudyAPI <- R6::R6Class(classname = "EventStudyAPI",
                                  # TODO
                                  return(result)
                                },
-                               getTaskResults = function() {
-
+                               getTaskResults = function(destDir = "") {
                                  if (is.null(private$token))
                                    stop("Error: Configuration validation error")
 
-                                 new_handle() %>%
-                                   handle_setheaders("") -> handle
+                                 if (is.null(self$resultFiles))
+                                   stop("Error: No result files")
 
-                                 ch <- curl_fetch_memory(url    = paste0(private$apiServerUrl, "/results/", private$token),
-                                                         handle = handle)
-
-                                 rawToChar(ch$content) %>%
-                                   jsonlite::fromJSON() %>%
-                                   private$checkAndNormalizeResponse(httpcode = ch$status_code,
-                                                                     method   = "getTaskResults") -> result
-
-                                 if (is.null(result) || is.null(result$results))
-                                   stop("Error in getTaskResults: result is empty")
-
-                                 return(result)
+                                 # fetch data
+                                 destDir <- stringr::str_replace_all(destDir, "[/\\]", "")
+                                 lapply(self$resultFiles, function(x) {
+                                   destFile <- unlist(stringr::str_split(x, "/"))
+                                   destFile <- destFile[length(destFile)]
+                                   curl::curl_download(url = x, destfile = paste0(destDir, "/", destFile))
+                                 })
                                },
                                getApiVersion = function() {
 
