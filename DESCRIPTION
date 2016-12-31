@@ -1,16 +1,19 @@
 Package: EventStudy
 Type: Package
 Title: Event Study Analysis in R
-Version: 0.1.0
-Author: Dr. Simon Müller
-Maintainer: Dr. Simon Müller <simon.mueller@muon-stat.com>
 Description: This package provides functionality for doing Event Studies from R by using EventStudyTools.com API interface, parsing results, and visualize them.
+Author: Dr. Simon Müller
+Date: 2017-01-01
+Version: 0.1.0
 Encoding: UTF-8
-LazyData: true
-Depends:
+URL: http://eventdtudytools.com
+Maintainer: Dr. Simon Müller <simon.mueller@muon-stat.com>
+License: MIT
+Imports:
     jsonlite,
     dplyr,
     httr,
     stringr,
     curl
+LazyData: true
 RoxygenNote: 5.0.1
