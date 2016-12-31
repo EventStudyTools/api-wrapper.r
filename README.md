@@ -27,10 +27,9 @@ est$uploadFile(fileKey = "request_file", fileName = "01_RequestFile.csv")
 est$uploadFile(fileKey = "firm_data", fileName = "02_firmData.csv")
 est$uploadFile(fileKey = "market_data", fileName = "03_marketData.csv")
 est$commitData()
-
 est$processTask()
 
-est$getTaskStatus()
-est$getTaskResults()
-
+if (est$getTaskStatus() == 3) {
+  est$getTaskResults()
+}
 ```
