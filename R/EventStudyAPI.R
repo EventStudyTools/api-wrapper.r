@@ -181,7 +181,7 @@ EventStudyAPI <- R6::R6Class(classname = "EventStudyAPI",
                                  # TODO
                                  return(result)
                                },
-                               getTaskResults = function(destDir = "") {
+                               getTaskResults = function(destDir = getwd()) {
                                  if (is.null(private$token))
                                    stop("Error: Configuration validation error")
 
@@ -189,8 +189,8 @@ EventStudyAPI <- R6::R6Class(classname = "EventStudyAPI",
                                    stop("Error: No result files")
 
                                  # fetch data
-                                 destDir <- stringr::str_replace_all(destDir, "[/\\]", "")
-                                 lapply(self$resultFiles, function(x) {
+                                 # destDir <- stringr::str_replace_all(destDir, "[/\\]", "")
+                                 l <- lapply(self$resultFiles, function(x) {
                                    destFile <- unlist(stringr::str_split(x, "/"))
                                    destFile <- destFile[length(destFile)]
                                    curl::curl_download(url = x, destfile = paste0(destDir, "/", destFile))
