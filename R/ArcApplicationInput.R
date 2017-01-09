@@ -1,3 +1,6 @@
+#' Abnormal Return Calculation API Wrapper
+#'
+#'
 #' @export
 ArcApplicationInput <- R6::R6Class(classname = "ArcApplicationInput",
                                    inherit = ApplicationInputInterface,

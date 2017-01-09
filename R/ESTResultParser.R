@@ -1,3 +1,5 @@
+#' A parser for Event Study result files
+#'
 #' @export
 ESTResultParser <- R6::R6Class(classname = "ESTResultParser",
                                public = list(
