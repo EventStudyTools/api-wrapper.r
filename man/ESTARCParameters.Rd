@@ -3,13 +3,13 @@
 \docType{data}
 \name{ESTARCParameters}
 \alias{ESTARCParameters}
-\title{Get parameters for EventStudyTools API}
+\title{Abnormal Return Calculation Parameters}
 \format{An object of class \code{R6ClassGenerator} of length 24.}
 \usage{
 ESTARCParameters
 }
 \description{
-Get parameters for EventStudyTools API
+This R6 class defines the parameters for the Event Study.
 }
 \keyword{datasets}
 
