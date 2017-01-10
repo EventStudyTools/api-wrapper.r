@@ -40,6 +40,9 @@ if (est$getTaskStatus() == 3) {
 }
 ```
 
-## Example
+# Example: Volkswagen Diesel Gate
 
+## Plots
+
+### Abnormal Returns
 ![alt text](https://github.com/EventStudyTools/api-wrapper.r/blob/master/vignettes/DieselGate.png "VW Diesel Gate")
