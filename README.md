@@ -39,3 +39,7 @@ if (est$getTaskStatus() == 3) {
   est$getTaskResults()
 }
 ```
+
+## Example
+
+![alt text](https://github.com/EventStudyTools/api-wrapper.r/vignette/DieselGate.png "VW Diesel Gate")
