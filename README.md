@@ -42,4 +42,4 @@ if (est$getTaskStatus() == 3) {
 
 ## Example
 
-![alt text](https://github.com/EventStudyTools/api-wrapper.r/vignette/DieselGate.png "VW Diesel Gate")
+![alt text](https://github.com/EventStudyTools/api-wrapper.r/vignettes/DieselGate.png "VW Diesel Gate")
