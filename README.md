@@ -2,8 +2,8 @@
 
 This software library provides the capability to easily deploy the EST API.
 
-* More detailed documentation about available applications can be found [here](http://wwww.eventtudytools.com)
-* The full API documentation is presented [here](http://wwww.eventtudytools.com/API-ARC)
+* More detailed documentation about available applications can be found [here](http://wwww.eventstudytools.com)
+* The full API documentation is presented [here](http://wwww.eventstudytools.com/API-ARC)
 
 ## Installation
 ```
