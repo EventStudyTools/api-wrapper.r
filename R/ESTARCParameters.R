@@ -1,6 +1,6 @@
 #' Abnormal Return Calculation Parameters
 #' 
-#' This R6 class defines the parameters for the Event Study.
+#' This R6 class defines the parameters for the Event Study. 
 #'
 #' @export
 ESTARCParameters <- R6::R6Class(classname = "ESTParameters",

@@ -9,7 +9,7 @@ Encoding: UTF-8
 URL: http://eventdtudytools.com
 Maintainer: Dr. Simon Mueller <simon.mueller@muon-stat.com>
 License: MIT
-Imports:
+Depends:
     jsonlite,
     dplyr,
     httr,
