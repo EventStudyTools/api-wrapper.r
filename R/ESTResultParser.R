@@ -29,6 +29,8 @@ ESTResultParser <- R6::R6Class(classname = "ESTResultParser",
                                      self$parseReport()
                                    
                                    abnormalReturns <- data.table::fread(paste0(self$destDir, "/", fileName))
+                                   
+                                   # Abnormal Returns
                                    stringr::str_detect(names(abnormalReturns), "AR") %>%
                                      which() -> id
                                    
@@ -40,6 +42,24 @@ ESTResultParser <- R6::R6Class(classname = "ESTResultParser",
                                    self$arResults %>%
                                      dplyr::mutate(eventTime = as.numeric(stringr::str_replace_all(as.character(eventTime), "[a-zA-Z()]", ""))) -> self$arResults
                                    
+                                  # t-Values 
+                                  stringr::str_detect(names(abnormalReturns), "t-value") %>%
+                                     which() -> id
+                                   
+                                   abnormalReturns %>%
+                                     dplyr::select(c(1, id)) %>%
+                                     reshape2::melt(id.vars = 1) %>%
+                                     dplyr::rename(eventTime = variable, tValue = value) -> tValues
+                                   
+                                   tValues %>%
+                                     dplyr::mutate(eventTime = stringr::str_trim(stringr::str_replace_all(as.character(eventTime), "t-value", ""))) %>% 
+                                     dplyr::mutate(eventTime = as.numeric(stringr::str_replace_all(as.character(eventTime), "[()]", ""))) -> tValues
+                                   
+                                   # Join t-Values
+                                   self$arResults %>% 
+                                     dplyr::left_join(tValues, by = c("Event ID", "eventTime")) -> self$arResults
+                                   
+                                   # Add additional Information
                                    self$analysisReport %>%
                                      dplyr::select(`Event ID`, Firm, `Reference Market`) -> arReport
                                    
