@@ -44,5 +44,9 @@ if (est$getTaskStatus() == 3) {
 
 ## Plots
 
-### Abnormal Returns
-![alt text](https://github.com/EventStudyTools/api-wrapper.r/blob/master/vignettes/DieselGate.png "VW Diesel Gate")
+### Highcharts: Abnormal Returns all Firms
+![alt text](https://github.com/EventStudyTools/api-wrapper.r/blob/master/vignettes/AbnormalReturnsFirms.png "Abnormal Returns")
+
+### Highcharts: Abnormal Returns Single Firms with p-Value Band
+
+
