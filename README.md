@@ -40,7 +40,10 @@ if (est$getTaskStatus() == 3) {
 }
 ```
 
-# Example: Volkswagen Diesel Gate
+Our R-package offers serveral additional functionality:
+
+- p-value calculation
+- static (ggplot2) and interactive (highcharts) plots
 
 ## Plots
 
