@@ -49,4 +49,5 @@ if (est$getTaskStatus() == 3) {
 
 ### Highcharts: Abnormal Returns Single Firms with p-Value Band
 
+![alt text](https://github.com/EventStudyTools/api-wrapper.r/blob/master/vignettes/AbnormalReturnsFirmCI.PNG "Abnormal Return with 95%-CI")
 
