@@ -124,17 +124,96 @@ ESTResultParser <- R6::R6Class(classname = "ESTResultParser",
                                                   valueDecimals = 2,
                                                   valueSuffix   = "%",
                                                   table         = T) %>% 
-                                       hc_yAxis(title = list(text = "Abnormal Returns"),
+                                       hc_yAxis(title = list(text = ""),
                                                 labels = list(
                                                   format = "{value}%"
                                                 )) %>% 
-                                       hc_xAxis(title = list(text = "Event Day")) %>% 
+                                       hc_xAxis(title = list(text = "Day"),
+                                                plotLines = list(
+                                                  list(
+                                                    label = list(text = "Event Day",
+                                                                 style = list(color = "gray"),
+                                                                 rotation = 0,
+                                                                 verticalAlign = "top",
+                                                                 y = 10),
+                                                    dashStyle = "Dash",
+                                                    color = "gray",
+                                                    width = 1,
+                                                    value = 0
+                                                  )
+                                                )) %>% 
                                        hc_legend(align = "right",
                                                  title = list(text = "Firms"),
                                                  verticalAlign = "top",
-                                                 layout = "vertical") %>% 
-                                       hc_title(text = "Abnormal Returns")
+                                                 layout = "vertical")
+                                   } else {
+                                     self$arResults %>% 
+                                       dplyr::filter(`Event ID` == id) -> tmp
+                                     
+                                     if (nrow(tmp) == 0)
+                                       return(NULL)
+                                     
+                                     self$analysisReport %>% 
+                                       dplyr::filter(`Event ID` == id) -> tmpReport
+                                     n <- tmpReport$`Estimation Window Length`
+                                     tmp$pValue <- 100 * abs(qt(0.975, df = n - 1) * tmp$tValue / sqrt(n))
+                                     
+                                     firmName <- tmp$Firm[1]
+                                     tmp %>% 
+                                       dplyr::mutate(ar = ar * 100) %>% 
+                                       dplyr::rename(x = eventTime, y = ar) -> tmp
+                                     
+                                     hc <- highchart(type = "chart")
+                                     tmp %>% 
+                                       dplyr::mutate(low = y - pValue,
+                                                     high = y + pValue) -> tmp
+                                     
+                                     pal <- brewer.pal(3, "Blues")
+                                     hc %>% 
+                                       # hc_add_series(tmp %>% dplyr::select(x, low, high),
+                                       #               type        = "arearange", 
+                                       #               fillOpacity = .5, 
+                                       #               lineWidth   = 0, 
+                                       #               color       = pal[1],
+                                       #               marker = list(enabled = F),
+                                       #               name        = "95%-CI") %>% 
+                                       hc_add_series(tmp %>% dplyr::select(x, y),
+                                                     type        = "area", 
+                                                     fillOpacity = .15, 
+                                                     lineWidth   = 1, 
+                                                     color       = pal[3],
+                                                     marker = list(enabled = F),
+                                                     name        = firmName) -> hc
+                                     
+                                     hc %>%   
+                                       hc_tooltip(headerFormat = '<b><span style="font-size: 12px">Event Day: {point.x}</span></b><br>',
+                                                  pointFormat = '<span style="color:{point.color}">\u25CF</span> {series.name}: <b>{point.y}</b><br/>',
+                                                  sort = F,
+                                                  valueDecimals = 2,
+                                                  valueSuffix = "%",
+                                                  table = T) %>% 
+                                       hc_yAxis(title = list(text = ""),
+                                                labels = list(
+                                                  format = "{value}%"
+                                                )) %>% 
+                                       hc_xAxis(title = list(text = "Day"),
+                                                plotLines = list(
+                                                  list(
+                                                    label = list(text = "Event Day",
+                                                                 style = list(color = "gray"),
+                                                                 rotation = 0,
+                                                                 verticalAlign = "top",
+                                                                 y = 10),
+                                                    dashStyle = "Dash",
+                                                    color = "gray",
+                                                    width = 1,
+                                                    value = 0
+                                                  )
+                                                )) %>% 
+                                       hc_legend(enabled = F,
+                                                 align = "right",
+                                                 verticalAlign = "top",
+                                                 layout = "vertical") 
                                    }
-                                   
                                  }
                                ))
