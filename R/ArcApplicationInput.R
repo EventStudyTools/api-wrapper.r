@@ -43,7 +43,7 @@ ArcApplicationInput <- R6::R6Class(classname = "ArcApplicationInput",
 
 
                                        # Parameters ----
-                                       self$parameters$application[["parameters"]] <- c(
+                                       self$parameters[["parameters"]] <- c(
                                          parameters[["return_type"]],
                                          parameters[["result_file_type"]],
                                          parameters[["non_trading_days"]],
@@ -51,9 +51,9 @@ ArcApplicationInput <- R6::R6Class(classname = "ArcApplicationInput",
                                          test_statistics = list(parameters[["test_statistics"]]))
 
                                         # set test statistics
-                                       self$setNamedList(parentLevel   = "application",
-                                                         secondLevel   = "parameters",
-                                                         thirthLevel   = "test_statistics",
-                                                         parameterList = unlist(parameters[["test_statistics"]]))
+                                       # self$setNamedList(parentLevel   = "parameters",
+                                       #                   secondLevel   = "test_statistics",
+                                       #                   thirthLevel   = NULL,
+                                       #                   parameterList = unlist(parameters[["test_statistics"]]))
                                      }
                                    ))

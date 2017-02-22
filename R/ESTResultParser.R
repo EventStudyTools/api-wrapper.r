@@ -89,8 +89,6 @@ ESTResultParser <- R6::R6Class(classname = "ESTResultParser",
                                      self$aarResults %>% 
                                        dplyr::filter(level %in% groups) -> self$aar
                                      }
-                                   
-                                   
                                  },
                                  plotAR = function(id = NULL) {
                                    if (is.null(id)) {
