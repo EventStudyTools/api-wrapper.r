@@ -30,7 +30,7 @@ ESTResultParser <- R6::R6Class(classname = "ESTResultParser",
                                    
                                    abnormalReturns <- data.table::fread(paste0(self$destDir, "/", fileName))
                                    
-                                   # Abnormal Returns
+                                   # parse Abnormal Returns
                                    stringr::str_detect(names(abnormalReturns), "AR") %>%
                                      which() -> id
                                    
@@ -42,15 +42,13 @@ ESTResultParser <- R6::R6Class(classname = "ESTResultParser",
                                    self$arResults %>%
                                      dplyr::mutate(eventTime = as.numeric(stringr::str_replace_all(as.character(eventTime), "[a-zA-Z()]", ""))) -> self$arResults
                                    
-                                  # t-Values 
+                                  # parse t-Values 
                                   stringr::str_detect(names(abnormalReturns), "t-value") %>%
                                      which() -> id
-                                   
                                    abnormalReturns %>%
                                      dplyr::select(c(1, id)) %>%
                                      reshape2::melt(id.vars = 1) %>%
                                      dplyr::rename(eventTime = variable, tValue = value) -> tValues
-                                   
                                    tValues %>%
                                      dplyr::mutate(eventTime = stringr::str_trim(stringr::str_replace_all(as.character(eventTime), "t-value", ""))) %>% 
                                      dplyr::mutate(eventTime = as.numeric(stringr::str_replace_all(as.character(eventTime), "[()]", ""))) -> tValues
@@ -72,6 +70,7 @@ ESTResultParser <- R6::R6Class(classname = "ESTResultParser",
                                    if (is.null(self$analysisReport))
                                      self$parseReport()
                                    
+                                   # parse AAR values
                                    aar <- data.table::fread(paste0(self$destDir, "/", fileName))
                                    stringr::str_detect(names(aar), "AAR") %>%
                                      which() -> id
@@ -82,15 +81,17 @@ ESTResultParser <- R6::R6Class(classname = "ESTResultParser",
                                                    eventTime = variable) -> aar
                                    self$aarResults <- aar
                                    
+                                   
+                                   
                                    self$aarResults %>% 
                                      dplyr::mutate(eventTime = as.numeric(stringr::str_replace_all(as.character(eventTime), "[a-zA-Z()]", ""))) -> self$aarResults
                                    
                                    if (!is.null(groups) && !is.null(self$arResults)) {
                                      self$aarResults %>% 
                                        dplyr::filter(level %in% groups) -> self$aar
-                                     }
+                                   }
                                  },
-                                 plotAR = function(id = NULL) {
+                                 plotAbnormalReturns = function(id = NULL, windows = NULL) {
                                    if (is.null(id)) {
                                      hc <- highchart(type = "chart")
                                      nCols <- dplyr::n_distinct(self$arResults$Firm)
@@ -100,20 +101,25 @@ ESTResultParser <- R6::R6Class(classname = "ESTResultParser",
                                      if (nCols > mCols)
                                        pal <- grDevices::colorRampPalette(pal)(nCols)
                                      
+                                     if (is.null(windows))
+                                       window <- range(self$arResults$eventTime)
+                                     selectedWindow <- seq(from = window[1], to = window[2], by = 1)
+                                     
                                      for (i in 1:nCols) {
                                        firm <- self$arResults$Firm[i]
                                        self$arResults %>% 
+                                         dplyr::filter(eventTime %in% selectedWindow) %>% 
                                          dplyr::filter(Firm  == firm ) %>% 
                                          dplyr::mutate(ar = 100 * ar) %>% 
                                          dplyr::rename(x = eventTime, y = ar) -> tmp
                                        hc %>% 
                                          hc_add_series(tmp %>% dplyr::select(x, y), 
                                                        type        = "area", 
-                                                       fillOpacity = .25, 
+                                                       fillOpacity = .15, 
                                                        lineWidth   = 1, 
                                                        color       = pal[i],
-                                                       marker      = list( enabled = F),
-                                                       name        = unique(tmp$Firm)) -> hc
+                                                       marker      = list(enabled = F),
+                                                       name        = firm) -> hc
                                      }
                                      hc %>%   
                                        hc_tooltip(headerFormat  = '<b><span style="font-size: 12px">Event Day: {point.x}</span></b><br>',
@@ -126,24 +132,24 @@ ESTResultParser <- R6::R6Class(classname = "ESTResultParser",
                                                 labels = list(
                                                   format = "{value}%"
                                                 )) %>% 
-                                       hc_xAxis(title = list(text = "Day"),
+                                       hc_xAxis(title = list(text = ""),
                                                 plotLines = list(
                                                   list(
-                                                    label = list(text = "Event Day",
-                                                                 style = list(color = "gray"),
-                                                                 rotation = 0,
+                                                    label = list(text          = "Event Day",
+                                                                 style         = list(color = "gray"),
+                                                                 rotation      = 0,
                                                                  verticalAlign = "top",
-                                                                 y = 10),
+                                                                 y             = 10),
                                                     dashStyle = "Dash",
-                                                    color = "gray",
-                                                    width = 1,
-                                                    value = 0
+                                                    color     = "gray",
+                                                    width     = 1,
+                                                    value     = 0
                                                   )
                                                 )) %>% 
-                                       hc_legend(align = "right",
-                                                 title = list(text = "Firms"),
+                                       hc_legend(align         = "right",
+                                                 title         = list(text = "Firms"),
                                                  verticalAlign = "top",
-                                                 layout = "vertical")
+                                                 layout        = "vertical")
                                    } else {
                                      self$arResults %>% 
                                        dplyr::filter(`Event ID` == id) -> tmp
