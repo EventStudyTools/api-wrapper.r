@@ -152,6 +152,7 @@ ESTResultParser <- R6::R6Class(classname = "ESTResultParser",
                                                  layout        = "vertical")
                                    } else {
                                      self$arResults %>% 
+                                       dplyr::filter(eventTime %in% selectedWindow) %>% 
                                        dplyr::filter(`Event ID` == id) -> tmp
                                      
                                      if (nrow(tmp) == 0)
@@ -174,13 +175,6 @@ ESTResultParser <- R6::R6Class(classname = "ESTResultParser",
                                      
                                      pal <- brewer.pal(3, "Blues")
                                      hc %>% 
-                                       # hc_add_series(tmp %>% dplyr::select(x, low, high),
-                                       #               type        = "arearange", 
-                                       #               fillOpacity = .5, 
-                                       #               lineWidth   = 0, 
-                                       #               color       = pal[1],
-                                       #               marker = list(enabled = F),
-                                       #               name        = "95%-CI") %>% 
                                        hc_add_series(tmp %>% dplyr::select(x, y),
                                                      type        = "area", 
                                                      fillOpacity = .15, 
@@ -200,7 +194,7 @@ ESTResultParser <- R6::R6Class(classname = "ESTResultParser",
                                                 labels = list(
                                                   format = "{value}%"
                                                 )) %>% 
-                                       hc_xAxis(title = list(text = "Day"),
+                                       hc_xAxis(title = list(text = ""),
                                                 plotLines = list(
                                                   list(
                                                     label = list(text = "Event Day",
