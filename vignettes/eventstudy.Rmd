@@ -1,5 +1,5 @@
 ---
-title: "Event Studies"
+title: "Event Study Example: The Basics"
 author: "Dr. Markus Schimmer and Dr. Simon Müller"
 date: "`r Sys.Date()`"
 output: rmarkdown::html_vignette
@@ -15,3 +15,6 @@ The files hold data about the addition of several well known firms to the S&P 50
 
 You can use our R-package to easily investigate such and similar questions.
 
+```{R} 
+
+```

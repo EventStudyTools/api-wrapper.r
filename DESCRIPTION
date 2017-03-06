@@ -12,6 +12,10 @@ License: MIT
 Depends:
     jsonlite,
     dplyr,
+    purrr,
+    ggplot2,
+    highcharter,
+    tidyquant,
     httr,
     stringr,
     curl
