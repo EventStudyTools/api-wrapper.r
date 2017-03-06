@@ -1,6 +1,10 @@
-# EventStudy 0.1.1
+# Version 0.1.1
 
 - automatic ARC parameter setup
+- ggplot plots:
+  - abnormal returns
+  - averaged abnormal returns
+  - pointwise cumulative abnormal returns
 
 # EventStudy 0.1.0
 

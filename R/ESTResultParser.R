@@ -76,12 +76,11 @@ ESTResultParser <- R6::R6Class(classname = "ESTResultParser",
                                      which() -> id
                                    
                                    aar %>% 
-                                     reshape2::melt(id.vars = 1) %>% 
+                                     reshape2::melt(id.vars    = 1, 
+                                                    value.name = "aar") %>% 
                                      dplyr::rename(level     = `Grouping Variable/N`,
                                                    eventTime = variable) -> aar
                                    self$aarResults <- aar
-                                   
-                                   
                                    
                                    self$aarResults %>% 
                                      dplyr::mutate(eventTime = as.numeric(stringr::str_replace_all(as.character(eventTime), "[a-zA-Z()]", ""))) -> self$aarResults
