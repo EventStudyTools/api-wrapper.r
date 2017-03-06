@@ -1,6 +1,17 @@
 #' Abnormal Return Calculation Parameters
 #' 
 #' This R6 class defines the parameters for the Event Study. 
+#' 
+#' @param task actually just locale is defined and working here
+#' @param result_file_type type of the result file: csv (default), xls, xlsx, and ods
+#' @param return_type return type calculation: log (default), simple
+#' @param non_trading_days handler for non-trading days: later (default), earlier, keep, and skip
+#' @param test_statistics available test statistics
+#' @param request_file list of request file key and type
+#' @param firm_data list of firm data file key and type
+#' @param market_data list of market data file key and type
+#' 
+#' @return a ESTParameters R6 object
 #'
 #' @export
 ESTARCParameters <- R6::R6Class(classname = "ESTParameters",
@@ -89,7 +100,7 @@ ESTARCParameters <- R6::R6Class(classname = "ESTParameters",
                                     "caargsignz",
                                     "aarcdat",
                                     "caarcdat",
-                                    "aarjackknivet"
+                                    "aarjackknivet",
                                     "caarjackknivet"
                                   )
                                 )

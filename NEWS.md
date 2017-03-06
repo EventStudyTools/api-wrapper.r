@@ -5,6 +5,7 @@
   - abnormal returns
   - averaged abnormal returns
   - pointwise cumulative abnormal returns
+- highchart plots:
 
 # EventStudy 0.1.0
 

@@ -9,6 +9,7 @@
 #'   \item{\code{parseReport()}}{This method parses the analysis report file (analysis_report.csv).}
 #'   \item{\code{parseAR()}}{This method parses the abnormal return file (ar_results.csv). Furthermore, it triggers \code{parseReport} and join firm and index name.}
 #'   \item{\code{plotAR(id = NULL)}}{This method abnormal returns time series with \code{id} as the firm id.}}
+#'   
 #' @export
 ESTResultParser <- R6::R6Class(classname = "ESTResultParser",
                                public = list(
@@ -59,7 +60,7 @@ ESTResultParser <- R6::R6Class(classname = "ESTResultParser",
                                    
                                    # Add additional Information
                                    self$analysisReport %>%
-                                     dplyr::select(`Event ID`, Firm, `Reference Market`) -> arReport
+                                     dplyr::select(`Event ID`, Firm, `Reference Market`, `Residual Standard Deviation`, `Estimation Window Length`) -> arReport
                                    
                                    self$arResults %>%
                                      dplyr::left_join(arReport, by = "Event ID") %>% 

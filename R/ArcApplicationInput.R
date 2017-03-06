@@ -1,5 +1,6 @@
-#' Abnormal Return Calculation API Wrapper
+#' Abnormal Return Calculation (ARC) API Wrapper
 #'
+#' This R6 class serialzes an ARC parameter class to a list structure 
 #'
 #' @export
 ArcApplicationInput <- R6::R6Class(classname = "ArcApplicationInput",

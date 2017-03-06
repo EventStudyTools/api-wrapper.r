@@ -1,5 +1,6 @@
-#' Application Input Interface for Event Study R Package
+#' Abstract Application Input Interface for Event Study R Package
 #'
+#' Abstract class no description
 #'
 #' @export
 ApplicationInputInterface <- R6::R6Class(classname = "ApplicationInputInterface",

@@ -31,7 +31,7 @@ arPlot <- function(df, firm = NULL, xlab = "", ylab = "Abnormal Returns", facet 
   
   if (facet)
     p <- p +
-      facet_wrap( ~ Firm, ncol = ncol)
+      facet_wrap( ~ Firm, ncol = ncol, scales = "free_x")
   
   p
 }
@@ -70,7 +70,7 @@ aarPlot <- function(df, group = NULL, xlab = "", ylab = "Averaged Abnormal Retur
   
   if (facet)
     p <- p +
-    facet_wrap( ~ Firm, ncol = ncol)
+    facet_wrap( ~ Firm, ncol = ncol, scales = "free_x")
   
   p
 }
