@@ -49,11 +49,5 @@ ArcApplicationInput <- R6::R6Class(classname = "ArcApplicationInput",
                                          parameters[["non_trading_days"]],
                                          parameters[["benchmark_model"]],
                                          test_statistics = list(parameters[["test_statistics"]]))
-
-                                        # set test statistics
-                                       # self$setNamedList(parentLevel   = "parameters",
-                                       #                   secondLevel   = "test_statistics",
-                                       #                   thirthLevel   = NULL,
-                                       #                   parameterList = unlist(parameters[["test_statistics"]]))
                                      }
                                    ))

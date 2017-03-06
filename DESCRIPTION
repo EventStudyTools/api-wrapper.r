@@ -4,7 +4,7 @@ Title: Event Study Analysis in R
 Description: This package provides functionality for doing Event Studies from R by using EventStudyTools.com API interface, parsing results, and visualize them.
 Author: Dr. Simon Mueller
 Date: 2017-01-01
-Version: 0.1.0
+Version: 0.1.1
 Encoding: UTF-8
 URL: http://eventdtudytools.com
 Maintainer: Dr. Simon Mueller <simon.mueller@muon-stat.com>

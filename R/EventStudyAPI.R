@@ -54,10 +54,18 @@ EventStudyAPI <- R6::R6Class(classname = "EventStudyAPI",
                                  self$resultFiles <- result$results
                                  result
                                },
-                               configureTask = function(input) {
+                               configureTask = function(input = NULL) {
 
+                                 # Setup Standard Parameters
+                                 if (is.null(input)) {
+                                   message("Parameters are not set. Setup ARC parameters.")
+                                   estParameters <- ESTARCParameters$new()
+                                   estParameters$getParameters() %>% 
+                                     ArcApplicationInput$new() -> input
+                                 }
+                                 
                                  if (!is(input, "ApplicationInputInterface") || is.null(private$token))
-                                   stop("Error in configureTask: required parameters are not set")
+                                   stop("Error in configureTask: token is not set")
 
                                  new_handle() %>%
                                    handle_setopt(customrequest = "POST") %>%

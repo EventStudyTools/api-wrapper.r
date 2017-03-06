@@ -7,7 +7,7 @@ ESTARCParameters <- R6::R6Class(classname = "ESTParameters",
                                 inherit = ApplicationInputInterface,
                                 public = list(
                                   task = list(locale = 'en'),
-                                  result_file_type = list(result_file_type = "xls"),
+                                  result_file_type = list(result_file_type = "csv"),
                                   benchmark_model  = list(benchmark_model = "mm"),
                                   return_type      = list(return_type = "log"),
                                   non_trading_days = list(non_trading_days = "later"),
@@ -16,7 +16,7 @@ ESTARCParameters <- R6::R6Class(classname = "ESTParameters",
                                     "caarbmpz", "aarabmpz", "caarabmpz", "aarskewadjt", "caarskewadjt",
                                     "abharskewadjt", "aarrankz", "caarrankz", "aargrankt", "caargrankt",
                                     "aargrankz", "caargrankz", "aargsignz", "caargsignz",
-                                    "aarcdat", "aarjackknivet"),
+                                    "aarcdat", "caarcdat", "aarjackknivet", "caarjackknivet"),
                                   request_file = list(
                                     key  = "request_file",
                                     type = "csv"
@@ -88,7 +88,9 @@ ESTARCParameters <- R6::R6Class(classname = "ESTParameters",
                                     "aargsignz",
                                     "caargsignz",
                                     "aarcdat",
+                                    "caarcdat",
                                     "aarjackknivet"
+                                    "caarjackknivet"
                                   )
                                 )
 )
