@@ -3,13 +3,12 @@
 \docType{data}
 \name{ApplicationInputInterface}
 \alias{ApplicationInputInterface}
-\title{Application Input Interface for Event Study R Package}
+\title{Abstract Application Input Interface for Event Study R Package}
 \format{An object of class \code{R6ClassGenerator} of length 24.}
 \usage{
 ApplicationInputInterface
 }
 \description{
-Application Input Interface for Event Study R Package
+Abstract class no description
 }
 \keyword{datasets}
-

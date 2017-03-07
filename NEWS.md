@@ -1,13 +1,12 @@
 # Version 0.1.1
 
 - automatic ARC parameter setup
-- ggplot plots:
+- ggplot and highchart graphics:
   - abnormal returns
   - averaged abnormal returns
   - pointwise cumulative abnormal returns
-- highchart plots:
 
-# EventStudy 0.1.0
+# Version 0.1.0
 
 * Initial version of Event Study Tools API
 

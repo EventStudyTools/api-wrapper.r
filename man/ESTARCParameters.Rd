@@ -8,8 +8,27 @@
 \usage{
 ESTARCParameters
 }
+\arguments{
+\item{task}{actually just locale is defined and working here}
+
+\item{result_file_type}{type of the result file: csv (default), xls, xlsx, and ods}
+
+\item{return_type}{return type calculation: log (default), simple}
+
+\item{non_trading_days}{handler for non-trading days: later (default), earlier, keep, and skip}
+
+\item{test_statistics}{available test statistics}
+
+\item{request_file}{list of request file key and type}
+
+\item{firm_data}{list of firm data file key and type}
+
+\item{market_data}{list of market data file key and type}
+}
+\value{
+a ESTParameters R6 object
+}
 \description{
 This R6 class defines the parameters for the Event Study.
 }
 \keyword{datasets}
-

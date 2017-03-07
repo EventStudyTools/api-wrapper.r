@@ -3,13 +3,12 @@
 \docType{data}
 \name{ArcApplicationInput}
 \alias{ArcApplicationInput}
-\title{Abnormal Return Calculation API Wrapper}
+\title{Abnormal Return Calculation (ARC) API Wrapper}
 \format{An object of class \code{R6ClassGenerator} of length 24.}
 \usage{
 ArcApplicationInput
 }
 \description{
-Abnormal Return Calculation API Wrapper
+This R6 class serialzes an ARC parameter class to a list structure
 }
 \keyword{datasets}
-

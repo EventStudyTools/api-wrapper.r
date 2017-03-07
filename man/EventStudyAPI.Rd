@@ -9,7 +9,15 @@
 EventStudyAPI
 }
 \description{
-API for EventStudyTools.com
+\describe{
+  \item{\code{new(apiServerUrl)}}{This method is used to create object of this class with \code{apiServerUrl} as the url to the est server.}
+  \item{\code{authentication(apiKey)}}{This method is used to authenticate at \code{apiServerUrl}. A valid \code{apiKey} is required.}
+  \item{\code{processTask()}}{This method starts the EST calculation on the server (after files are uploaded.}
+  \item{\code{configureTask(input)}}{This method configures the Event Study. \code{input} is an \code{ApplicationInputInterface} R6 object, e.g. ARC configuration class}
+  \item{\code{uploadFile(fileKey, fileName, partNumber = 0)}}{This method links to the file to upload. \code{fileKey} is the key of the file, e.g. request_file. \code{fileName} file name to upload.}
+  \item{\code{commitData()}}{This method commit the data to the server.}
+  \item{\code{getTaskStatus()}}{Todo}
+  \item{\code{getTaskResults()}}{Downloads the result files of the Event Study.}
+  }
 }
 \keyword{datasets}
-

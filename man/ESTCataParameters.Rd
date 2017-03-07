@@ -12,4 +12,3 @@ ESTCataParameters
 Get parameters for EventStudyTools API
 }
 \keyword{datasets}
-
