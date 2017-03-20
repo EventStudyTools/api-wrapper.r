@@ -6,5 +6,8 @@ getSP500ExampleFiles <- function(targetDir = getwd()) {
     purrr::map(.f = function(x, targetDir) {
       requestFile <- system.file("extdata/SP500Example", x, package = "EventStudy")
       file.copy(from = requestFile, to = targetDir, overwrite = T)
-    }, targetDir = targetDir)
+    }, targetDir = targetDir) %>% 
+    unlist() -> ret
+  if (sum(ret) == 3)
+    message("Files are not generated.")
 }
