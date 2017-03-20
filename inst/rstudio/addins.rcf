@@ -1,0 +1,14 @@
+Name: Perform Event Study in RStudio
+Description: This addin is designed to perform an Event Study from the RStudio R IDE.
+Binding: estPerformAnalysisAddin
+Interactive: true
+
+Name: EventStudyTools data file generation
+Description: This addin is designed to generate the data files needed for generating the data files you need for an Event Study on EventStudyTools.
+Binding: estDataAddin
+Interactive: true
+
+Name: EventStudyTools request file generation
+Description: This addin is designed to generate the request files you need for an Event Study performed on EventStudyTools.
+Binding: estDataAddin
+Interactive: true
