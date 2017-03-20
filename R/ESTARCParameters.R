@@ -27,7 +27,7 @@ ESTARCParameters <- R6::R6Class(classname = "ESTParameters",
                                     "caarbmpz", "aarabmpz", "caarabmpz", "aarskewadjt", "caarskewadjt",
                                     "abharskewadjt", "aarrankz", "caarrankz", "aargrankt", "caargrankt",
                                     "aargrankz", "caargrankz", "aargsignz", "caargsignz",
-                                    "aarcdat", "caarcdat", "aarjackknivet", "caarjackknivet"),
+                                    "aarcdat", "aarjackknivet", "caarjackknivet"),
                                   request_file = list(
                                     key  = "request_file",
                                     type = "csv"

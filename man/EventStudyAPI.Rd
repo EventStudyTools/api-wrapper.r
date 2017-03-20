@@ -3,21 +3,62 @@
 \docType{data}
 \name{EventStudyAPI}
 \alias{EventStudyAPI}
-\title{API for EventStudyTools.com}
-\format{An object of class \code{R6ClassGenerator} of length 24.}
+\title{EventStudyAPI}
+\format{\code{\link{R6Class}} object.}
 \usage{
 EventStudyAPI
 }
 \description{
+R interface for performing Event Studies on 
+\url{www.eventstudytools.com}.
+}
+\details{
+API for \url{www.eventstudytools.com}
+}
+\section{Usage}{
+
+For usage details see \bold{Methods, Arguments and Examples} sections.
+}
+
+\section{Methods}{
+
 \describe{
-  \item{\code{new(apiServerUrl)}}{This method is used to create object of this class with \code{apiServerUrl} as the url to the est server.}
-  \item{\code{authentication(apiKey)}}{This method is used to authenticate at \code{apiServerUrl}. A valid \code{apiKey} is required.}
-  \item{\code{processTask()}}{This method starts the EST calculation on the server (after files are uploaded.}
-  \item{\code{configureTask(input)}}{This method configures the Event Study. \code{input} is an \code{ApplicationInputInterface} R6 object, e.g. ARC configuration class}
-  \item{\code{uploadFile(fileKey, fileName, partNumber = 0)}}{This method links to the file to upload. \code{fileKey} is the key of the file, e.g. request_file. \code{fileName} file name to upload.}
+  \item{\code{new(apiServerUrl)}}{This method is used to create 
+  object of this class with \code{apiServerUrl} as the url to the 
+  EventStudyTools server.}
+  \item{\code{authentication(apiKey)}}{This method is used to 
+  authenticate at \code{apiServerUrl}. A valid \code{apiKey} is 
+  required. You can download a free key on our website: 
+  \url{www.eventstudytools.com}}
+  \item{\code{processTask()}}{This method starts the Event Study 
+  calculation on the server (after files are uploaded.}
+  \item{\code{configureTask(input)}}{This method configures the 
+  Event Study. \code{input} is an \code{ApplicationInputInterface} 
+  R6 object, e.g. ARC configuration class}
+  \item{\code{uploadFile(fileKey, fileName)}}{This method links to the 
+  file to upload. \code{fileKey} is the key of the file. Valid values 
+  are: \code{request_file}, \code{firm_data}, and \code{market_data}. 
+  \code{fileName} file name to upload.}
   \item{\code{commitData()}}{This method commit the data to the server.}
-  \item{\code{getTaskStatus()}}{Todo}
-  \item{\code{getTaskResults()}}{Downloads the result files of the Event Study.}
+  \item{\code{getTaskStatus()}}{Check if calcualtion is finished.}
+  \item{\code{getTaskResults(destDir = getwd())}}{Downloads the 
+  result files of the Event Study to \code{destDir} (Default: current 
+  working directory).}
   }
 }
+
+\section{Arguments}{
+
+\describe{
+ \item{eventstudyapi}{An \code{EventStudyAPI} object}
+ \item{apiServerUrl}{URL to the API endpoint}
+ \item{apiKey}{Key for authentication}
+ \item{input}{An \code{ApplicationInputInterface} object.}
+ \item{fileKey}{Type of input file: \code{request_file}, \code{firm_data}, and \code{market_data}.}
+ \item{fileName}{Data filename.}
+ \item{destDir}{Directory for saving result files.}
+}
+, fileName
+}
+
 \keyword{datasets}

@@ -1,3 +1,7 @@
+# Version 0.2.0
+
+- adding RStudio addins for performing an Event Study
+
 # Version 0.1.1
 
 - automatic ARC parameter setup

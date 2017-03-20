@@ -5,33 +5,49 @@
 #' \describe{
 #'   \item{Documentation}{For full documentation of each method go to }
 #'   \item{\code{new(dir)}}{This method is used to create object of this class with \code{dir} as the directory of result files.}
-#'   \item{\code{parseReport()}}{This method parses the analysis report file (analysis_report.csv).}
-#'   \item{\code{parseAR()}}{This method parses the abnormal return file (ar_results.csv). Furthermore, it triggers \code{parseReport} and join firm and index name.}
+#'   \item{\code{parseReport(fileName = "analysis_report.csv")}}{This method parses the analysis report file (analysis_report.csv).}
+#'   \item{\code{parseAR(fileName = "ar_results.csv")}}{This method parses the abnormal return file (ar_results.csv). Furthermore, it triggers \code{parseReport} and join firm and index name.}
 #'   \item{\code{plotAR(id = NULL)}}{This method abnormal returns time series with \code{id} as the firm id.}}
 #'   
 #' @export
 ESTResultParser <- R6::R6Class(classname = "ESTResultParser",
                                public = list(
                                  destDir        = NULL,
+                                 requestFile    = NULL,
                                  analysisReport = NULL,
                                  arResults      = NULL,
                                  aarResults     = NULL,
                                  aar            = NULL,
                                  groups         = NULL,
-                                 initialize = function(destDir = getwd()) {
-                                   self$destDir <- destDir
+                                 initialize = function() {
+                                 },
+                                 parseRequestFile = function(path = "01_RequestFile.csv") {
+                                   if (file.exists(path)) {
+                                     self$requestFile <- data.table::fread(path, header = F)
+                                   } else {
+                                     message(paste0("File ", fileName, " not found!"))
+                                   }
                                  },
                                  parseReport = function(fileName = "analysis_report.csv") {
-                                   self$analysisReport <- data.table::fread(paste0(self$destDir, "/", fileName))
+                                   if (file.exists(fileName)) {
+                                     self$analysisReport <- data.table::fread(fileName)
+                                   } else {
+                                     message(paste0("File ", fileName, " not found!"))
+                                   }
                                  },
-                                 parseAR = function(fileName = "ar_results.csv") {
+                                 parseAR = function(fileName = "ar_results.csv", analysisType = "AR") {
                                    if (is.null(self$analysisReport))
                                      self$parseReport()
                                    
-                                   abnormalReturns <- data.table::fread(paste0(self$destDir, "/", fileName))
+                                   if (file.exists(fileName)) {
+                                     abnormalReturns <- data.table::fread(fileName)
+                                   } else {
+                                     message(paste0("File ", fileName, " not found!"))
+                                     return(NULL)
+                                   }
                                    
                                    # parse Abnormal Returns
-                                   stringr::str_detect(names(abnormalReturns), "AR") %>%
+                                   stringr::str_detect(names(abnormalReturns), analysisType) %>%
                                      which() -> id
                                    
                                    abnormalReturns %>%
@@ -42,28 +58,40 @@ ESTResultParser <- R6::R6Class(classname = "ESTResultParser",
                                    self$arResults %>%
                                      dplyr::mutate(eventTime = as.numeric(stringr::str_replace_all(as.character(eventTime), "[a-zA-Z()]", ""))) -> self$arResults
                                    
-                                  # parse t-Values 
-                                  stringr::str_detect(names(abnormalReturns), "t-value") %>%
+                                   # parse t-Values 
+                                   stringr::str_detect(names(abnormalReturns), "t-value") %>%
                                      which() -> id
-                                   abnormalReturns %>%
-                                     dplyr::select(c(1, id)) %>%
-                                     reshape2::melt(id.vars = 1) %>%
-                                     dplyr::rename(eventTime = variable, tValue = value) -> tValues
-                                   tValues %>%
-                                     dplyr::mutate(eventTime = stringr::str_trim(stringr::str_replace_all(as.character(eventTime), "t-value", ""))) %>% 
-                                     dplyr::mutate(eventTime = as.numeric(stringr::str_replace_all(as.character(eventTime), "[()]", ""))) -> tValues
                                    
-                                   # Join t-Values
-                                   self$arResults %>% 
-                                     dplyr::left_join(tValues, by = c("Event ID", "eventTime")) -> self$arResults
+                                   if (length(id)) {
+                                     abnormalReturns %>%
+                                       dplyr::select(c(1, id)) %>%
+                                       reshape2::melt(id.vars = 1) %>%
+                                       dplyr::rename(eventTime = variable, tValue = value) -> tValues
+                                     tValues %>%
+                                       dplyr::mutate(eventTime = stringr::str_trim(stringr::str_replace_all(as.character(eventTime), "t-value", ""))) %>% 
+                                       dplyr::mutate(eventTime = as.numeric(stringr::str_replace_all(as.character(eventTime), "[()]", ""))) -> tValues
+                                     
+                                     # Join t-Values
+                                     self$arResults %>% 
+                                       dplyr::left_join(tValues, by = c("Event ID", "eventTime")) -> self$arResults
+                                     
+                                   }
                                    
                                    # Add additional Information
-                                   self$analysisReport %>%
-                                     dplyr::select(`Event ID`, Firm, `Reference Market`, `Residual Standard Deviation`, `Estimation Window Length`) -> arReport
+                                   id <- which(names(self$analysisReport) %in% c("Event ID", "Firm", "Reference Market", "Estimation Window Length"))
+                                   arReport <- self$analysisReport[, id]
                                    
                                    self$arResults %>%
                                      dplyr::left_join(arReport, by = "Event ID") %>% 
                                      dplyr::mutate(arLevel = "ar") -> self$arResults
+                                   
+                                   # if available add grouping
+                                   self$requestFile %>% 
+                                     dplyr::select(1, 5) -> requestFile
+                                   names(requestFile) <- c("Event ID", "Group")
+                                   
+                                   self$arResults %>% 
+                                     dplyr::left_join(requestFile, by = "Event ID") -> self$arResults
                                  },
                                  parseAAR = function(fileName = "aar_results.csv", groups = NULL) {
                                    self$groups <- groups
@@ -71,7 +99,7 @@ ESTResultParser <- R6::R6Class(classname = "ESTResultParser",
                                      self$parseReport()
                                    
                                    # parse AAR values
-                                   aar <- data.table::fread(paste0(self$destDir, "/", fileName))
+                                   aar <- data.table::fread(fileName)
                                    stringr::str_detect(names(aar), "AAR") %>%
                                      which() -> id
                                    
