@@ -1,16 +1,66 @@
-#' API for EventStudyTools.com
+# // Copyright (C) 2015 - 2016  Dmitriy Selivanov
+# // This file is part of EventStudy
+# //
+# // EventStudy is free software: you can redistribute it and/or modify it
+# // under the terms of the GNU General Public License as published by
+# // the Free Software Foundation, either version 2 of the License, or
+# // (at your option) any later version.
+# //
+# // EventStudy is distributed in the hope that it will be useful, but
+# // WITHOUT ANY WARRANTY; without even the implied warranty of
+# // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# // GNU General Public License for more details.
+# //
+# // You should have received a copy of the GNU General Public License
+# // along with EventStudy  If not, see <http://www.gnu.org/licenses/>.
+#' EventStudyAPI
+#' 
+#' API for \url{www.eventstudytools.com}
+#' 
+#' @description R interface for performing Event Studies on 
+#' \url{www.eventstudytools.com}.
 #'
+#' @format \code{\link{R6Class}} object.
+#'
+#' @section Usage:
+#' For usage details see \bold{Methods, Arguments and Examples} sections.
+#' 
+#' @section Methods:
 #' \describe{
-#'   \item{\code{new(apiServerUrl)}}{This method is used to create object of this class with \code{apiServerUrl} as the url to the est server.}
-#'   \item{\code{authentication(apiKey)}}{This method is used to authenticate at \code{apiServerUrl}. A valid \code{apiKey} is required.}
-#'   \item{\code{processTask()}}{This method starts the EST calculation on the server (after files are uploaded.}
-#'   \item{\code{configureTask(input)}}{This method configures the Event Study. \code{input} is an \code{ApplicationInputInterface} R6 object, e.g. ARC configuration class}
-#'   \item{\code{uploadFile(fileKey, fileName, partNumber = 0)}}{This method links to the file to upload. \code{fileKey} is the key of the file, e.g. request_file. \code{fileName} file name to upload.}
+#'   \item{\code{new(apiServerUrl)}}{This method is used to create 
+#'   object of this class with \code{apiServerUrl} as the url to the 
+#'   EventStudyTools server.}
+#'   \item{\code{authentication(apiKey)}}{This method is used to 
+#'   authenticate at \code{apiServerUrl}. A valid \code{apiKey} is 
+#'   required. You can download a free key on our website: 
+#'   \url{www.eventstudytools.com}}
+#'   \item{\code{processTask()}}{This method starts the Event Study 
+#'   calculation on the server (after files are uploaded.}
+#'   \item{\code{configureTask(input)}}{This method configures the 
+#'   Event Study. \code{input} is an \code{ApplicationInputInterface} 
+#'   R6 object, e.g. ARC configuration class}
+#'   \item{\code{uploadFile(fileKey, fileName)}}{This method links to the 
+#'   file to upload. \code{fileKey} is the key of the file. Valid values 
+#'   are: \code{request_file}, \code{firm_data}, and \code{market_data}. 
+#'   \code{fileName} file name to upload.}
 #'   \item{\code{commitData()}}{This method commit the data to the server.}
-#'   \item{\code{getTaskStatus()}}{Todo}
-#'   \item{\code{getTaskResults()}}{Downloads the result files of the Event Study.}
+#'   \item{\code{getTaskStatus()}}{Check if calcualtion is finished.}
+#'   \item{\code{getTaskResults(destDir = getwd())}}{Downloads the 
+#'   result files of the Event Study to \code{destDir} (Default: current 
+#'   working directory).}
 #'   }
 #'
+#' @section Arguments:
+#' \describe{
+#'  \item{eventstudyapi}{An \code{EventStudyAPI} object}
+#'  \item{apiServerUrl}{URL to the API endpoint}
+#'  \item{apiKey}{Key for authentication}
+#'  \item{input}{An \code{ApplicationInputInterface} object.}
+#'  \item{fileKey}{Type of input file: \code{request_file}, \code{firm_data}, and \code{market_data}.}
+#'  \item{fileName}{Data filename.}
+#'  \item{destDir}{Directory for saving result files.}
+#' }
+#', fileName
 #' @export
 EventStudyAPI <- R6::R6Class(classname = "EventStudyAPI",
                              public = list(
@@ -38,11 +88,56 @@ EventStudyAPI <- R6::R6Class(classname = "EventStudyAPI",
                                    private$checkAndNormalizeResponse(httpcode = ch$status_code,
                                                                      method   = "authentication") -> result
 
-                                 if (!is(result, "list") || is.null(result$token))
-                                   stop("Error: authentication failed")
+                                 if (!is(result, "list") || is.null(result$token)) {
+                                   message("Error: authentication failed")
+                                   return(FALSE)
+                                 }
 
                                  private$token <- result$token
                                  return(TRUE)
+                               },
+                               defaultRun = function(estType    = "arc", 
+                                                     dataFiles  = c("request_file" = "01_RequestFile.csv", "firm_data" = "02_firmData.csv", "market_data" = "03_MarketData.csv"), 
+                                                     resultPath = "results") {
+                                 estType <- match.arg(estType, c("arc"))
+                                 
+                                 # Perform Study
+                                 self$configureTask()
+                                 
+                                 self$uploadFile(fileKey  = "request_file", 
+                                                     fileName = dataFiles["request_file"])
+                                 self$uploadFile(fileKey  = "firm_data", 
+                                                     fileName = dataFiles["firm_data"])
+                                 self$uploadFile(fileKey  = "market_data", 
+                                                     fileName = dataFiles["market_data"])
+                                 self$commitData()
+                                 
+                                 self$processTask()
+                                 
+                                 waiting <- T
+                                 iter <- 0
+                                 maxIter <- 15
+                                 while(iter < maxIter) {
+                                   sleep(1)
+                                   status <- self$getTaskStatus()
+                                   if (status %in% c(3, 4)) {
+                                     break()
+                                   }
+                                   iter <- iter + 1
+                                 }
+                                 
+                                 if (!status %in% c(3, 4)) {
+                                   message("Calculation is not finished. Please try to get results later.")
+                                   return(T)
+                                 }
+                                 
+                                 if (status == 4) {
+                                   message("Application Error")
+                                   return(F)
+                                 }
+                                 
+                                 self$getTaskResults()
+                                 return(T)
                                },
                                processTask = function() {
                                  if (is.null(private$token) || is.null(private$apiServerUrl))
@@ -211,14 +306,12 @@ EventStudyAPI <- R6::R6Class(classname = "EventStudyAPI",
 
                                  version <- ""
                                  if (ch$status_code == 200) {
-
                                    ch$content %>%
                                      base::rawToChar() %>%
                                      jsonlite::fromJSON() -> response
                                    if (!is.null(response$version))
                                      version <- response$version
                                  }
-
                                  return(version)
                                }
                              ),
@@ -227,7 +320,6 @@ EventStudyAPI <- R6::R6Class(classname = "EventStudyAPI",
                                token        = NULL,
                                apiServerUrl = NULL,
                                checkAndNormalizeResponse = function(response, httpcode, method, exceptionOnError = T) {
-
                                  if ("error" %in% names(response)) {
                                    if (exceptionOnError) {
                                      stop(paste0("Error in ", method, ': ', response$error))
@@ -235,7 +327,6 @@ EventStudyAPI <- R6::R6Class(classname = "EventStudyAPI",
                                      return(FALSE)
                                    }
                                  }
-
                                  if (httpcode != 200) {
                                    if (exceptionOnError) {
                                      if (!is(result, "list") && !is.null(response$error)) {
@@ -247,7 +338,6 @@ EventStudyAPI <- R6::R6Class(classname = "EventStudyAPI",
                                      return(FALSE)
                                    }
                                  }
-
                                  return(response)
                                }
                              )
