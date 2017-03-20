@@ -2,7 +2,10 @@
 title: "Introductionary Use Case: Firm addition to S&P500"
 author: "Dr. Markus Schimmer and Dr. Simon Müller"
 date: "`r Sys.Date()`"
-output: rmarkdown::html_vignette
+output:
+  prettydoc::html_pretty:
+    theme: tactile
+    highlight: github
 vignette: >
   %\VignetteIndexEntry{Vignette Title}
   %\VignetteEngine{knitr::rmarkdown}
@@ -13,7 +16,7 @@ vignette: >
 
 The attached sample data and request files were constructed to illustrate the use of the EventStudyTools R-package. 
 
-The files hold data about the addition of several well known firms to the S&P 500 index in the late 1990s. With this data, the R package will investigate for you the question whether a company's stock value increases if the firm is added to the S&P 500 index. This is a common research question and has been adressed, among others, by Anthony W. Lynch and Richard R. Mendenha in a 1997 study: They found a positive effect of about 3.8% over the period starting the day after the announcement and ending the day before the effective date of the change (Mergers & Acquistions)[https://www.eventstudytools.com/mergers-acquisitions].
+The files hold data about the addition of several well known firms to the S&P 500 index in the late 1990s. With this data, the R package will investigate for you the question whether a company's stock value increases if the firm is added to the S&P 500 index. This is a common research question and has been adressed, among others, by Anthony W. Lynch and Richard R. Mendenha in a 1997 study: They found a positive effect of about 3.8% over the period starting the day after the announcement and ending the day before the effective date of the change (see: [Mergers & Acquistions](https://www.eventstudytools.com/mergers-acquisitions)).
 
 You can use our R-package to easily investigate such and similar questions.
 
@@ -61,7 +64,7 @@ In the following example, we have an event window of `[-2, 2]` (an event window 
 library(readr)
 df <- readr::read_csv2("01_RequestFile.csv", col_names = F)
 names(df) <- c("Event ID", "Firm ID", "Market ID", "Event Date", "Grouping Variable", "Start Event Window", "End Event Window", "End of Estimation Window", "Estimation Window Length")
-knitr::kable(df)
+knitr::kable(head(df))
 ```
 
 ### Firm Data: `02_FirmData.csv`
@@ -108,8 +111,8 @@ You are also able to apply a *Fama-French 3-Factor Model* or a *Fama-French Mome
 
 For performing an Event Study with our API you need:
 
-- API url (defaults to `http://api.eventstudytools.com`)
-- API key. 
+- **API url** (defaults to `http://api.eventstudytools.com`)
+- **API key**
 
 You get a **free** API key from our website [TODO: Link to Site](http://eventstudytools.com). In the first step we need to authenticate to the web API.
 
@@ -122,22 +125,82 @@ estSetup <- EventStudyAPI$new("http://api.dev.eventstudytools.com")
 estSetup$authentication(apiKey = "8dcd259734fa8c665fb1ab355fe2c1dc")
 ```
 
-We build 
+This API package is designed to perform all analysises we provide on our website. 
+Furthermore, all parameters can be set. You are able to set every parameter 
+in R (we will provide more details later), or you can perform a fast Event Study 
+with the defaults.
 
-### The fast path
+### Event Study with Defaults Parameters
+
+There will be soon a separate vignette for setting parameters.
+
+#### Type of Event Study
+
+Our API offers different types of Event Studies:
+
+- Return Event Study: `arc`
+- Trading Volume Event Study: `avc`
+- Abnormal Volatility Event Study: `avyc`
+
+Default parameters for all type of above Event Studies are:
+
+- Benchmark model: Market Model for `arc` and `avc` and GARCH(1, 1) Model for `avyc` 
+- Statistics: All available test statistics are calculated
+- Result file type: `csv`
+- Return type calculation: `log`
+- Handling non-trading days: `later`
+
+The type of Event Study can be set by parameter (actually just `arc` is working):
 
 ```{r, eval=FALSE} 
-estSetup$configureTask()
-estSetup$uploadFile(fileKey = "request_file", fileName = "01_RequestFile.csv")
-estSetup$uploadFile(fileKey = "firm_data", fileName = "02_firmData.csv")
-estSetup$uploadFile(fileKey = "market_data", fileName = "03_marketData.csv")
-estSetup$commitData()
-
-estSetup$processTask()
-
-estSetup$getTaskStatus()
-estSetup$getTaskResults()
+estType <- "arc"
 ```
 
-### The detailed path
+#### Data Files
 
+By default all data files must be named as follows. Furthermore, they have to be in the current directory:
+
+- `01_RequestFile.csv`
+- `02_firmData.csv`
+- `03_MarketData.csv`
+
+You are also able to set custom file names and paths by defining it in a named vector:
+
+```{r, eval=FALSE} 
+dataFiles <- c("request_file" = "01_RequestFile.csv", 
+               "firm_data"    = "02_firmData.csv", 
+               "market_data"  = "03_MarketData.csv"
+```
+
+#### Results
+
+All results will be written by default into the directory `./results`. You can easily 
+change this path by setting it as a parameter:
+
+```{r, eval=FALSE} 
+resultPath <- "results"
+```
+
+**Attention**
+If the `resultPath` do not exist, the R package will create this directory. 
+
+#### Performing the Event Study
+
+Finally, the Event Study is performed by:
+
+```{r, eval=FALSE} 
+estResult <- estSetup$defaultRun(estType    = estType,
+                                 dataFiles  = dataFiles, 
+                                 resultPath = resultPath)
+```
+
+It will write all result files into the result directory. Furthermore,
+results will be parsed into a R object. 
+
+
+### More Vignettes:
+
+1. Parameter Settings: In this Vignette we show how you can set parameters (coming soon)
+2. Graphics: In this Vignette we show you how to generate nice (static or interactive) graphs (coming soon)
+3. Data Preparation: In this Vignette we show you how to get and prepare data for your Event Study from R (coming soon)
+4. RStudio Addins: We wrote several RStudio addins for performing an Event Study (coming soon)
