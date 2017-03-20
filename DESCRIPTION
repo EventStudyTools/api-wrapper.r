@@ -9,11 +9,10 @@ Encoding: UTF-8
 URL: http://eventdtudytools.com
 Maintainer: Dr. Simon Mueller <simon.mueller@muon-stat.com>
 License: MIT
-Imports:
-  shiny (>= 0.13),
-  miniUI (>= 0.1.1)
-  rstudioapi (>= 0.5)
 Depends:
+    shiny,
+    miniUI,
+    rstudioapi,
     jsonlite,
     dplyr,
     purrr,
