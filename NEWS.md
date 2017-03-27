@@ -1,6 +1,10 @@
 # Version 0.2.0
 
 - adding RStudio addins for performing a Return Event Study
+- Vignettes
+  - Introduction
+  - Parameters
+  - RStudio Addin
 
 # Version 0.1.1
 

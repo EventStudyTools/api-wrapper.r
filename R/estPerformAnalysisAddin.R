@@ -25,7 +25,8 @@
 estPerformAnalysisAddin <- function() {
   
   ui <- miniPage(
-    gadgetTitleBar("Return Event Study", right = miniTitleBarButton("performAnalysis", "Perform Analysis", primary = TRUE)),
+    gadgetTitleBar(title = "Return Event Study", 
+                   right = miniTitleBarButton("performAnalysis", "Perform Analysis", primary = TRUE)),
     miniTabstripPanel(
       miniTabPanel("Parameters", icon = icon("sliders"),
                    miniContentPanel(
@@ -34,7 +35,9 @@ estPerformAnalysisAddin <- function() {
       ),
       miniTabPanel("Statistics", icon = icon("linode"),
                    miniContentPanel(
-                     uiOutput("statistics_ui") 
+                     fluidRow(style = "margin: 5px 5px 5px 5px",
+                              uiOutput("statistics_ui")
+                     )
                    )
       )
     )
@@ -45,13 +48,33 @@ estPerformAnalysisAddin <- function() {
     context <- rstudioapi::getActiveDocumentContext()
     original <- context$contents
     
+    
+    # Statistics
+    StatisticsNames <- c("Csect T", "Patell Z", "Adjusted Patell Z", 
+                         "StdCSect Z", "Adjusted StdCSect Z", 
+                         "Skewness Corrected T", "Rank Z", "Generalized Rank T", 
+                         "Generalized Rank Z", "Generalized Sign Z")
+    
+    statisticID <- list(
+      c("art", "cart", "aart", "caart", "abhart"),
+      c(NA, NA, "aarptlz", "caarptlz", NA),
+      c(NA, NA, "aaraptlz", "caaraptlz", NA),
+      c(NA, NA, "aarbmpz", "caarbmpz", NA),
+      c(NA, NA, "aarabmpz", "caarabmpz", NA),
+      c(NA, NA, "aarskewadjt", "caarskewadjt", "abharskewadjt"),
+      c(NA, NA, "aarrankz", "caarrankz", NA),
+      c(NA, NA, "aargrankt", "caargrankt", NA),
+      c(NA, NA, "aargsignz", "caargsignz", NA),
+      c(NA, NA, "aargsignz", "caargsignz", NA)
+    )
+    
     output$parameters_ui <- renderUI({
       fillCol(flex = c(NA, NA, 1),
               tagList(
                 fluidRow(style = "margin: 5px 5px 5px 5px",
                          h4("API Parameters"),
                          column(4,
-                                textInput("apiUrl", "API URL", value = "www.api.eventstudytools.com", width = "100%")
+                                textInput("apiUrl", "API URL", value = "http://api.dev.eventstudytools.com", width = "100%")
                          ),
                          column(4,
                                 textInput("apiKey", "API Key", value = "", placeholder = "Please add your API key", width = "100%")
@@ -63,7 +86,7 @@ estPerformAnalysisAddin <- function() {
                                 htmlOutput("connectResponse")
                          )
                 ),
-                hr()
+                tags$hr(style = "margin-top: 0px; margin-bottom: 0px")
               ),
               tagList(
                 fluidRow(style = "margin: 5px 5px 5px 5px",
@@ -78,11 +101,11 @@ estPerformAnalysisAddin <- function() {
                                 radioButtons(inputId = "benchmarkModel", 
                                              label   = NA, 
                                              choices = c("Market Model"                        = "mm", 
-                                                         "Scholes/Williams Model"              = "XLS", 
-                                                         "Market Adjusted"                     = "XLSX", 
-                                                         "Comparison Period Mean Adjusted"     = "ods",
-                                                         "Fama-French 3 Factor Model"          = "d",
-                                                         "Fama-French-Momentum 4 Factor Model" = "dfd",
+                                                         "Scholes/Williams Model"              = "mm-sw", 
+                                                         "Market Adjusted"                     = "mam", 
+                                                         "Comparison Period Mean Adjusted"     = "cpmam",
+                                                         "Fama-French 3 Factor Model"          = "ff3fm",
+                                                         "Fama-French-Momentum 4 Factor Model" = "ffm4fm",
                                                          "GARCH"                               = "garch", 
                                                          "EGARCH"                              = "egarch"))),
                          column(2, h5("Return Type"),
@@ -94,12 +117,11 @@ estPerformAnalysisAddin <- function() {
                                 radioButtons(inputId = "adjustmentNonTradingDays", 
                                              label   = NA, 
                                              choices = c("Take earlier trading day"     = "csv", 
-                                                         "Take later trading day"       = "XLS", 
+                                                         "Take later trading day"       = "later", 
                                                          "Keep non-trading day"         = "XLSX", 
                                                          "Skip respective observations" = "ods")))
-                ), hr()),
+                ), tags$hr(style = "margin-top: 0px; margin-bottom: 0px")),
               fluidRow(style = "margin: 5px 5px 5px 5px",
-                       h4("Files"),
                        column(4, 
                               fileInput("requestFile", "Request File", width = "100%")
                        ),
@@ -112,88 +134,112 @@ estPerformAnalysisAddin <- function() {
               )
       )
     })
-
     
     output$statistics_ui <- renderUI({
-      fillCol(flex = c(NA, NA, 1),
-              tagList(
-                fluidRow(style = "margin: 5px 5px 5px 5px",
-                         column(2, h5("Result File Format"),
-                                radioButtons(inputId = "resultFileFormat", 
-                                             label   = NA, 
-                                             choices = c("CSV" = "csv", "XLS" = "XLS", "XLSX" = "XLSX", "ODS" = "ods"))),
-                         column(4, h5("Benchmark Model"),
-                                radioButtons(inputId = "benchmarkModel", 
-                                             label   = NA, 
-                                             choices = c("Market Model" = "mm", 
-                                                         "Scholes/Williams Model" = "XLS", 
-                                                         "Market Adjusted" = "XLSX", 
-                                                         "Comparison Period Mean Adjusted" = "ods",
-                                                         "Fama-French 3 Factor Model" = "d",
-                                                         "Fama-French-Momentum 4 Factor Model" = "dfd",
-                                                         "GARCH" = "garch", 
-                                                         "EGARCH" = "egarch"))),
-                         column(2, h5("Return Type"),
-                                radioButtons(inputId = "returnType", 
-                                             label   = NA, 
-                                             choices = c("Simple" = "simple", "Log" = "log"))),
-                         column(4, h5("Adjustment Rule for Non-Trading Days"),
-                                radioButtons(inputId = "adjustmentNonTradingDays", 
-                                             label   = NA, 
-                                             choices = c("Take earlier trading day" = "csv", 
-                                                         "Take later trading day" = "XLS", 
-                                                         "Keep non-trading day" = "XLSX", 
-                                                         "Skip respective observations" = "ods")))
-                ))
-      )
+      ui <- tagList(generateStatisticColumn(T))
+      n <- length(StatisticsNames)
+      for (i in 1:n) {
+        ui <- shiny::tagAppendChild(ui,
+                                    generateStatisticColumn(header        = F, 
+                                                            statisticName = StatisticsNames[i],
+                                                            statisticsID  = statisticID[[i]])
+        )
+      }
+      
+      ui
     })
-        
+    
+    observe({
+      print(input$art)
+    })
+    
     estAPI <- NULL
     observeEvent(input$connect, {
       apiKey <- input$apiKey
       apiUrl <- input$apiUrl
       
-      if(!is.null(apiKey) || apiKey != "") {
-        output$connectResponse <- renderUI({
-          HTML("Please add valid API key")
-        })
-      }
+      validKey <- ifelse(is.null(apiKey) || apiKey == "", F, T)
+      validUrl <- ifelse(is.null(apiUrl) || apiUrl == "", F, T)
       
-      if(!is.null(apiUrl) || apiUrl != "") {
+      if(!validUrl) {
         output$connectResponse <- renderUI({
           HTML("Please add valid API url")
         })
+      } else {
+        estAPI <<- EventStudy::EventStudyAPI$new(apiUrl)
+        if(!validKey) {
+          output$connectResponse <- renderUI({
+            return(HTML("Please add valid API key"))
+          })
+        } else {
+          authSuccess <- estAPI$authentication(apiKey)
+          output$connectResponse <- renderUI({
+            if (authSuccess) {
+              HTML("Authentication was successful")
+            } else {
+              HTML("Authentication was not successful")
+            }
+            
+          })
+        }
       }
-      browser()
-      
-      estAPI <<- EventStudyAPI$new(apiUrl)
-      estAPI$authentication(apiKey)
     })
   }
+  
   
   viewer <- dialogViewer("Event Study", width = 1200, height = 800)
   runGadget(ui, server, viewer = viewer)
 }
 
-performEventStudy <- function(contents, from, to, useWordBoundaries = TRUE) {
-  
-  reFrom <- if (useWordBoundaries)
-    paste("\\b", from, "\\b", sep = "")
-  else
-    from
-  
-  reTo <- to
-  matches <- gregexpr(reFrom, contents, perl = TRUE)
-  changes <- sum(unlist(lapply(matches, function(x) {
-    if (x[[1]] == -1) 0 else length(x)
-  })))
-  
-  refactored <- unlist(lapply(contents, function(x) {
-    gsub(reFrom, reTo, x, perl = TRUE)
-  }))
-  
-  list(
-    refactored = refactored,
-    changes = changes
-  )
+generateStatisticColumn <- function(header = T, statisticName = "", statisticsID = rep(NA, 5)) {
+  if (header) {
+    ret <- tagList(fluidRow(style = "margin: 0px 0px 0px 0px",
+                            column(2, NULL),
+                            column(2, h6("AR")),
+                            column(2, h6("CAR")),
+                            column(2, h6("AAR")),
+                            column(2, h6("CAAR")),
+                            column(2, h6("ABHAR"))
+    ),
+    tags$hr(style = "margin-top: 0px; margin-bottom: 0px")
+    )
+  } else {
+    ret <- tagList(
+      fluidRow(style = "margin: 0px 0px 0px 0px;",
+               div(class = "col-sm-2", style = "margin-top: 0px; margin-bottom: 0px; max-height: 35px !important;", h6(statisticName)),
+               div(class = "col-sm-2", style = "margin-top: 0px; margin-bottom: 0px", ifelse(is.na(statisticsID[1]), 
+                                                                                             "", 
+                                                                                             shiny::tagList(shiny::checkboxInput(inputId = statisticsID[1], 
+                                                                                                                                 label   = NULL,
+                                                                                                                                 value   = T, 
+                                                                                                                                 width   = "100%")))),
+               div(class = "col-sm-2", style = "margin-top: 0px; margin-bottom: 0px; max-height: 35px !important;", ifelse(is.na(statisticsID[2]), 
+                                                                                             "", 
+                                                                                             shiny::tagList(shiny::checkboxInput(inputId = statisticsID[2], 
+                                                                                                                                 label   = NULL,
+                                                                                                                                 value   = T, 
+                                                                                                                                 width   = "100%")))),
+               div(class = "col-sm-2", style = "margin-top: 0px; margin-bottom: 0px; max-height: 35px !important;", ifelse(is.na(statisticsID[3]), 
+                                                                                             "", 
+                                                                                             shiny::tagList(shiny::checkboxInput(inputId = statisticsID[3], 
+                                                                                                                                 label   = NULL,
+                                                                                                                                 value   = T, 
+                                                                                                                                 width   = "100%")))),
+               div(class = "col-sm-2", style = "margin-top: 0px; margin-bottom: 0px; max-height: 35px !important;", ifelse(is.na(statisticsID[4]), 
+                                                                                             "", 
+                                                                                             shiny::tagList(shiny::checkboxInput(inputId = statisticsID[4], 
+                                                                                                                                 label   = NULL,
+                                                                                                                                 value   = T, 
+                                                                                                                                 width   = "100%")))),
+               div(class = "col-sm-2", style = "margin-top: 0px; margin-bottom: 0px; max-height: 35px !important;", ifelse(is.na(statisticsID[5]), 
+                                                                                             "", 
+                                                                                             shiny::tagList(shiny::checkboxInput(inputId = statisticsID[5], 
+                                                                                                                                 label   = NULL,
+                                                                                                                                 value   = T, 
+                                                                                                                                 width   = "100%"))))
+      ),
+      tags$hr(style = "margin-top: 0px; margin-bottom: 0px")
+    )
+  }
+  ret
 }
