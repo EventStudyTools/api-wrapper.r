@@ -3,21 +3,25 @@
 \docType{data}
 \name{EventStudyAPI}
 \alias{EventStudyAPI}
-\title{EventStudyAPI}
+\title{API for \url{www.eventstudytools.com}}
 \format{\code{\link{R6Class}} object.}
 \usage{
 EventStudyAPI
+}
+\arguments{
+\item{resultFiles}{Result file names}
+
+\item{token}{token returned after authentication}
+
+\item{apiServerUrl}{url to Event Study API}
 }
 \description{
 R interface for performing Event Studies on 
 \url{www.eventstudytools.com}.
 }
-\details{
-API for \url{www.eventstudytools.com}
-}
 \section{Usage}{
 
-For usage details see \bold{Methods, Arguments and Examples} sections.
+For usage details see \bold{Methods, Arguments, and Examples} sections.
 }
 
 \section{Methods}{
@@ -49,16 +53,21 @@ For usage details see \bold{Methods, Arguments and Examples} sections.
 
 \section{Arguments}{
 
+
 \describe{
- \item{eventstudyapi}{An \code{EventStudyAPI} object}
- \item{apiServerUrl}{URL to the API endpoint}
- \item{apiKey}{Key for authentication}
+ \item{eventstudyapi}{An \code{EventStudyAPI} object.}
+ \item{apiServerUrl}{URL to the API endpoint.}
+ \item{apiKey}{Key for authentication.}
  \item{input}{An \code{ApplicationInputInterface} object.}
- \item{fileKey}{Type of input file: \code{request_file}, \code{firm_data}, and \code{market_data}.}
+ \item{fileKey}{Type of input file: \code{request_file}, \code{firm_data}, 
+ and \code{market_data}.}
  \item{fileName}{Data filename.}
  \item{destDir}{Directory for saving result files.}
 }
-, fileName
+}
+
+\section{Class Members}{
+
 }
 
 \keyword{datasets}

@@ -2,7 +2,7 @@
 % Please edit documentation in R/estPerformAnalysisAddin.R
 \name{estPerformAnalysisAddin}
 \alias{estPerformAnalysisAddin}
-\title{Perform an Event Study}
+\title{RStudio Addin for performing an Event Study}
 \usage{
 estPerformAnalysisAddin()
 }

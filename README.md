@@ -25,7 +25,7 @@ est$authentication(apiKey = key)
 # get & set parameters
 esaParams <- ESTARCParameters$new()
 # esaParams$setEMail("info@muon-stat.com")
-arcParams <- esaParams$getParameters()
+arcParams <- esaParams$serialize()
 arcSetup <- ArcApplicationInput$new(arcParams)
 
 est$configureTask(arcSetup)

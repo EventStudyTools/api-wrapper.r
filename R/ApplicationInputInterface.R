@@ -23,10 +23,12 @@
 #'
 #' @section Methods:
 #' \describe{
-#'   \item{\code{$new()}}{Constructor for ApplicationInputInterface. This class should not used directly.}
+#'   \item{\code{$new()}}{Constructor for ApplicationInputInterface. 
+#'   This class should not used directly.}
 #'   \item{\code{$setNamedList()}}{Function to setup hierarchical \code{lists}.}
 #'   \item{\code{$serialize()}}{Seriealize a \code{R6-Object}.}
-#'   \item{\code{$serializeToJson(level)}}{Seriealize a \code{R6-Object} as a \code{JSON-Object}.}
+#'   \item{\code{$serializeToJson(level)}}{Seriealize a \code{R6-Object} as a 
+#'   \code{JSON-Object}.}
 #'}
 #'
 #' @section Arguments:
@@ -35,6 +37,10 @@
 #'   \item{\code{level}}{LEvel to seriealize.}
 #'}
 #'
+#' @section Class Members:
+#' 
+#' @param allowedResultFileType available result file types
+#'
 #' @export
 ApplicationInputInterface <- R6::R6Class(classname = "ApplicationInputInterface",
                                          lock_objects = F,
@@ -42,7 +48,7 @@ ApplicationInputInterface <- R6::R6Class(classname = "ApplicationInputInterface"
                                            parameters = NULL,
                                            result_file_type = list(result_file_type = "csv"),
                                            setResultFileType = function(type = "csv") {
-                                             type <- match.arg(type, choices = c("csv", "xls", "xlsx", "ods"))
+                                             type <- match.arg(type, choices = private$result_file_type)
                                              self$result_file_type[["result_file_type"]] <- type
                                            },
                                            setNamedList = function(parentLevel,
@@ -76,7 +82,7 @@ ApplicationInputInterface <- R6::R6Class(classname = "ApplicationInputInterface"
                                                } else {
                                                  self$parameters[[parentLevel]][[secondLevel]][[thirthLevel]] <- parameterList
                                                }
-
+                                               
                                              }
                                            },
                                            serializeToJson = function(level = NULL) {
@@ -87,12 +93,18 @@ ApplicationInputInterface <- R6::R6Class(classname = "ApplicationInputInterface"
                                                self$serialize()[[level]] %>%
                                                  jsonlite::toJSON(auto_unbox = T)
                                              }
-
+                                             
                                            },
                                            serialize = function() {
                                              setdiff(x = ls(self),
                                                      y = lsf.str(self)) %>%
                                                mget(envir = self)
                                            }
+                                         ),
+                                         private = list(
+                                           allowedResultFileType = c("CSV"  = "csv", 
+                                                                     "XLS"  = "xls", 
+                                                                     "XLSX" = "xlsx", 
+                                                                     "ODS"  = "ods")
                                          )
-                                         )
+)

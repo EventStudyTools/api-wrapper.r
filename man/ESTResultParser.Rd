@@ -4,19 +4,23 @@
 \name{ESTResultParser}
 \alias{ESTResultParser}
 \title{A parser for Event Study result files}
-\format{An object of class \code{R6ClassGenerator} of length 24.}
+\format{\code{\link{R6Class}} object.}
 \usage{
 ESTResultParser
 }
 \description{
-This result file parser works at the moment just for csv files.
-}
-\details{
+This result file parser works at the moment just for csv files. Please read
+the vignette for further details.
+
 \describe{
-  \item{Documentation}{For full documentation of each method go to }
-  \item{\code{new(dir)}}{This method is used to create object of this class with \code{dir} as the directory of result files.}
-  \item{\code{parseReport(fileName = "analysis_report.csv")}}{This method parses the analysis report file (analysis_report.csv).}
-  \item{\code{parseAR(fileName = "ar_results.csv")}}{This method parses the abnormal return file (ar_results.csv). Furthermore, it triggers \code{parseReport} and join firm and index name.}
-  \item{\code{plotAR(id = NULL)}}{This method abnormal returns time series with \code{id} as the firm id.}}
+  \item{\code{new(dir)}}{This method is used to create object of this class 
+  with \code{dir} as the directory of result files.}
+  \item{\code{parseReport(fileName = "analysis_report.csv")}}{This method 
+  parses the analysis report file (analysis_report.csv).}
+  \item{\code{parseAR(fileName = "ar_results.csv")}}{This method parses the 
+  abnormal return file (ar_results.csv). Furthermore, it triggers 
+  \code{parseReport} and join firm and index name.}
+  \item{\code{plotAR(id = NULL)}}{This method abnormal returns time series 
+  with \code{id} as the firm id.}}
 }
 \keyword{datasets}

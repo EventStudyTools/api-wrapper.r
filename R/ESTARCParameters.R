@@ -57,6 +57,8 @@
 #' @param firm_data list of firm data file key and type
 #' @param market_data list of market data file key and type 
 #' @param allowedTestStatistics allowed test statistics
+#' @param allowedBenchmarkModel available market models
+#' @param allowedNonTradingDays available market models
 #' 
 #' @format \code{\link{R6Class}} object.
 #' 
@@ -106,7 +108,7 @@ ESTARCParameters <- R6::R6Class(classname = "ESTParameters",
                                   },
                                   # set benchmark model
                                   setBenchmarkModel = function(model) {
-                                    model <- match.arg(model, c("mm"))
+                                    model <- match.arg(model, unname(private$market_model))
                                     self$benchmark_model <- model
                                   },
                                   # set return type
@@ -150,6 +152,18 @@ ESTARCParameters <- R6::R6Class(classname = "ESTParameters",
                                     "caarcdat",
                                     "aarjackknivet",
                                     "caarjackknivet"
-                                  )
+                                  ),
+                                  allowedBenchmarkModel = c("Market Model"                        = "mm", 
+                                                            "Scholes/Williams Model"              = "mm-sw", 
+                                                            "Market Adjusted"                     = "mam", 
+                                                            "Comparison Period Mean Adjusted"     = "cpmam",
+                                                            "Fama-French 3 Factor Model"          = "ff3fm",
+                                                            "Fama-French-Momentum 4 Factor Model" = "ffm4fm",
+                                                            "GARCH"                               = "garch", 
+                                                            "EGARCH"                              = "egarch"),
+                                  allowedNonTradingDays = c("Take earlier trading day"     = "csv", 
+                                                            "Take later trading day"       = "later", 
+                                                            "Keep non-trading day"         = "keep", 
+                                                            "Skip respective observations" = "ods")
                                 )
 )

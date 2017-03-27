@@ -3,12 +3,9 @@
 \docType{data}
 \name{ESTCataParameters}
 \alias{ESTCataParameters}
-\title{Get parameters for EventStudyTools API}
+\title{CATA Parameters}
 \format{An object of class \code{R6ClassGenerator} of length 24.}
 \usage{
 ESTCataParameters
-}
-\description{
-Get parameters for EventStudyTools API
 }
 \keyword{datasets}

@@ -4,11 +4,38 @@
 \name{ApplicationInputInterface}
 \alias{ApplicationInputInterface}
 \title{Abstract Application Input Interface for Event Study R Package}
-\format{An object of class \code{R6ClassGenerator} of length 24.}
+\format{\code{\link{R6Class}} object.}
 \usage{
 ApplicationInputInterface
+}
+\arguments{
+\item{allowedResultFileType}{available result file types}
 }
 \description{
 Abstract class no description
 }
+\section{Methods}{
+
+\describe{
+  \item{\code{$new()}}{Constructor for ApplicationInputInterface. 
+  This class should not used directly.}
+  \item{\code{$setNamedList()}}{Function to setup hierarchical \code{lists}.}
+  \item{\code{$serialize()}}{Seriealize a \code{R6-Object}.}
+  \item{\code{$serializeToJson(level)}}{Seriealize a \code{R6-Object} as a 
+  \code{JSON-Object}.}
+}
+}
+
+\section{Arguments}{
+
+\describe{
+  \item{\code{type}}{Set the result file type.}
+  \item{\code{level}}{LEvel to seriealize.}
+}
+}
+
+\section{Class Members}{
+
+}
+
 \keyword{datasets}

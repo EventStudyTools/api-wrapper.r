@@ -23,7 +23,7 @@ Depends:
     stringr,
     curl
 LazyData: true
-RoxygenNote: 6.0.0
+RoxygenNote: 6.0.1
 Suggests: knitr,
     rmarkdown
 VignetteBuilder: knitr
