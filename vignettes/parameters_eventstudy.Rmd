@@ -3,12 +3,13 @@ title: "Event Study: Parameter"
 author: "Dr. Simon Müller"
 date: "`r Sys.Date()`"
 output:
-  rmdformats::readthedown:
+  rmdformats::html_clean:
     self_contained: true
     thumbnails: true
     lightbox: true
     gallery: false
-    highlight: kate
+    highlight: tango
+    css: kable.css
 vignette: >
   %\VignetteIndexEntry{Vignette Title}
   %\VignetteEngine{knitr::rmarkdown}
