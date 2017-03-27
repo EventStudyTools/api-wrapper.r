@@ -1,15 +1,66 @@
-#' Abnormal Return Calculation Parameters
+# // Copyright (C) 2017 Simon Müller
+# // This file is part of EventStudy
+# //
+# // EventStudy is free software: you can redistribute it and/or modify it
+# // under the terms of the GNU General Public License as published by
+# // the Free Software Foundation, either version 2 of the License, or
+# // (at your option) any later version.
+# //
+# // EventStudy is distributed in the hope that it will be useful, but
+# // WITHOUT ANY WARRANTY; without even the implied warranty of
+# // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# // GNU General Public License for more details.
+# //
+# // You should have received a copy of the GNU General Public License
+# // along with EventStudy  If not, see <http://www.gnu.org/licenses/>.
+#' @name ESTARCParameters
 #' 
-#' This R6 class defines the parameters for the Event Study. 
+#' @title Abnormal Return Calculation Parameters
 #' 
-#' @param task actually just locale is defined and working here
-#' @param result_file_type type of the result file: csv (default), xls, xlsx, and ods
+#' @description 
+#' This R6 class defines the parameters for the Return Event Study. We recommend
+#' to use the \code{set} functionality to setup your Event Study, as we check
+#' input parameters.
+#' 
+#' @section Methods:
+#' \describe{
+#'   \item{\code{$new()}}{Constructor for ESTARCParameters.}
+#'   \item{\code{$setEMail(eMail)}}{Set the e-Mail address for reporting. This 
+#'   functionality is currently not working.}
+#'   \item{\code{$setBenchmarkModel(model = 'mm')}}{Setter for the benchmark
+#'   model.s}
+#'   \item{\code{$setReturnType(returnType)}}{Setter for the return type (log 
+#'   or simple)}
+#'   \item{\code{$setTestStatistics(testStatistics)}}{Setter for the test 
+#'   statistics.}
+#'}
+#' 
+#' @section Arguments:
+#' 
+#' \describe{
+#'  \item{ESTARCParameters}{An \code{ESTARCParameters} object}
+#'  \item{eMail}{An E-Mail address in \code{String} format}
+#'  \item{model}{A benchmark model in \code{String} format}
+#'  \item{returnType}{A return type in \code{String} format}
+#'  \item{testStatistics}{A \code{String} vector with test statistics.}
+#' }
+#' 
+#' @section Class Members:
+#' 
+#' @param task Actually, just \code{locale} is defined. E-Mail-Address is added
+#' in a later version.
 #' @param return_type return type calculation: log (default), simple
-#' @param non_trading_days handler for non-trading days: later (default), earlier, keep, and skip
-#' @param test_statistics available test statistics
+#' @param non_trading_days handler for non-trading days: later (default), 
+#' earlier, keep, and skip
+#' @param test_statistics test statistics that will be used in the Event Study
 #' @param request_file list of request file key and type
 #' @param firm_data list of firm data file key and type
-#' @param market_data list of market data file key and type
+#' @param market_data list of market data file key and type 
+#' @param allowedTestStatistics allowed test statistics
+#' 
+#' @format \code{\link{R6Class}} object.
+#' 
+#' @seealso \url{https://www.eventstudytools.com/axc/upload}
 #' 
 #' @return a ESTParameters R6 object
 #'
@@ -18,16 +69,24 @@ ESTARCParameters <- R6::R6Class(classname = "ESTParameters",
                                 inherit = ApplicationInputInterface,
                                 public = list(
                                   task = list(locale = 'en'),
-                                  result_file_type = list(result_file_type = "csv"),
                                   benchmark_model  = list(benchmark_model = "mm"),
                                   return_type      = list(return_type = "log"),
                                   non_trading_days = list(non_trading_days = "later"),
-                                  test_statistics  = list("art", "cart", "aart", "caart", "abhart",
-                                    "aarptlz", "caarptlz", "aaraptlz", "caaraptlz", "aarbmpz",
-                                    "caarbmpz", "aarabmpz", "caarabmpz", "aarskewadjt", "caarskewadjt",
-                                    "abharskewadjt", "aarrankz", "caarrankz", "aargrankt", "caargrankt",
-                                    "aargrankz", "caargrankz", "aargsignz", "caargsignz",
-                                    "aarcdat", "aarjackknivet", "caarjackknivet"),
+                                  test_statistics  = list("art", "cart", "aart", 
+                                                          "caart", "abhart", 
+                                                          "aarptlz", "caarptlz", 
+                                                          "aaraptlz", "caaraptlz", 
+                                                          "aarbmpz", "caarbmpz", 
+                                                          "aarabmpz", "caarabmpz", 
+                                                          "aarskewadjt", 
+                                                          "caarskewadjt", 
+                                                          "abharskewadjt", 
+                                                          "aarrankz", "caarrankz", 
+                                                          "aargrankt", "caargrankt",
+                                                          "aargrankz", "caargrankz", 
+                                                          "aargsignz", "caargsignz",
+                                                          "aarcdat", "aarjackknivet", 
+                                                          "caarjackknivet"),
                                   request_file = list(
                                     key  = "request_file",
                                     type = "csv"
@@ -40,12 +99,9 @@ ESTARCParameters <- R6::R6Class(classname = "ESTParameters",
                                     key  = "market_data",
                                     type = "csv"
                                   ),
-                                  # get parameters
-                                  getParameters = function() {
-                                    self$getMember()
-                                  },
                                   # set email
                                   setEMail = function(eMail) {
+                                    stop("This parameter is currently not working.")
                                     self$task[["email"]] <- eMail
                                   },
                                   # set benchmark model
@@ -55,25 +111,17 @@ ESTARCParameters <- R6::R6Class(classname = "ESTParameters",
                                   },
                                   # set return type
                                   setReturnType = function(returnType) {
-                                    returnType <- match.arg(returnType, c("log"))
+                                    returnType <- match.arg(returnType, c("log", "simple"))
                                     self$return_type <- returnType
                                   },
                                   # set test statistics
-                                  setTestStatistics = function(testStatistic, active=T) {
-                                    testStatistic <- match.arg(testStatistic, private$test_statistics)
-                                    if (active) {
-                                      self[["test_statistics"]][[testStatistic]] <- "1"
-                                    } else {
-                                      self[["test_statistics"]][[testStatistic]] <- NULL
-                                    }
-                                  },
-                                  # returns available test statistics
-                                  getTestStatistics = function() {
-                                    private$allowed_test_statistics
+                                  setTestStatistics = function(testStatistics) {
+                                    testStatistics <- match.arg(testStatistics, private$test_statistics)
+                                    
                                   }
                                 ),
                                 private = list(
-                                  allowed_test_statistics = c(
+                                  allowedTestStatistics = c(
                                     "art",
                                     "cart",
                                     "aart",

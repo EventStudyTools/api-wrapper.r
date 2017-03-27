@@ -1,4 +1,4 @@
-# // Copyright (C) 2015 - 2016  Dmitriy Selivanov
+# // Copyright (C) 2017 Simon Müller
 # // This file is part of EventStudy
 # //
 # // EventStudy is free software: you can redistribute it and/or modify it
@@ -13,9 +13,9 @@
 # //
 # // You should have received a copy of the GNU General Public License
 # // along with EventStudy  If not, see <http://www.gnu.org/licenses/>.
-#' EventStudyAPI
+#' @name EventStudyAPI
 #' 
-#' API for \url{www.eventstudytools.com}
+#' @title API for \url{www.eventstudytools.com}
 #' 
 #' @description R interface for performing Event Studies on 
 #' \url{www.eventstudytools.com}.
@@ -23,7 +23,7 @@
 #' @format \code{\link{R6Class}} object.
 #'
 #' @section Usage:
-#' For usage details see \bold{Methods, Arguments and Examples} sections.
+#' For usage details see \bold{Methods, Arguments, and Examples} sections.
 #' 
 #' @section Methods:
 #' \describe{
@@ -51,16 +51,24 @@
 #'   }
 #'
 #' @section Arguments:
+#' 
 #' \describe{
-#'  \item{eventstudyapi}{An \code{EventStudyAPI} object}
-#'  \item{apiServerUrl}{URL to the API endpoint}
-#'  \item{apiKey}{Key for authentication}
+#'  \item{eventstudyapi}{An \code{EventStudyAPI} object.}
+#'  \item{apiServerUrl}{URL to the API endpoint.}
+#'  \item{apiKey}{Key for authentication.}
 #'  \item{input}{An \code{ApplicationInputInterface} object.}
-#'  \item{fileKey}{Type of input file: \code{request_file}, \code{firm_data}, and \code{market_data}.}
+#'  \item{fileKey}{Type of input file: \code{request_file}, \code{firm_data}, 
+#'  and \code{market_data}.}
 #'  \item{fileName}{Data filename.}
 #'  \item{destDir}{Directory for saving result files.}
 #' }
-#', fileName
+#'
+#' @section Class Members:
+#' 
+#' @param resultFiles Result file names
+#' @param token token returned after authentication
+#' @param apiServerUrl url to Event Study API
+#' 
 #' @export
 EventStudyAPI <- R6::R6Class(classname = "EventStudyAPI",
                              public = list(
@@ -97,7 +105,9 @@ EventStudyAPI <- R6::R6Class(classname = "EventStudyAPI",
                                  return(TRUE)
                                },
                                defaultRun = function(estType    = "arc", 
-                                                     dataFiles  = c("request_file" = "01_RequestFile.csv", "firm_data" = "02_firmData.csv", "market_data" = "03_MarketData.csv"), 
+                                                     dataFiles  = c("request_file" = "01_RequestFile.csv", 
+                                                                    "firm_data"    = "02_firmData.csv", 
+                                                                    "market_data"  = "03_MarketData.csv"), 
                                                      resultPath = "results") {
                                  estType <- match.arg(estType, c("arc"))
                                  
@@ -166,7 +176,7 @@ EventStudyAPI <- R6::R6Class(classname = "EventStudyAPI",
                                  if (is.null(input)) {
                                    message("Parameters are not set. Setup ARC parameters.")
                                    estParameters <- ESTARCParameters$new()
-                                   estParameters$getParameters() %>% 
+                                   estParameters$serialize() %>% 
                                      ArcApplicationInput$new() -> input
                                  }
                                  
@@ -179,7 +189,7 @@ EventStudyAPI <- R6::R6Class(classname = "EventStudyAPI",
                                    handle_setheaders("Content-Type" = "application/json",
                                                      "X-Task-Key"   = private$token) -> handle
 
-                                 json <- input$toJson(level = "parameters")
+                                 json <- input$serializeToJson(level = "parameters")
 
                                  handle %>%
                                    handle_setopt(postfields = json) -> handle
