@@ -109,12 +109,17 @@ ESTARCParameters <- R6::R6Class(classname = "ESTParameters",
                                   # set benchmark model
                                   setBenchmarkModel = function(model) {
                                     model <- match.arg(model, unname(private$market_model))
-                                    self$benchmark_model <- model
+                                    self$benchmark_model[[benchmark_model]] <- model
                                   },
                                   # set return type
                                   setReturnType = function(returnType) {
                                     returnType <- match.arg(returnType, c("log", "simple"))
-                                    self$return_type <- returnType
+                                    self$return_type[[return_type]] <- returnType
+                                  },
+                                  # set non trading days
+                                  setNonTradingDays = function(nonTradingDays = "later") {
+                                    nonTradingDays <- match.arg(nonTradingDays, unname(private$allowedNonTradingDays))
+                                    self$non_trading_days[[non_trading_days]] <- nonTradingDays
                                   },
                                   # set test statistics
                                   setTestStatistics = function(testStatistics) {
@@ -161,9 +166,9 @@ ESTARCParameters <- R6::R6Class(classname = "ESTParameters",
                                                             "Fama-French-Momentum 4 Factor Model" = "ffm4fm",
                                                             "GARCH"                               = "garch", 
                                                             "EGARCH"                              = "egarch"),
-                                  allowedNonTradingDays = c("Take earlier trading day"     = "csv", 
+                                  allowedNonTradingDays = c("Take earlier trading day"     = "earlier", 
                                                             "Take later trading day"       = "later", 
                                                             "Keep non-trading day"         = "keep", 
-                                                            "Skip respective observations" = "ods")
+                                                            "Skip respective observations" = "skip")
                                 )
 )

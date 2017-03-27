@@ -1,6 +1,6 @@
 # Version 0.2.0
 
-- adding RStudio addins for performing an Event Study
+- adding RStudio addins for performing a Return Event Study
 
 # Version 0.1.1
 

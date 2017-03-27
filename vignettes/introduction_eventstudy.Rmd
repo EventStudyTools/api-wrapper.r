@@ -3,16 +3,19 @@ title: "Introductionary Use Case: Firm addition to S&P500"
 author: "Dr. Markus Schimmer and Dr. Simon Müller"
 date: "`r Sys.Date()`"
 output:
-  prettydoc::html_pretty:
-    theme: tactile
-    highlight: github
+  rmdformats::readthedown:
+    self_contained: true
+    thumbnails: true
+    lightbox: true
+    gallery: false
+    highlight: kate
 vignette: >
   %\VignetteIndexEntry{Vignette Title}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
 
-## Motivation
+# Motivation
 
 The attached sample data and request files were constructed to illustrate the use of the EventStudyTools R-package. 
 
@@ -44,7 +47,7 @@ We named the request and data files in following manner:
 
 In your analysis, you can name them as you want.
 
-### Event Definitions: `01_RequestFile.csv`
+## Event Definitions: `01_RequestFile.csv`
 
 This csv file contains the event definitions. It contains 9 columns. The order must be in the following way, as the columns are not named in the csv. 
 
@@ -67,7 +70,12 @@ names(df) <- c("Event ID", "Firm ID", "Market ID", "Event Date", "Grouping Varia
 knitr::kable(head(df))
 ```
 
-### Firm Data: `02_FirmData.csv`
+**Attention**
+
+The first column (Event IDs) must be unique and numeric.
+
+
+## Firm Data: `02_FirmData.csv`
 
 The stock data for each firm defined in the request file. It contains 3 columns.
 
@@ -85,7 +93,7 @@ knitr::kable(head(df))
 ```
 
 
-### Firm Data: `03_MarketData.csv`
+## Firm Data: `03_MarketData.csv`
 
 This file is similary structured as `02_FirmData.csv`:
 
@@ -105,9 +113,9 @@ knitr::kable(head(df))
 You are also able to apply a *Fama-French 3-Factor Model* or a *Fama-French Momentum-4-Factor Model*. This will change the neccessary data you need for performing an Event Study (e.g. by adding Fama-French Factors). You find more information at [https://www.eventstudytools.com/instructions-axc](https://www.eventstudytools.com/instructions-axc).
 
 
-## Perform an Event Study from R
+# Perform an Event Study from R
 
-### Authentication
+## Authentication
 
 For performing an Event Study with our API you need:
 
@@ -134,7 +142,7 @@ with the defaults.
 
 There will be soon a separate vignette for setting parameters.
 
-#### Type of Event Study
+## Type of Event Study
 
 Our API offers different types of Event Studies:
 
@@ -156,7 +164,7 @@ The type of Event Study can be set by parameter (actually just `arc` is working)
 estType <- "arc"
 ```
 
-#### Data Files
+## Data Files
 
 By default all data files must be named as follows. Furthermore, they have to be in the current directory:
 
@@ -172,7 +180,7 @@ dataFiles <- c("request_file" = "01_RequestFile.csv",
                "market_data"  = "03_MarketData.csv"
 ```
 
-#### Results
+## Results
 
 All results will be written by default into the directory `./results`. You can easily 
 change this path by setting it as a parameter:
@@ -182,9 +190,10 @@ resultPath <- "results"
 ```
 
 **Attention**
+
 If the `resultPath` do not exist, the R package will create this directory. 
 
-#### Performing the Event Study
+## Performing the Event Study
 
 Finally, the Event Study is performed by:
 
@@ -198,9 +207,9 @@ It will write all result files into the result directory. Furthermore,
 results will be parsed into a R object. 
 
 
-### More Vignettes:
+# More Vignettes
 
-1. Parameter Settings: In this Vignette we show how you can set parameters (coming soon)
+1. Parameters: In this Vignette we show how you can set parameters and which parameters are allowed.
 2. Graphics: In this Vignette we show you how to generate nice (static or interactive) graphs (coming soon)
 3. Data Preparation: In this Vignette we show you how to get and prepare data for your Event Study from R (coming soon)
-4. RStudio Addins: We wrote several RStudio addins for performing an Event Study (coming soon)
+4. RStudio Addins: We wrote several RStudio addins for performing an Event Study

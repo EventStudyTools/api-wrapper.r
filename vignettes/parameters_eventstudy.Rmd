@@ -1,0 +1,173 @@
+---
+title: "Event Study: Parameter"
+author: "Dr. Simon Müller"
+date: "`r Sys.Date()`"
+output:
+  rmdformats::readthedown:
+    self_contained: true
+    thumbnails: true
+    lightbox: true
+    gallery: false
+    highlight: kate
+vignette: >
+  %\VignetteIndexEntry{Vignette Title}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# Motivation
+
+You can manually adjust all parameters in your R environment. Save this object 
+and use it in all your Event Studies. This vignette gives you an overview on how
+to set the correct parameters in R.
+
+
+# General Parameters
+
+There are several parameters that are valid for all type of Event Studies 
+(Return, Volatility, and Volume Event Study). Each type of Event Study has its 
+own `R6` object that has to be initialized before you want to perform an Event
+Study. 
+
+- `ESTARCParameters`: Return Event Study
+- `ESTAVyCParameters`: Volatility Event Study
+- `ESTAVParameters`: Volume Event Study
+
+For the rest of this paragraph, we are working with a Return Event Study object.
+All parameters in this section can also applied to the other two objects.
+
+```{r, eval=FALSE}
+retEstParam <- ESTARCParameters$new()
+```
+
+## Return File Type
+
+The return type defines the type of the result file. Possible options are
+
+- **csv** (default): comma-separated file with `;` as delimiter 
+- **xls**: Excel 2007 
+- **xlsx**: Excel 2010 and newer
+- **ods**: OpenOffice Spreadsheet
+
+Usage:
+```{r, eval=FALSE}
+retEstParam$setResultFileType("xlsx")
+```
+
+## Handling Non-trading Days
+
+- **earlier**: Take earlier trading day
+- **later** (default): Take later trading day
+- **keep**: Keep non-trading day
+- **skip**: Skip respective observations
+
+Usage:
+```{r, eval=FALSE}
+retEstParam$setNonTradingDays("earlier")
+```
+
+
+## Return Type
+
+- **log** (default): Return calculation by using log
+- **simple**: Simple return calculation
+
+Usage:
+```{r, eval=FALSE}
+retEstParam$setReturnType("simple")
+```
+
+## Task
+
+In the task parameter list you can define the locale (currently just `en` is possible)
+and the email address (currently not working). If an email address is defined, 
+you get an email when the calculation is finished.
+
+
+# Return Event Study
+
+For performing Return Event Studies you need to initialize an `ESTARCParameters`
+ R6 object.
+
+```{r, eval=FALSE}
+retEstParam <- ESTARCParameters$new()
+```
+
+## Benchmark Models
+
+- **mm** (default): Market Model
+- **mm-sw**: Scholes/Williams Model
+- **cpmam**: Comparison Period Mean Adjusted
+- **ff3fm**: Fama-French 3 Factor Model
+- **ffm4fm**: Fama-French-Momentum 4 Factor Model
+- **garch**: GARCH (1, 1) Model
+- **egarch**: EGARCH (1, 1) Model
+
+Usage:
+```{r, eval=FALSE}
+retEstParam$setBenchmarkModel("mm-sw")
+```
+
+
+## Test Statistics
+
+Per default all test statistics are activated. A detailed description can be 
+found on our [website](https://www.eventstudytools.com/significance-tests).
+
+*Parametric Test Statistics:*
+
+- t-Test:
+    - art
+    - cart
+    - abhart
+- Cross-Sectional Test (CSect T):
+    - aart
+    - caart
+    - abhart
+- Time-Series Standard Deviation or Crude Dependence Test (CDA T):
+    - aarcdat
+    - caarcdat
+- Patell or Standardized Residual Test (Patell Z):
+    - aarptlz
+    - caarptlz
+- Kolari and Pynnönen adjusted Patell or Standardized Residual Test (Adjusted Patell Z):
+    - aaraptlz
+    - caaraptlz
+- Standardized Cross-Sectional or BMP Test (StdCSect Z):
+    - aarbmpz
+    - caarbmpz
+- Kolari and Pynnönen Adjusted Standardized Cross-Sectional or BMP Test (Adjusted StdCSect Z) 
+    - aarabmpz
+    - caarabmpz
+- Skewness Corrected Test (Skewness Corrected T):
+    - aarskewadjt
+    - caarskewadjt
+    - abharskewadjt
+- Jackknife Test (Abbr.: Jackknife T) 
+    - aarjackknivet
+    - caarjackknivet
+
+**Non-Parametric Test Statistics:**
+
+- Corrado Rank Test (Rank Z):
+    - aarrankz
+    - caarrankz
+- Generalized Rank T Test (Generalized Rank T):
+    - aargrankt
+    - caargrankt
+- Generalized Rank Z Test (Generalized Rank Z):
+    - aargrankz
+    - caargrankz
+-  Cowan Generalized Sign Test (Generalized Sign Z) 
+    - aargsignz
+    - caargsignz
+
+Usage:
+```{r, eval=FALSE}
+retEstParam$setTestStatistics(c("aarptlz", "aarrankz"))
+```
