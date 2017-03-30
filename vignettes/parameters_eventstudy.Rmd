@@ -43,7 +43,7 @@ For the rest of this paragraph, we are working with a Return Event Study object.
 All parameters in this section can also applied to the other two objects.
 
 ```{r, eval=FALSE}
-retEstParam <- ESTARCParameters$new()
+returnEstParams <- ARCApplicationInput$new()
 ```
 
 ## Return File Type
@@ -57,19 +57,7 @@ The return type defines the type of the result file. Possible options are
 
 Usage:
 ```{r, eval=FALSE}
-retEstParam$setResultFileType("xlsx")
-```
-
-## Handling Non-trading Days
-
-- **earlier**: Take earlier trading day
-- **later** (default): Take later trading day
-- **keep**: Keep non-trading day
-- **skip**: Skip respective observations
-
-Usage:
-```{r, eval=FALSE}
-retEstParam$setNonTradingDays("earlier")
+returnEstParams$setResultFileType("xlsx")
 ```
 
 
@@ -80,14 +68,21 @@ retEstParam$setNonTradingDays("earlier")
 
 Usage:
 ```{r, eval=FALSE}
-retEstParam$setReturnType("simple")
+returnEstParams$setReturnType("simple")
 ```
 
-## Task
 
-In the task parameter list you can define the locale (currently just `en` is possible)
-and the email address (currently not working). If an email address is defined, 
-you get an email when the calculation is finished.
+## Adjustment of Non-trading Days
+
+- **earlier**: Take earlier trading day
+- **later** (default): Take later trading day
+- **keep**: Keep non-trading day
+- **skip**: Skip respective observations
+
+Usage:
+```{r, eval=FALSE}
+returnEstParams$setNonTradingDays("earlier")
+```
 
 
 # Return Event Study
@@ -96,7 +91,7 @@ For performing Return Event Studies you need to initialize an `ESTARCParameters`
  R6 object.
 
 ```{r, eval=FALSE}
-retEstParam <- ESTARCParameters$new()
+returnEstParams <- ESTARCParameters$new()
 ```
 
 ## Benchmark Models
@@ -111,7 +106,7 @@ retEstParam <- ESTARCParameters$new()
 
 Usage:
 ```{r, eval=FALSE}
-retEstParam$setBenchmarkModel("mm-sw")
+returnEstParams$setBenchmarkModel("mm-sw")
 ```
 
 
@@ -170,5 +165,5 @@ found on our [website](https://www.eventstudytools.com/significance-tests).
 
 Usage:
 ```{r, eval=FALSE}
-retEstParam$setTestStatistics(c("aarptlz", "aarrankz"))
+returnEstParams$setTestStatistics(c("aarptlz", "aarrankz"))
 ```

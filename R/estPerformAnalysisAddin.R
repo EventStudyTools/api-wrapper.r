@@ -68,6 +68,11 @@ estPerformAnalysisAddin <- function() {
       c(NA, NA, "aargsignz", "caargsignz", NA)
     )
     
+    statisticID %>% 
+      unlist() %>% 
+      na.omit() %>% 
+      as.character() -> statisticsIDVector
+    
     output$parameters_ui <- renderUI({
       fillCol(flex = c(NA, NA, 1),
               tagList(
@@ -126,10 +131,10 @@ estPerformAnalysisAddin <- function() {
                               fileInput("requestFile", "Request File", width = "100%")
                        ),
                        column(4, 
-                              fileInput("dataFile", "Firm Data", width = "100%")
+                              fileInput("firmDataFile", "Firm Data", width = "100%")
                        ),
                        column(4,
-                              fileInput("marketFile", "Market Data", width = "100%")
+                              fileInput("marketDataFile", "Market Data", width = "100%")
                        )
               )
       )
@@ -145,14 +150,10 @@ estPerformAnalysisAddin <- function() {
                                                             statisticsID  = statisticID[[i]])
         )
       }
-      
       ui
     })
-    
-    observe({
-      print(input$art)
-    })
-    
+
+        
     estAPI <- NULL
     observeEvent(input$connect, {
       apiKey <- input$apiKey
@@ -168,20 +169,79 @@ estPerformAnalysisAddin <- function() {
       } else {
         estAPI <<- EventStudy::EventStudyAPI$new(apiUrl)
         if(!validKey) {
-          output$connectResponse <- renderUI({
-            return(HTML("Please add valid API key"))
-          })
+          userMsg$output <- "Please add valid API key"
         } else {
           authSuccess <- estAPI$authentication(apiKey)
-          output$connectResponse <- renderUI({
-            if (authSuccess) {
-              HTML("Authentication was successful")
-            } else {
-              HTML("Authentication was not successful")
-            }
-            
-          })
+          if (authSuccess) {
+            userMsg$output <- "Authentication was successful."
+          } else {
+            userMsg$output <- "Authentication was not successful."
+          }
         }
+      }
+    })
+    
+    
+    userMsg <- reactiveValues(output = "")
+    output$connectResponse <- renderUI({
+      return(HTML(userMsg$output))
+    })
+    
+    oberveEvent(input$performAnalysis, {
+      if (is.null(estAPI)) {
+        userMsg$output <- "API is not initialized. Please connect to API."
+      } else {
+        # 1. Set Parameters 
+        returnEstParams <- ARCApplicationInput$new()
+        
+        ## get result file format
+        resultFile <- input$resultFileFormat
+        returnEstParams$setResultFileType(resultFile)
+        
+        ## get and set benchmark model
+        benchmarkModel <- input$benchmarkModel
+        returnEstParams$setBenchmarkModel(benchmarkModel)
+        
+        ## get and set returnType
+        returnType <- input$returnType
+        returnEstParams$setReturnType(returnType)
+        
+        ## get und set non-trading days
+        adjustmentNonTradingDays <- input$adjustmentNonTradingDays
+        returnEstParams$setNonTradingDays(adjustmentNonTradingDays)
+        
+        # get and set statistics
+        .getStatistics <- function(x, y) {
+          y[[x]]
+        }
+        statisticsIDVector %>% 
+          purrr::map2(.y = input, .f = .getStatistics) %>% 
+          unlist() %>% 
+          which() -> selectedStatistics
+        if (length(selectedStatistics)) {
+          selectedStatistics <- statisticsIDVector[selectedStatistics]
+          returnEstParams$setTestStatistics(selectedStatistics)
+        }
+        
+        # initialize API object with parameter object
+        # get data files
+        requestFile <- input$requestFile$dataPath
+        firmDataFile <- input$firmDataFile$dataPath
+        marketDataFile <- input$marketDataFile$dataPath
+        shiny::validate(shiny::need(!is.null(requestFile) && !is.null(firmDataFile) && !is.null(marketDataFile), "Please upload your data!"))
+        dataFiles <- c("request_file" = requestFile, 
+                       "firm_data"    = firmDataFile, 
+                       "market_data"  = marketDataFile)
+        
+        # result path
+        resultPath <- input$resultPath
+        if (is.null(resultPath) || resultPath == "") {
+          resultPath <- getwd()
+        }
+        
+        ret <- estAPI$performEventStudy(estParams  = returnEstParams,
+                                        dataFiles  = dataFiles,
+                                        resultPath = resultPath)
       }
     })
   }

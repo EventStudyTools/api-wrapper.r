@@ -34,6 +34,10 @@
 #'   authenticate at \code{apiServerUrl}. A valid \code{apiKey} is 
 #'   required. You can download a free key on our website: 
 #'   \url{www.eventstudytools.com}}
+#'   \item{\code{performEventStudy(estParam)}}{This method starts an Event Study. 
+#'   This method does all work for you.}
+#'   \item{\code{performDefaultEventStudy()}}{This method starts an default 
+#'   Event Study. It is a wrapper around \code{performEventStudy}}
 #'   \item{\code{processTask()}}{This method starts the Event Study 
 #'   calculation on the server (after files are uploaded.}
 #'   \item{\code{configureTask(input)}}{This method configures the 
@@ -65,9 +69,9 @@
 #'
 #' @section Class Members:
 #' 
-#' @param resultFiles Result file names
 #' @param token token returned after authentication
 #' @param apiServerUrl url to Event Study API
+#' @param resultFiles Result file names
 #' 
 #' @export
 EventStudyAPI <- R6::R6Class(classname = "EventStudyAPI",
@@ -104,22 +108,22 @@ EventStudyAPI <- R6::R6Class(classname = "EventStudyAPI",
                                  private$token <- result$token
                                  return(TRUE)
                                },
-                               defaultRun = function(estType    = "arc", 
-                                                     dataFiles  = c("request_file" = "01_RequestFile.csv", 
-                                                                    "firm_data"    = "02_firmData.csv", 
-                                                                    "market_data"  = "03_MarketData.csv"), 
-                                                     resultPath = "results") {
-                                 estType <- match.arg(estType, c("arc"))
+                               performEventStudy = function(estParams  = NULL,
+                                                            dataFiles  = c("request_file" = "01_RequestFile.csv", 
+                                                                           "firm_data"    = "02_firmData.csv", 
+                                                                           "market_data"  = "03_MarketData.csv"), 
+                                                            resultPath = "results") {
+                                 estParams$setup()
                                  
                                  # Perform Study
-                                 self$configureTask()
+                                 self$configureTask(estParams)
                                  
                                  self$uploadFile(fileKey  = "request_file", 
-                                                     fileName = dataFiles["request_file"])
+                                                 fileName = dataFiles["request_file"])
                                  self$uploadFile(fileKey  = "firm_data", 
-                                                     fileName = dataFiles["firm_data"])
+                                                 fileName = dataFiles["firm_data"])
                                  self$uploadFile(fileKey  = "market_data", 
-                                                     fileName = dataFiles["market_data"])
+                                                 fileName = dataFiles["market_data"])
                                  self$commitData()
                                  
                                  self$processTask()
@@ -149,6 +153,21 @@ EventStudyAPI <- R6::R6Class(classname = "EventStudyAPI",
                                  self$getTaskResults()
                                  return(T)
                                },
+                               performDefaultEventStudy = function(estType    = "arc", 
+                                                                   dataFiles  = c("request_file" = "01_RequestFile.csv", 
+                                                                                  "firm_data"    = "02_firmData.csv", 
+                                                                                  "market_data"  = "03_MarketData.csv"), 
+                                                                   resultPath = "results") {
+                                 estType <- match.arg(estType, c("arc"))
+                                 if (estType == "arc") {
+                                   estParams <- ARCApplicationInputs$new()
+                                 } else if (estType == "av") {
+                                   
+                                 } else if (estType == "avyc") {
+                                   
+                                 }
+                                 self$performEventStudy(estParams, dataFiles, resultPath)
+                               },
                                processTask = function() {
                                  if (is.null(private$token) || is.null(private$apiServerUrl))
                                    stop("Error in uploadFile: configuration error")
@@ -170,17 +189,14 @@ EventStudyAPI <- R6::R6Class(classname = "EventStudyAPI",
                                  self$resultFiles <- result$results
                                  result
                                },
-                               configureTask = function(input = NULL) {
+                               configureTask = function(estParams = NULL) {
 
                                  # Setup Standard Parameters
-                                 if (is.null(input)) {
-                                   message("Parameters are not set. Setup ARC parameters.")
-                                   estParameters <- ESTARCParameters$new()
-                                   estParameters$serialize() %>% 
-                                     ArcApplicationInput$new() -> input
+                                 if (is.null(estParams) || !is(estParams, "ApplicationInputInterface")) {
+                                   stop("Parameters are not set. Please set parameter object or run .$performDefaultEventStudy")
                                  }
                                  
-                                 if (!is(input, "ApplicationInputInterface") || is.null(private$token))
+                                 if (is.null(private$token))
                                    stop("Error in configureTask: token is not set")
 
                                  new_handle() %>%
@@ -188,8 +204,7 @@ EventStudyAPI <- R6::R6Class(classname = "EventStudyAPI",
                                    handle_setopt(postfields = "") %>%
                                    handle_setheaders("Content-Type" = "application/json",
                                                      "X-Task-Key"   = private$token) -> handle
-
-                                 json <- input$serializeToJson(level = "parameters")
+                                 json <- estParams$serializeToJson(level = "parameters")
 
                                  handle %>%
                                    handle_setopt(postfields = json) -> handle

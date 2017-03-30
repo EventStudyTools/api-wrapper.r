@@ -1,5 +1,6 @@
 # Version 0.2.0
 
+- refactoring class hierarchy
 - adding RStudio addins for performing a Return Event Study
 - Vignettes
   - Introduction

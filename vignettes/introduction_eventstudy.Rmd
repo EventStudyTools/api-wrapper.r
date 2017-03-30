@@ -199,9 +199,9 @@ If the `resultPath` do not exist, the R package will create this directory.
 Finally, the Event Study is performed by:
 
 ```{r, eval=FALSE} 
-estResult <- estSetup$defaultRun(estType    = estType,
-                                 dataFiles  = dataFiles, 
-                                 resultPath = resultPath)
+estResult <- estSetup$performDefaultEventStudy(estType    = estType,
+                                               dataFiles  = dataFiles, 
+                                               resultPath = resultPath)
 ```
 
 It will write all result files into the result directory. Furthermore,

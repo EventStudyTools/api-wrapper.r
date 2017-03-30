@@ -48,7 +48,7 @@ ApplicationInputInterface <- R6::R6Class(classname = "ApplicationInputInterface"
                                            parameters = NULL,
                                            result_file_type = list(result_file_type = "csv"),
                                            setResultFileType = function(type = "csv") {
-                                             type <- match.arg(type, choices = private$result_file_type)
+                                             type <- match.arg(type, choices = private$allowedResultFileType)
                                              self$result_file_type[["result_file_type"]] <- type
                                            },
                                            setNamedList = function(parentLevel,
@@ -93,7 +93,6 @@ ApplicationInputInterface <- R6::R6Class(classname = "ApplicationInputInterface"
                                                self$serialize()[[level]] %>%
                                                  jsonlite::toJSON(auto_unbox = T)
                                              }
-                                             
                                            },
                                            serialize = function() {
                                              setdiff(x = ls(self),

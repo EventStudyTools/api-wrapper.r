@@ -9,11 +9,11 @@
 EventStudyAPI
 }
 \arguments{
-\item{resultFiles}{Result file names}
-
 \item{token}{token returned after authentication}
 
 \item{apiServerUrl}{url to Event Study API}
+
+\item{resultFiles}{Result file names}
 }
 \description{
 R interface for performing Event Studies on 
@@ -34,6 +34,10 @@ For usage details see \bold{Methods, Arguments, and Examples} sections.
   authenticate at \code{apiServerUrl}. A valid \code{apiKey} is 
   required. You can download a free key on our website: 
   \url{www.eventstudytools.com}}
+  \item{\code{performEventStudy(estParam)}}{This method starts an Event Study. 
+  This method does all work for you.}
+  \item{\code{performDefaultEventStudy()}}{This method starts an default 
+  Event Study. It is a wrapper around \code{performEventStudy}}
   \item{\code{processTask()}}{This method starts the Event Study 
   calculation on the server (after files are uploaded.}
   \item{\code{configureTask(input)}}{This method configures the 
