@@ -23,6 +23,3 @@ aarPlot(df, group = NULL, window = NULL, xlab = "",
 \value{
 a ggplot2 object
 }
-\description{
-Averaged Abnormal Return Plot
-}

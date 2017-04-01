@@ -9,10 +9,16 @@
 ApplicationInputInterface
 }
 \arguments{
+\item{parameters}{\code{list} of parameters thaat are send to EST API}
+
+\item{result_file_type}{result file type}
+
+\item{allowedResultFileType}{allowed result file types}
+
 \item{allowedResultFileType}{available result file types}
 }
 \description{
-Abstract class no description
+Abstract class no description.
 }
 \section{Methods}{
 

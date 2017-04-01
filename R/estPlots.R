@@ -1,4 +1,6 @@
-#' Abnormal Return Plot
+#' @name arPlot
+#' 
+#' @title Abnormal Return Plot
 #'
 #' @param df data.frame with abnormal return in long format; 
 #' @param firm set this parameter if just one firm should be plotted
@@ -44,7 +46,9 @@ arPlot <- function(df, firm = NULL, window = NULL, xlab = "", ylab = "Abnormal R
 }
 
 
-#' Highchart version of the Abnormal Return Plot
+#' @name hcArPlot
+#' 
+#' @title Highchart version of the Abnormal Return Plot
 #' 
 #' @param df data.frame with abnormal return in long format; 
 #' @param firm set this parameter if just one firm should be plotted
@@ -134,7 +138,9 @@ hcArPlot <- function(df, firm = NULL, window = NULL, xlab = "", ylab = "Abnormal
 }
 
 
-#' Averaged Abnormal Return Plot
+#' @name aarPlot
+#' 
+#' @title Averaged Abnormal Return Plot
 #'
 #' @param df data.frame with abnormal return in long format; 
 #' @param group set this parameter if just one group should be plotted
@@ -180,7 +186,9 @@ aarPlot <- function(df, group = NULL, window = NULL, xlab = "", ylab = "Averaged
 }
 
 
-#' Highchart version of Averaged Abnormale Return Plot
+#' @name hcAarPlot
+#' 
+#' @title Highchart version of Averaged Abnormale Return Plot
 #'
 #' @param df data.frame with abnormal return in long format; 
 #' @param group set this parameter if just one group should be plotted
@@ -209,7 +217,9 @@ hcAarPlot <- function(df, group = NULL, window = NULL, xlab = "", ylab = "Averag
 }
 
 
-#' Pointwise Cumulative Abnormal Return Plot
+#' @name pointwiseCARPlot
+#' 
+#' @title Pointwise Cumulative Abnormal Return Plot
 #' 
 #' @param df data.frame with abnormal return in long format; 
 #' @param firm set this parameter if just one firm should be plotted
@@ -244,7 +254,9 @@ pointwiseCARPlot <- function(df, firm = NULL, xlab = "", ylab = "pointwise Cumul
 }
 
 
-#' Highchart version of Pointwise Cumulative Abnormal Return Plot
+#' @name hcPointwiseCARPlot
+#' 
+#' @title Highchart version of Pointwise Cumulative Abnormal Return Plot
 #' 
 #' @param df data.frame with abnormal return in long format; 
 #' @param firm set this parameter if just one firm should be plotted
@@ -277,4 +289,3 @@ hcPointwiseCARPlot <- function(df, firm = NULL, xlab = "", ylab = "pointwise Cum
              xVar  = "eventTime", 
              yVar  = "car")
 }
-

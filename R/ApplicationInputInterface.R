@@ -17,7 +17,7 @@
 #' @title Abstract Application Input Interface for Event Study R Package
 #' 
 #' @description
-#' Abstract class no description
+#' Abstract class no description.
 #'
 #' @format \code{\link{R6Class}} object.
 #'
@@ -38,10 +38,11 @@
 #'}
 #'
 #' @section Class Members:
+#' @param parameters \code{list} of parameters thaat are send to EST API
+#' @param result_file_type result file type
+#' @param allowedResultFileType allowed result file types
 #' 
 #' @param allowedResultFileType available result file types
-#'
-#' @export
 ApplicationInputInterface <- R6::R6Class(classname = "ApplicationInputInterface",
                                          lock_objects = F,
                                          public = list(

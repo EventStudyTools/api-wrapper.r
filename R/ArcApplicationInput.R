@@ -35,8 +35,8 @@
 #'   statistics.}
 #'}
 #' 
-#' @section Arguments:
 #' 
+#' @section Arguments:
 #' \describe{
 #'  \item{ESTARCParameters}{An \code{ARCApplicationInput} object}
 #'  \item{eMail}{An E-Mail address in \code{String} format}
@@ -45,8 +45,8 @@
 #'  \item{testStatistics}{A \code{String} vector with test statistics.}
 #' }
 #' 
-#' @section Class Members:
 #' 
+#' @section Class Members:
 #' @param task Actually, just \code{locale} is defined. E-Mail-Address is added
 #' in a later version.
 #' @param return_type return type calculation: log (default), simple

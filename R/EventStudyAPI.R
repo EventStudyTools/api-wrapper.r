@@ -108,11 +108,11 @@ EventStudyAPI <- R6::R6Class(classname = "EventStudyAPI",
                                  private$token <- result$token
                                  return(TRUE)
                                },
-                               performEventStudy = function(estParams  = NULL,
-                                                            dataFiles  = c("request_file" = "01_RequestFile.csv", 
+                               performEventStudy = function(estParams = NULL,
+                                                            dataFiles = c("request_file" = "01_RequestFile.csv", 
                                                                            "firm_data"    = "02_firmData.csv", 
                                                                            "market_data"  = "03_MarketData.csv"), 
-                                                            resultPath = "results") {
+                                                            destDir   = "results") {
                                  estParams$setup()
                                  
                                  # Perform Study
@@ -132,7 +132,7 @@ EventStudyAPI <- R6::R6Class(classname = "EventStudyAPI",
                                  iter <- 0
                                  maxIter <- 15
                                  while(iter < maxIter) {
-                                   sleep(1)
+                                   Sys.sleep(1)
                                    status <- self$getTaskStatus()
                                    if (status %in% c(3, 4)) {
                                      break()
@@ -150,14 +150,18 @@ EventStudyAPI <- R6::R6Class(classname = "EventStudyAPI",
                                    return(F)
                                  }
                                  
-                                 self$getTaskResults()
+                                 # create result path if not exist
+                                 if (!dir.exists(destDir)) {
+                                   dir.create(destDir)
+                                 }
+                                 self$getTaskResults(destDir)
                                  return(T)
                                },
-                               performDefaultEventStudy = function(estType    = "arc", 
-                                                                   dataFiles  = c("request_file" = "01_RequestFile.csv", 
+                               performDefaultEventStudy = function(estType   = "arc", 
+                                                                   dataFiles = c("request_file" = "01_RequestFile.csv", 
                                                                                   "firm_data"    = "02_firmData.csv", 
                                                                                   "market_data"  = "03_MarketData.csv"), 
-                                                                   resultPath = "results") {
+                                                                   destDir   = "results") {
                                  estType <- match.arg(estType, c("arc"))
                                  if (estType == "arc") {
                                    estParams <- ARCApplicationInputs$new()
@@ -166,7 +170,7 @@ EventStudyAPI <- R6::R6Class(classname = "EventStudyAPI",
                                  } else if (estType == "avyc") {
                                    
                                  }
-                                 self$performEventStudy(estParams, dataFiles, resultPath)
+                                 self$performEventStudy(estParams, dataFiles, destDir)
                                },
                                processTask = function() {
                                  if (is.null(private$token) || is.null(private$apiServerUrl))

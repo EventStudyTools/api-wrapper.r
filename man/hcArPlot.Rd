@@ -29,6 +29,3 @@ hcArPlot(df, firm = NULL, window = NULL, xlab = "",
 \value{
 a highchart object
 }
-\description{
-Highchart version of the Abnormal Return Plot
-}

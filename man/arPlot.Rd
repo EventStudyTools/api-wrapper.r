@@ -28,6 +28,3 @@ arPlot(df, firm = NULL, window = NULL, xlab = "",
 \value{
 a ggplot2 object
 }
-\description{
-Abnormal Return Plot
-}

@@ -23,6 +23,3 @@ hcPointwiseCARPlot(df, firm = NULL, xlab = "",
 \value{
 a highchart object
 }
-\description{
-Highchart version of Pointwise Cumulative Abnormal Return Plot
-}

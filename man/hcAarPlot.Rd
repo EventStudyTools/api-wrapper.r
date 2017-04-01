@@ -23,6 +23,3 @@ hcAarPlot(df, group = NULL, window = NULL, xlab = "",
 \value{
 a highchart object
 }
-\description{
-Highchart version of Averaged Abnormale Return Plot
-}

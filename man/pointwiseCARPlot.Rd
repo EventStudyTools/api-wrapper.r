@@ -23,6 +23,3 @@ pointwiseCARPlot(df, firm = NULL, xlab = "",
 \value{
 a ggplot2 object
 }
-\description{
-Pointwise Cumulative Abnormal Return Plot
-}
