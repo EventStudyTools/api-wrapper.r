@@ -82,14 +82,8 @@ hcArPlot <- function(df, firm = NULL, window = NULL, xlab = "", ylab = "Abnormal
     window <- range(df$eventTime)
   selectedWindow <- seq(from = window[1], to = window[2], by = 1)
   
-  
-  if (is.null(windows))
-    window <- range(df$eventTime)
-  selectedWindow <- seq(from = window[1], to = window[2], by = 1)
-  
   df %>% 
     dplyr::filter(eventTime %in% selectedWindow) -> df
-  
   
   for (i in 1:nCols) {
     firm <- df$Firm[i]
@@ -142,7 +136,7 @@ hcArPlot <- function(df, firm = NULL, window = NULL, xlab = "", ylab = "Abnormal
 #' 
 #' @title Averaged Abnormal Return Plot
 #'
-#' @param df data.frame with abnormal return in long format; 
+#' @param ResultParser An object of class \code{ResultParser}
 #' @param group set this parameter if just one group should be plotted
 #' @param xlab x-axis label
 #' @param ylab y-axis label
@@ -152,36 +146,51 @@ hcArPlot <- function(df, firm = NULL, window = NULL, xlab = "", ylab = "Abnormal
 #' @return a ggplot2 object
 #'
 #' @export
-aarPlot <- function(df, group = NULL, window = NULL, xlab = "", ylab = "Averaged Abnormal Returns", facet = T, ncol = 4) {
+aarPlot <- function(ResultParserObt, group = NULL, window = NULL, ciStatistics = NULL, p = .95, xlab = "", ylab = "Averaged Abnormal Returns", facet = T, ncol = 4) {
+  
+  aar <- ResultParserObj$aarResults
+  if (!is.null(ciStatistics)) {
+    ciInterval <- ResultParserObj$calcAARCI(statistic = ciStatistics, 
+                                            p         = p)
+    aar$lower <- ciInterval$lower
+    aar$upper <- ciInterval$upper
+  }
   
   if (!is.null(group)) {
-    df %>% 
-      dplyr::filter(level == group) -> df
+    aar %>% 
+      dplyr::filter(level == group) -> aar
   }
   
   if (is.null(windows))
-    window <- range(df$eventTime)
+    window <- range(aar$eventTime)
   selectedWindow <- seq(from = window[1], to = window[2], by = 1)
   
-  df %>% 
-    dplyr::filter(eventTime %in% selectedWindow) -> df
+  aar %>% 
+    dplyr::filter(eventTime %in% selectedWindow) -> aar
   
-  df %>% 
+  aar %>% 
     dplyr::mutate(aar = as.numeric(aar)) %>% 
     ggplot() +
     geom_hline(yintercept = 0, color = "gray50", alpha = .5) +
     geom_vline(xintercept = 0, color = "gray50", linetype = 2, alpha = .5) +
     geom_line(aes(x = eventTime, y = aar), color = pal[3]) + 
-    facet_wrap( ~ level, ncol = 4) +
     scale_y_continuous(label = percent) +
     xlab("") +
     ylab("Abnormal Return") +
-    theme_tq()
+    theme_tq() -> p
   
-  if (facet)
+  # plot CI
+  if (!is.null(ciStatistics)) {
     p <- p +
-    facet_wrap( ~ Firm, ncol = ncol, scales = "free_x")
+      geom_line(aes(x = eventTime, y = lower), linetype = 2, color = "gray50", alpha = .5) + 
+      geom_line(aes(x = eventTime, y = upper), linetype = 2, color = "gray50", alpha = .5)
+  }
   
+  # facet wrap
+  if (facet) {
+    p <- p +
+      facet_wrap( ~ level, ncol = ncol, scales = "free_x")
+  }
   p
 }
 
