@@ -132,6 +132,7 @@ EventStudyAPI <- R6::R6Class(classname = "EventStudyAPI",
                                  iter <- 0
                                  maxIter <- 15
                                  while(iter < maxIter) {
+                                   print(paste0("Step: ", iter))
                                    Sys.sleep(1)
                                    status <- self$getTaskStatus()
                                    if (status %in% c(3, 4)) {

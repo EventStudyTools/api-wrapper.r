@@ -72,11 +72,15 @@ EventStudyApplicationInput <- R6::R6Class(classname = "EventStudyApplicationInpu
                                               self$parameters$application$data_sources <- unname(self$parameters$application$data_sources)
                                               
                                               # Parameters ----
-                                              self$parameters[["parameters"]] <- c(
-                                                parameters[["return_type"]],
+                                              params <- c(parameters[["return_type"]],
                                                 parameters[["result_file_type"]],
                                                 parameters[["non_trading_days"]],
                                                 parameters[["benchmark_model"]],
                                                 test_statistics = list(parameters[["test_statistics"]]))
+                                              if (key == "av") {
+                                                # Abnormal Volume
+                                                params <- params[-1]
+                                              }
+                                              self$parameters[["parameters"]] <- params
                                             }
                                           ))

@@ -13,18 +13,18 @@
 # //
 # // You should have received a copy of the GNU General Public License
 # // along with EventStudy  If not, see <http://www.gnu.org/licenses/>.
-#' @name ARCApplicationInput
+#' @name AVApplicationInput
 #' 
-#' @title Abnormal Return Calculation Parameters
+#' @title Abnormal Volume Calculation Parameters
 #' 
 #' @description 
-#' This R6 class defines the parameters for the Return Event Study. We recommend
-#' to use the \code{set} functionality to setup your Event Study, as we check
-#' input parameters.
+#' This R6 class defines the parameters for the Abnormal Volume Event Study. 
+#' We recommend to use the \code{set} functionality to setup your Event Study, 
+#' as we check input parameters.
 #' 
 #' @section Methods:
 #' \describe{
-#'   \item{\code{$new()}}{Constructor for ARCApplicationInput.}
+#'   \item{\code{$new()}}{Constructor for AVApplicationInput}
 #'   \item{\code{$setEMail(eMail)}}{Set the e-Mail address for reporting. This 
 #'   functionality is currently not working.}
 #'   \item{\code{$setBenchmarkModel(model = 'mm')}}{Setter for the benchmark
@@ -38,7 +38,7 @@
 #' 
 #' @section Arguments:
 #' \describe{
-#'  \item{ESTARCParameters}{An \code{ARCApplicationInput} object}
+#'  \item{AVApplicationInput}{An \code{AVApplicationInput} object}
 #'  \item{eMail}{An E-Mail address in \code{String} format}
 #'  \item{model}{A benchmark model in \code{String} format}
 #'  \item{returnType}{A return type in \code{String} format}
@@ -67,7 +67,7 @@
 #' @return a ESTParameters R6 object
 #'
 #' @export
-ARCApplicationInput <- R6::R6Class(classname = "ARCApplicationInput",
+AVApplicationInput <- R6::R6Class(classname = "AVApplicationInput",
                                    inherit = EventStudyApplicationInput,
                                    public = list(
                                      task             = list(locale = 'en'),
@@ -76,7 +76,6 @@ ARCApplicationInput <- R6::R6Class(classname = "ARCApplicationInput",
                                      non_trading_days = list(non_trading_days = "later"),
                                      test_statistics  = list("art", "cart", 
                                                              "aart", "caart", "abhart", 
-                                                             #"aarcdat", "caarcdat",
                                                              "aarptlz", "caarptlz", 
                                                              "aaraptlz", "caaraptlz", 
                                                              "aarbmpz", "caarbmpz", 
@@ -86,8 +85,7 @@ ARCApplicationInput <- R6::R6Class(classname = "ARCApplicationInput",
                                                              "aargrankt", "caargrankt",
                                                              "aargrankz", "caargrankz", 
                                                              "aargsignz", "caargsignz"
-                                                             #"aarjackknivet", "caarjackknivet"
-                                                             ),
+                                     ),
                                      request_file = list(
                                        key  = "request_file",
                                        type = "csv"
@@ -139,7 +137,6 @@ ARCApplicationInput <- R6::R6Class(classname = "ARCApplicationInput",
                                      allowedTestStatistics = c(
                                        "art", "cart",
                                        "aart", "caart", "abhart",
-                                       # "aarcdat", "caarcdat",
                                        "aarptlz", "caarptlz", 
                                        "aaraptlz", "caaraptlz",
                                        "aarbmpz", "caarbmpz",
@@ -149,19 +146,13 @@ ARCApplicationInput <- R6::R6Class(classname = "ARCApplicationInput",
                                        "aargrankt", "caargrankt",
                                        "aargrankz", "caargrankz",
                                        "aargsignz", "caargsignz"
-                                       # "aarjackknivet", "caarjackknivet"
                                      ),
-                                     allowedBenchmarkModel = c("Market Model"                        = "mm", 
-                                                               "Scholes/Williams Model"              = "mm-sw", 
-                                                               "Market Adjusted"                     = "mam", 
-                                                               "Comparison Period Mean Adjusted"     = "cpmam",
-                                                               "Fama-French 3 Factor Model"          = "ff3fm",
-                                                               "Fama-French-Momentum 4 Factor Model" = "ffm4fm",
-                                                               "GARCH(1,1)"                          = "garch", 
-                                                               "EGARCH(1, 1)"                        = "egarch"),
+                                     allowedBenchmarkModel = c("Market Model"                    = "mm", 
+                                                               "Scholes/Williams Model"          = "mm-sw", 
+                                                               "Market Adjusted"                 = "mam", 
+                                                               "Comparison Period Mean Adjusted" = "cpmam"),
                                      allowedNonTradingDays = c("Take earlier trading day"     = "earlier", 
                                                                "Take later trading day"       = "later", 
-                                                               "Keep non-trading day"         = "keep", 
-                                                               "Skip respective observations" = "skip")
+                                                               "Keep non-trading day"         = "keep")
                                    )
 )

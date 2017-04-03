@@ -188,7 +188,7 @@ estPerformAnalysisAddin <- function() {
       return(HTML(userMsg$output))
     })
     
-    oberveEvent(input$performAnalysis, {
+    observeEvent(input$performAnalysis, {
       if (is.null(estAPI)) {
         userMsg$output <- "API is not initialized. Please connect to API."
       } else {
