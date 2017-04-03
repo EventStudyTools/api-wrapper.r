@@ -163,15 +163,15 @@ EventStudyAPI <- R6::R6Class(classname = "EventStudyAPI",
                                                                                   "firm_data"    = "02_firmData.csv", 
                                                                                   "market_data"  = "03_MarketData.csv"), 
                                                                    destDir   = "results") {
-                                 estType <- match.arg(estType, c("arc"))
+                                 estType <- match.arg(estType, c("arc", "avc", "avyc"))
                                  if (estType == "arc") {
-                                   estParams <- ARCApplicationInputs$new()
-                                 } else if (estType == "av") {
-                                   
+                                   defaultParams <- ARCApplicationInputs$new()
+                                 } else if (estType == "avc") {
+                                   defaultParams <- AVCApplicationInputs$new()
                                  } else if (estType == "avyc") {
-                                   
+                                   defaultParams <- AVyCApplicationInputs$new()
                                  }
-                                 self$performEventStudy(estParams, dataFiles, destDir)
+                                 self$performEventStudy(defaultParams, dataFiles, destDir)
                                },
                                processTask = function() {
                                  if (is.null(private$token) || is.null(private$apiServerUrl))
