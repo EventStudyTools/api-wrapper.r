@@ -127,11 +127,11 @@ You get a **free** API key from our website [TODO: Link to Site](http://eventstu
 
 ```{r, eval=FALSE}
 apiUrl <- "http://api.dev.eventstudytools.com"
-apiKey <- "XXX"
+apiKey <- "Please insert your key here"
 
 # Setup API Connection
-estSetup <- EventStudyAPI$new("http://api.dev.eventstudytools.com")
-estSetup$authentication(apiKey = "8dcd259734fa8c665fb1ab355fe2c1dc")
+estSetup <- EventStudyAPI$new(apiUrl)
+estSetup$authentication(apiKey)
 ```
 
 This API package is designed to perform all analysises we provide on our website. 
