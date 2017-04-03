@@ -214,3 +214,6 @@ results will be parsed into a R object.
 2. Graphics: In this Vignette we show you how to generate nice (static or interactive) graphs (coming soon)
 3. Data Preparation: In this Vignette we show you how to get and prepare data for your Event Study from R (coming soon)
 4. RStudio Addins: We wrote several RStudio addins for performing an Event Study
+    - Abnormal Return Event Study Addin
+    - Abnormal Volume Event Study Addin (Comming soon)
+    - Abnormal Volatility Event Study Addin (Coming soon)

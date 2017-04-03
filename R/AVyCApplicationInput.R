@@ -75,6 +75,11 @@ AVyCApplicationInput <- R6::R6Class(classname = "AVyCApplicationInput",
                                     return_type      = list(return_type = "log"),
                                     non_trading_days = list(non_trading_days = "later"),
                                     test_statistics  = list(
+                                      "aarcsvyt",
+                                      "aarcsvyt",
+                                      "aarlambdaz",
+                                      "aarcsart",
+                                      "aarcscart"
                                     ),
                                     request_file = list(
                                       key  = "request_file",
@@ -125,6 +130,11 @@ AVyCApplicationInput <- R6::R6Class(classname = "AVyCApplicationInput",
                                   ),
                                   private = list(
                                     allowedTestStatistics = c(
+                                      "aarcsvyt",
+                                      "aarcsvyt",
+                                      "aarlambdaz",
+                                      "aarcsart",
+                                      "aarcscart"
                                     ),
                                     allowedBenchmarkModel = c("Garch(1, 1)" = "garch"),
                                     allowedNonTradingDays = c("Take earlier trading day"     = "earlier", 

@@ -13,7 +13,7 @@
 # //
 # // You should have received a copy of the GNU General Public License
 # // along with EventStudy  If not, see <http://www.gnu.org/licenses/>.
-#' @name AVApplicationInput
+#' @name AVCApplicationInput
 #' 
 #' @title Abnormal Volume Calculation Parameters
 #' 
@@ -24,7 +24,7 @@
 #' 
 #' @section Methods:
 #' \describe{
-#'   \item{\code{$new()}}{Constructor for AVApplicationInput}
+#'   \item{\code{$new()}}{Constructor for AVCApplicationInput}
 #'   \item{\code{$setEMail(eMail)}}{Set the e-Mail address for reporting. This 
 #'   functionality is currently not working.}
 #'   \item{\code{$setBenchmarkModel(model = 'mm')}}{Setter for the benchmark
@@ -38,7 +38,7 @@
 #' 
 #' @section Arguments:
 #' \describe{
-#'  \item{AVApplicationInput}{An \code{AVApplicationInput} object}
+#'  \item{AVCApplicationInput}{An \code{AVCApplicationInput} object}
 #'  \item{eMail}{An E-Mail address in \code{String} format}
 #'  \item{model}{A benchmark model in \code{String} format}
 #'  \item{returnType}{A return type in \code{String} format}
@@ -67,7 +67,7 @@
 #' @return a ESTParameters R6 object
 #'
 #' @export
-AVApplicationInput <- R6::R6Class(classname = "AVApplicationInput",
+AVCApplicationInput <- R6::R6Class(classname = "AVCApplicationInput",
                                    inherit = EventStudyApplicationInput,
                                    public = list(
                                      task             = list(locale = 'en'),

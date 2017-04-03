@@ -35,9 +35,9 @@ There are several parameters that are valid for all type of Event Studies
 own `R6` object that has to be initialized before you want to perform an Event
 Study. 
 
-- `ESTARCParameters`: Return Event Study
-- `ESTAVyCParameters`: Volatility Event Study
-- `ESTAVParameters`: Volume Event Study
+- `ARCApplicationInput`: Return Event Study
+- `AVCApplicationInput`: Volume Event Study
+- `AVyCApplicationInput`: Volatility Event Study
 
 For the rest of this paragraph, we are working with a Return Event Study object.
 All parameters in this section can also applied to the other two objects.
@@ -85,13 +85,13 @@ returnEstParams$setNonTradingDays("earlier")
 ```
 
 
-# Return Event Study
+# Abnormal Return Event Study
 
-For performing Return Event Studies you need to initialize an `ESTARCParameters`
+For performing Return Event Studies you need to initialize an `ARCApplicationInput`
  R6 object.
 
 ```{r, eval=FALSE}
-returnEstParams <- ESTARCParameters$new()
+returnEstParams <- ARCApplicationInput$new()
 ```
 
 ## Benchmark Models
@@ -166,4 +166,127 @@ found on our [website](https://www.eventstudytools.com/significance-tests).
 Usage:
 ```{r, eval=FALSE}
 returnEstParams$setTestStatistics(c("aarptlz", "aarrankz"))
+```
+
+
+# Abnormal Volume Event Study
+
+For performing Return Event Studies you need to initialize an `AVCApplicationInput`
+ R6 object.
+
+```{r, eval=FALSE}
+volumeEstParams <- AVCApplicationInput$new()
+```
+
+## Benchmark Models
+
+- **mm** (default): Market Model
+- **mm-sw**: Scholes/Williams Model
+- **cpmam**: Comparison Period Mean Adjusted
+- **ff3fm**: Fama-French 3 Factor Model
+- **ffm4fm**: Fama-French-Momentum 4 Factor Model
+
+Usage:
+```{r, eval=FALSE}
+volumeEstParams$setBenchmarkModel("mm-sw")
+```
+
+
+## Test Statistics
+
+Per default all test statistics are activated. A detailed description can be 
+found on our [website](https://www.eventstudytools.com/significance-tests).
+
+*Parametric Test Statistics:*
+
+- t-Test:
+    - art
+    - cart
+    - abhart
+- Cross-Sectional Test (CSect T):
+    - aart
+    - caart
+    - abhart
+- Time-Series Standard Deviation or Crude Dependence Test (CDA T):
+    - aarcdat
+    - caarcdat
+- Patell or Standardized Residual Test (Patell Z):
+    - aarptlz
+    - caarptlz
+- Kolari and Pynnönen adjusted Patell or Standardized Residual Test (Adjusted Patell Z):
+    - aaraptlz
+    - caaraptlz
+- Standardized Cross-Sectional or BMP Test (StdCSect Z):
+    - aarbmpz
+    - caarbmpz
+- Kolari and Pynnönen Adjusted Standardized Cross-Sectional or BMP Test (Adjusted StdCSect Z) 
+    - aarabmpz
+    - caarabmpz
+- Skewness Corrected Test (Skewness Corrected T):
+    - aarskewadjt
+    - caarskewadjt
+    - abharskewadjt
+- Jackknife Test (Abbr.: Jackknife T) 
+    - aarjackknivet
+    - caarjackknivet
+
+**Non-Parametric Test Statistics:**
+
+- Corrado Rank Test (Rank Z):
+    - aarrankz
+    - caarrankz
+- Generalized Rank T Test (Generalized Rank T):
+    - aargrankt
+    - caargrankt
+- Generalized Rank Z Test (Generalized Rank Z):
+    - aargrankz
+    - caargrankz
+-  Cowan Generalized Sign Test (Generalized Sign Z) 
+    - aargsignz
+    - caargsignz
+
+Usage:
+```{r, eval=FALSE}
+volumeEstParams$setTestStatistics(c("aarptlz", "aarrankz"))
+```
+
+
+# Abnormal Volatility Event Study
+
+For performing Return Event Studies you need to initialize an `AVyCApplicationInput`
+ R6 object.
+
+```{r, eval=FALSE}
+volatilityEstParams <- AVyCApplicationInput$new()
+```
+
+## Benchmark Models
+
+- **garch** (default): Garch(1, 1) Model
+
+
+## Test Statistics
+
+Per default all test statistics are activated. A detailed description can be 
+found on our [website](https://www.eventstudytools.com/volatiliy-event-study).
+
+**Volatility Test Statistics:**
+
+- Cross-Sectional Test for Abnormal Volatility
+    - aarcsvyt
+- Corrected Cross-Sectional Test for Abnormal Volatility
+    - aarcsvyt
+- AAR Volatility Ratio-Test
+    - aarlambdaz
+
+**Abnormal Return Test Statistics:**
+
+- Cross-Sectional Test for Abnormal Return
+    - aarcsart
+- Cross-Sectional-Corrected Test for Abnormal Return
+    - aarcscart
+
+Usage:
+```{r, eval=FALSE}
+volatilityEstParams$setTestStatistics(c("aarptlz", "aarrankz"))
 ```
