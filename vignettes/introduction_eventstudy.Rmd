@@ -178,7 +178,7 @@ You are also able to set custom file names and paths by defining it in a named v
 ```{r, eval=FALSE} 
 dataFiles <- c("request_file" = "01_RequestFile.csv", 
                "firm_data"    = "02_firmData.csv", 
-               "market_data"  = "03_MarketData.csv"
+               "market_data"  = "03_MarketData.csv")
 ```
 
 ## Results

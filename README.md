@@ -6,51 +6,47 @@ This software library provides the capability to easily deploy the EST API.
 * The full API documentation is presented [here](http://wwww.eventstudytools.com/API-ARC)
 
 ## Installation
+
+Developer Version
 ```
 library(devtools)
 install_github("EventStudyTools/api-wrapper.r")
 ```
 
+CRAN (coming soon)
+```
+install.packages("EventStudy")
+```
+
 ## Example of an Abnormal Returns Calculator (ARC) launch
 
 ```
-key <- "xxx"
-url <- "xxx"
+# Coming Soon
+apiUrl <- "Insert API URL"
+apiKey <- "Insert API key"
 
 library(EventStudy)
-est <- EventStudyAPI$new(url)
-est$getApiVersion()
-est$authentication(apiKey = key)
+# Setup API Connection
+estSetup <- EventStudyAPI$new(apiUrl)
+estSetup$authentication(apiKey)
 
-# get & set parameters
-esaParams <- ESTARCParameters$new()
-# esaParams$setEMail("info@muon-stat.com")
-arcParams <- esaParams$serialize()
-arcSetup <- ArcApplicationInput$new(arcParams)
+# Type of Analysis
+estType <- "arc"
 
-est$configureTask(arcSetup)
-est$uploadFile(fileKey = "request_file", fileName = "01_RequestFile.csv")
-est$uploadFile(fileKey = "firm_data", fileName = "02_firmData.csv")
-est$uploadFile(fileKey = "market_data", fileName = "03_marketData.csv")
-est$commitData()
-est$processTask()
+# CSV files
+dataFiles <- c("request_file" = "01_RequestFile.csv", 
+               "firm_data"    = "02_firmData.csv", 
+               "market_data"  = "03_MarketData.csv")
 
-if (est$getTaskStatus() == 3) {
-  est$getTaskResults()
-}
+# Path of result files
+resultPath <- "results"
+
+# Perform standard Event Study
+estSetup$performDefaultEventStudy(estType    = estType,
+                                  dataFiles  = dataFiles, 
+                                  resultPath = resultPath)
 ```
 
-Our R-package offers serveral additional functionality:
+## Details can be found in our vignettes
 
-- p-value calculation
-- static (ggplot2) and interactive (highcharts) plots
-
-## Plots
-
-### Highcharts: Abnormal Returns all Firms
-![alt text](https://github.com/EventStudyTools/api-wrapper.r/blob/master/vignettes/AbnormalReturnsFirms.png "Abnormal Returns")
-
-### Highcharts: Abnormal Returns Single Firms with p-Value Band
-
-![alt text](https://github.com/EventStudyTools/api-wrapper.r/blob/master/vignettes/AbnormalReturnsFirmCI.PNG "Abnormal Return with 95%-CI")
-
+Links will be provided after first release on CRAN.
