@@ -13,7 +13,7 @@
 # //
 # // You should have received a copy of the GNU General Public License
 # // along with EventStudy  If not, see <http://www.gnu.org/licenses/>.
-#' @name estPerformAnalysisAddin
+#' @name EventStudyAddin
 #' 
 #' @title RStudio Addin for performing an Event Study
 #'
@@ -23,7 +23,7 @@
 #' similar to our Event Study web interface \url{www.eventstudytools.com}.
 #'
 #' @export
-estPerformAnalysisAddin <- function() {
+EventStudyAddin <- function() {
   
   ui <- miniPage(
     gadgetTitleBar(title = "Return Event Study", 
