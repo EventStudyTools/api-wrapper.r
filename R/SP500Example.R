@@ -9,5 +9,5 @@ getSP500ExampleFiles <- function(targetDir = getwd()) {
     }, targetDir = targetDir) %>% 
     unlist() -> ret
   if (sum(ret) == 3)
-    message("Files are not generated.")
+    message("Files are generated.")
 }
