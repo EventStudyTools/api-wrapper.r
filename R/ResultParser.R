@@ -64,6 +64,7 @@ ResultParser <- R6::R6Class(classname = "ResultParser",
                               },
                               parseReport = function(path = "analysis_report.csv") {
                                 private$parseFile(path, "analysisReport", T)
+                                self$analysisReport <- self$analysisReport[-1, ]
                               },
                               parseAR = function(path = "ar_results.csv", analysisType = "AR") {
                                 if (is.null(self$analysisReport)) {
