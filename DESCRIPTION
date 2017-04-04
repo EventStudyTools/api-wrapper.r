@@ -17,6 +17,7 @@ Depends:
     dplyr,
     purrr,
     ggplot2,
+    scales,
     highcharter,
     tidyquant,
     httr,

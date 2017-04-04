@@ -55,7 +55,7 @@ ResultParser <- R6::R6Class(classname = "ResultParser",
                               initialize = function() {
                               },
                               parseRequestFile = function(path = "01_RequestFile.csv") {
-                                parseReturn <- private$parseFile(path, "requestData")
+                                parseReturn <- private$parseFile(path, "requestData", T)
                                 if (parseReturn) {
                                   # add groups
                                   groups <- unique(self$requestData$V5)
@@ -63,14 +63,14 @@ ResultParser <- R6::R6Class(classname = "ResultParser",
                                 parseReturn
                               },
                               parseReport = function(path = "analysis_report.csv") {
-                                private$parseFile(path, "analysisReport")
+                                private$parseFile(path, "analysisReport", T)
                               },
                               parseAR = function(path = "ar_results.csv", analysisType = "AR") {
                                 if (is.null(self$analysisReport)) {
                                   self$parseReport()
                                 }
                                 
-                                parseReturn <- private$parseFile(path, "arResults")
+                                parseReturn <- private$parseFile(path, "arResults", T)
                                 if (!parseReturn) {
                                   return(NULL)
                                 } else {
@@ -207,9 +207,9 @@ ResultParser <- R6::R6Class(classname = "ResultParser",
                               }
                             ),
                             private = list(
-                              parseFile = function(path, dataName) {
+                              parseFile = function(path, dataName, header = F) {
                                 if (file.exists(path)) {
-                                  self[[dataName]] <- data.table::fread(path, header = F)
+                                  self[[dataName]] <- data.table::fread(path, header = header)
                                   TRUE
                                 } else {
                                   message(paste0("File ", path, " not found!"))
