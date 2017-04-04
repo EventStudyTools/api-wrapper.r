@@ -155,8 +155,9 @@ ResultParser <- R6::R6Class(classname = "ResultParser",
                                 idAAR <- idN - 1
                                 # AAR
                                 aarFinal <- aarResults[idAAR, ]
+                                aarFinal$aar <- as.numeric(aarFinal$aar)
                                 # get N
-                                aarFinal$N <- aarResults[idN, ]$aar
+                                aarFinal$N <- as.numeric(aarResults[idN, ]$aar)
                                 # Parse positive
                                 aarResults[idPos, ]$aar %>% 
                                   stringr::str_split(pattern = ":") %>% 
@@ -168,10 +169,10 @@ ResultParser <- R6::R6Class(classname = "ResultParser",
                                 statistics <- c()
                                 if (nStat > 0) {
                                   for (i in 1:nStat) {
-                                    idStat <- idPos + 1
+                                    idStat <- idPos + i
                                     dfStat <- aarResults[idStat, ]
                                     statistics <- c(statistics, dfStat$level[1])
-                                    aarFinal[[paste0("stat", i)]] <- dfStat$aar
+                                    aarFinal[[paste0("stat", i)]] <- as.numeric(dfStat$aar)
                                   }
                                   names(statistics) <- paste0("stat", 1:nStat)
                                   self$aarStatistics <- statistics
@@ -195,7 +196,7 @@ ResultParser <- R6::R6Class(classname = "ResultParser",
                                 lower <- NULL
                                 upper <- NULL
                                 if (length(idStat)) {
-                                  statCol <- name(self$aarStatistics)[idStat]
+                                  statCol <- names(self$aarStatistics)[idStat]
                                   statValue <- self$aarResults[[statCol]]
                                   aar <- self$aarResults[["aar"]]
                                   lower <- aar - abs(aar) * zStar / abs(statValue)

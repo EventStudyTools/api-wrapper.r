@@ -146,9 +146,19 @@ hcArPlot <- function(df, firm = NULL, window = NULL, xlab = "", ylab = "Abnormal
 #' @return a ggplot2 object
 #'
 #' @export
-aarPlot <- function(ResultParserObt, group = NULL, window = NULL, ciStatistics = NULL, p = .95, xlab = "", ylab = "Averaged Abnormal Returns", facet = T, ncol = 4) {
+aarPlot <- function(ResultParserObj, 
+                    group = NULL, 
+                    window = NULL, 
+                    ciStatistics = NULL, 
+                    p = .95, 
+                    ciType = "band",
+                    xlab = "", 
+                    ylab = "Averaged Abnormal Returns", 
+                    facet = T, 
+                    ncol = 4) {
   
   aar <- ResultParserObj$aarResults
+  
   if (!is.null(ciStatistics)) {
     ciInterval <- ResultParserObj$calcAARCI(statistic = ciStatistics, 
                                             p         = p)
@@ -161,9 +171,11 @@ aarPlot <- function(ResultParserObt, group = NULL, window = NULL, ciStatistics =
       dplyr::filter(level == group) -> aar
   }
   
-  if (is.null(windows))
+  if (is.null(window))
     window <- range(aar$eventTime)
   selectedWindow <- seq(from = window[1], to = window[2], by = 1)
+  
+  pal <- RColorBrewer::brewer.pal(3, "Blues")
   
   aar %>% 
     dplyr::filter(eventTime %in% selectedWindow) -> aar
@@ -177,21 +189,26 @@ aarPlot <- function(ResultParserObt, group = NULL, window = NULL, ciStatistics =
     scale_y_continuous(label = percent) +
     xlab("") +
     ylab("Abnormal Return") +
-    theme_tq() -> p
+    theme_tq() -> q
   
   # plot CI
   if (!is.null(ciStatistics)) {
-    p <- p +
-      geom_line(aes(x = eventTime, y = lower), linetype = 2, color = "gray50", alpha = .5) + 
-      geom_line(aes(x = eventTime, y = upper), linetype = 2, color = "gray50", alpha = .5)
+    if (ciType == "band") {
+      q <- q +
+        geom_line(data = aar, aes(x = eventTime, y = lower), linetype = 2, color = "gray50", alpha = .5) + 
+        geom_line(data = aar, aes(x = eventTime, y = upper), linetype = 2, color = "gray50", alpha = .5)
+    } else if (ciType == "ribbon") {
+      q <- q +
+        geom_ribbon(aes(x = eventTime, ymin = lower, ymax = upper), fill = "gray50", alpha = .25)
+    }
   }
   
   # facet wrap
   if (facet) {
-    p <- p +
-      facet_wrap( ~ level, ncol = ncol, scales = "free_x")
+    q <- q +
+      facet_wrap( ~ level, ncol = ncol, scales = "free")
   }
-  p
+  q
 }
 
 

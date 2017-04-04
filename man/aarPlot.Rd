@@ -4,12 +4,11 @@
 \alias{aarPlot}
 \title{Averaged Abnormal Return Plot}
 \usage{
-aarPlot(df, group = NULL, window = NULL, xlab = "",
-  ylab = "Averaged Abnormal Returns", facet = T, ncol = 4)
+aarPlot(ResultParserObt, group = NULL, window = NULL, ciStatistics = NULL,
+  p = 0.95, xlab = "", ylab = "Averaged Abnormal Returns", facet = T,
+  ncol = 4)
 }
 \arguments{
-\item{df}{data.frame with abnormal return in long format;}
-
 \item{group}{set this parameter if just one group should be plotted}
 
 \item{xlab}{x-axis label}
@@ -19,6 +18,8 @@ aarPlot(df, group = NULL, window = NULL, xlab = "",
 \item{facet}{should each firm get its own plot (default = T)}
 
 \item{ncol}{number of facet columns}
+
+\item{ResultParser}{An object of class \code{ResultParser}}
 }
 \value{
 a ggplot2 object
