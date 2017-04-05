@@ -207,12 +207,12 @@ ResultParser <- R6::R6Class(classname = "ResultParser",
                                 return(list(lower = lower,
                                             upper = upper))
                               },
-                              cumSum = function(df, var = "aar", timeVar = NULL, cumVar = NULL) {
+                              cumSum = function(df, var = "aar", timeVar = NULL, cumVar = NULL, fun = cumsum) {
                                 # calculate cumulative sum
                                 df <- data.table::as.data.table(df)
                                 setkeyv(df, c(cumVar, timeVar))
                                 setnames(df, var, "car")
-                                df[, car := cumsum(car), by = cumVar]
+                                df[, car := fun(car), by = cumVar]
                                 df[[var]] <- NULL
                                 setnames(df, "car", var)
                                 df

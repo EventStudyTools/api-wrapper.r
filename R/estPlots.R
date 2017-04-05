@@ -14,16 +14,19 @@
 #' @return a ggplot2 object
 #'
 #' @export
-arPlot <- function(ResultParser, firm = NULL, window = NULL, 
+arPlot <- function(ResultParserObj, firm = NULL, window = NULL, 
                    xlab = "", ylab = "Abnormal Returns", 
-                   facet = T, ncol = 4, xVar = "eventTime", yVar = "ar") {
-  ar <- ResultParser$arResults
+                   alpha = .5,
+                   facetVar = NULL, ncol = 4,
+                   addAAR = F,
+                   xVar = "eventTime", yVar = "ar") {
+  ar <- ResultParserObj$arResults
   if (!is.null(firm)) {
     ar %>% 
       dplyr::filter(Firm == firm) -> ar
   }
   
-  if (is.null(windows))
+  if (is.null(window))
     window <- range(ar$eventTime)
   selectedWindow <- seq(from = window[1], to = window[2], by = 1)
   pal <- RColorBrewer::brewer.pal(3, "Blues")
@@ -32,17 +35,32 @@ arPlot <- function(ResultParser, firm = NULL, window = NULL,
   
   ar %>% 
     ggplot() +
-    geom_hline(yintercept = 0, color = "gray50", alpha = .5) +
-    geom_vline(xintercept = 0, color = "gray50", linetype = 2, alpha = .5) +
-    geom_line(aes_string(x = xVar, y = yVar), color = pal[3]) + 
-    scale_y_continuous(label = percent) +
+    geom_hline(yintercept = 0, color = "black", alpha = .5) +
+    geom_vline(xintercept = 0, color = "black", linetype = 2, alpha = .5) +
+    geom_line(aes_string(x = xVar, y = yVar, group = "Firm"), 
+              color = pal[3], alpha = alpha) + 
+    scale_y_continuous(label = scales::percent) +
     xlab(xlab) +
     ylab(ylab) +
     theme_tq() -> q
   
-  if (facet)
+  if (addAAR) {
+    if (facetVar != "Firm") {
+      setnames(ar, yVar, "y")
+      ar %>% 
+        dplyr::group_by_(.dots = c(xVar, facetVar)) %>% 
+        dplyr::summarise(y = mean(y, na.rm = T)) -> mAr
+      setnames(ar, "y", yVar)
+      q <- q +
+        geom_line(data = mAr, aes_string(x = xVar, y = "y"), color = "black")
+    }
+  }
+  
+  if (!is.null(facetVar)) {
+    facetForm <- as.formula(paste0(" ~ ", facetVar))
     q <- q +
-    facet_wrap( ~ Firm, ncol = ncol, scales = "free_x")
+      facet_wrap(facetForm, ncol = ncol, scales = "free_x")
+  }
   q
 }
 
@@ -191,8 +209,8 @@ aarPlot <- function(ResultParserObj,
   aar %>% 
     dplyr::mutate(aar = as.numeric(aar)) %>% 
     ggplot() +
-    geom_hline(yintercept = 0, color = "gray50", alpha = .5) +
-    geom_vline(xintercept = 0, color = "gray50", linetype = 2, alpha = .5) +
+    geom_hline(yintercept = 0, color = "black", alpha = .5) +
+    geom_vline(xintercept = 0, color = "black", linetype = 2, alpha = .5) +
     geom_line(aes(x = eventTime, y = aar), color = pal[3]) + 
     scale_y_continuous(label = percent) +
     xlab(xlab) +
@@ -203,8 +221,8 @@ aarPlot <- function(ResultParserObj,
   if (!cumSum && !is.null(ciStatistics)) {
     if (ciType == "band") {
       q <- q +
-        geom_line(data = aar, aes(x = eventTime, y = lower), linetype = 2, color = "gray50", alpha = .5) + 
-        geom_line(data = aar, aes(x = eventTime, y = upper), linetype = 2, color = "gray50", alpha = .5)
+        geom_line(aes(x = eventTime, y = lower), linetype = 2, color = "gray50", alpha = .5) + 
+        geom_line(aar, aes(x = eventTime, y = upper), linetype = 2, color = "gray50", alpha = .5)
     } else if (ciType == "ribbon") {
       q <- q +
         geom_ribbon(aes(x = eventTime, ymin = lower, ymax = upper), fill = "gray50", alpha = .25)
