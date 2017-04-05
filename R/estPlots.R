@@ -59,7 +59,7 @@ arPlot <- function(ResultParserObj, firm = NULL, window = NULL,
   if (!is.null(facetVar)) {
     facetForm <- as.formula(paste0(" ~ ", facetVar))
     q <- q +
-      facet_wrap(facetForm, ncol = ncol, scales = "free_x")
+      facet_wrap(facetForm, ncol = ncol, scales = "free")
   }
   q
 }
