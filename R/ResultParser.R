@@ -110,7 +110,8 @@ ResultParser <- R6::R6Class(classname = "ResultParser",
                                 
                                 # Add additional Information
                                 id <- which(names(self$analysisReport) %in% c("Event ID", "Firm", "Reference Market", "Estimation Window Length"))
-                                arReport <- self$analysisReport[, id]
+                                self$analysisReport %>% 
+                                  dplyr::select(id) -> arReport
                                 
                                 self$arResults %>%
                                   dplyr::left_join(arReport, by = "Event ID") -> self$arResults
@@ -205,6 +206,16 @@ ResultParser <- R6::R6Class(classname = "ResultParser",
                                 }
                                 return(list(lower = lower,
                                             upper = upper))
+                              },
+                              cumSum = function(df, var = "aar", timeVar = NULL, cumVar = NULL) {
+                                # calculate cumulative sum
+                                df <- data.table::as.data.table(df)
+                                setkeyv(df, c(cumVar, timeVar))
+                                setnames(df, var, "car")
+                                df[, car := cumsum(car), by = cumVar]
+                                df[[var]] <- NULL
+                                setnames(df, "car", var)
+                                df
                               }
                             ),
                             private = list(

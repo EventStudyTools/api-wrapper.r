@@ -2,7 +2,7 @@
 #' 
 #' @title Abnormal Return Plot
 #'
-#' @param df data.frame with abnormal return in long format; 
+#' @param ResultParser An object of class \code{ResultParser}
 #' @param firm set this parameter if just one firm should be plotted
 #' @param xlab x-axis label
 #' @param ylab y-axis label
@@ -14,21 +14,23 @@
 #' @return a ggplot2 object
 #'
 #' @export
-arPlot <- function(df, firm = NULL, window = NULL, xlab = "", ylab = "Abnormal Returns", facet = T, ncol = 4, xVar = "eventTime", yVar = "ar") {
-  
+arPlot <- function(ResultParser, firm = NULL, window = NULL, 
+                   xlab = "", ylab = "Abnormal Returns", 
+                   facet = T, ncol = 4, xVar = "eventTime", yVar = "ar") {
+  ar <- ResultParser$arResults
   if (!is.null(firm)) {
-    df %>% 
-      dplyr::filter(Firm == firm) -> df
+    ar %>% 
+      dplyr::filter(Firm == firm) -> ar
   }
   
   if (is.null(windows))
-    window <- range(df$eventTime)
+    window <- range(ar$eventTime)
   selectedWindow <- seq(from = window[1], to = window[2], by = 1)
+  pal <- RColorBrewer::brewer.pal(3, "Blues")
+  ar %>% 
+    dplyr::filter(eventTime %in% selectedWindow) -> ar
   
-  df %>% 
-    dplyr::filter(eventTime %in% selectedWindow) -> df
-  
-  df %>% 
+  ar %>% 
     ggplot() +
     geom_hline(yintercept = 0, color = "gray50", alpha = .5) +
     geom_vline(xintercept = 0, color = "gray50", linetype = 2, alpha = .5) +
@@ -36,13 +38,12 @@ arPlot <- function(df, firm = NULL, window = NULL, xlab = "", ylab = "Abnormal R
     scale_y_continuous(label = percent) +
     xlab(xlab) +
     ylab(ylab) +
-    theme_tq() -> p
+    theme_tq() -> q
   
   if (facet)
-    p <- p +
+    q <- q +
     facet_wrap( ~ Firm, ncol = ncol, scales = "free_x")
-  
-  p
+  q
 }
 
 
@@ -137,6 +138,7 @@ hcArPlot <- function(df, firm = NULL, window = NULL, xlab = "", ylab = "Abnormal
 #' @title Averaged Abnormal Return Plot
 #'
 #' @param ResultParser An object of class \code{ResultParser}
+#' @param cumSum plot CAAR
 #' @param group set this parameter if just one group should be plotted
 #' @param xlab x-axis label
 #' @param ylab y-axis label
@@ -147,19 +149,26 @@ hcArPlot <- function(df, firm = NULL, window = NULL, xlab = "", ylab = "Abnormal
 #'
 #' @export
 aarPlot <- function(ResultParserObj, 
-                    group = NULL, 
-                    window = NULL, 
+                    cumSum       = F,
+                    group        = NULL, 
+                    window       = NULL, 
                     ciStatistics = NULL, 
-                    p = .95, 
-                    ciType = "band",
-                    xlab = "", 
-                    ylab = "Averaged Abnormal Returns", 
-                    facet = T, 
-                    ncol = 4) {
+                    p            = .95, 
+                    ciType       = "band",
+                    xlab         = "", 
+                    ylab         = "Averaged Abnormal Returns", 
+                    facet        = T, 
+                    ncol         = 4) {
   
   aar <- ResultParserObj$aarResults
+  if (cumSum) {
+    aar %>% 
+      ResultParserObj$cumSum(var     = "aar", 
+                             timeVar = "eventTime", 
+                             cumVar  = "level") -> aar
+  }
   
-  if (!is.null(ciStatistics)) {
+  if (!cumSum && !is.null(ciStatistics)) {
     ciInterval <- ResultParserObj$calcAARCI(statistic = ciStatistics, 
                                             p         = p)
     aar$lower <- ciInterval$lower
@@ -176,7 +185,6 @@ aarPlot <- function(ResultParserObj,
   selectedWindow <- seq(from = window[1], to = window[2], by = 1)
   
   pal <- RColorBrewer::brewer.pal(3, "Blues")
-  
   aar %>% 
     dplyr::filter(eventTime %in% selectedWindow) -> aar
   
@@ -187,12 +195,12 @@ aarPlot <- function(ResultParserObj,
     geom_vline(xintercept = 0, color = "gray50", linetype = 2, alpha = .5) +
     geom_line(aes(x = eventTime, y = aar), color = pal[3]) + 
     scale_y_continuous(label = percent) +
-    xlab("") +
-    ylab("Abnormal Return") +
+    xlab(xlab) +
+    ylab(ylab) +
     theme_tq() -> q
   
   # plot CI
-  if (!is.null(ciStatistics)) {
+  if (!cumSum && !is.null(ciStatistics)) {
     if (ciType == "band") {
       q <- q +
         geom_line(data = aar, aes(x = eventTime, y = lower), linetype = 2, color = "gray50", alpha = .5) + 
@@ -216,7 +224,7 @@ aarPlot <- function(ResultParserObj,
 #' 
 #' @title Highchart version of Averaged Abnormale Return Plot
 #'
-#' @param df data.frame with abnormal return in long format; 
+#' @param ResultParser An object of class \code{ResultParser}
 #' @param group set this parameter if just one group should be plotted
 #' @param xlab x-axis label
 #' @param ylab y-axis label

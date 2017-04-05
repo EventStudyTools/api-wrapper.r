@@ -10,6 +10,7 @@ URL: http://eventdtudytools.com
 Maintainer: Dr. Simon Mueller <simon.mueller@muon-stat.com>
 License: MIT
 Depends:
+    data.table,
     shiny,
     miniUI,
     rstudioapi,
