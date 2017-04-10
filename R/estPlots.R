@@ -65,92 +65,6 @@ arPlot <- function(ResultParserObj, firm = NULL, window = NULL,
 }
 
 
-#' @name hcArPlot
-#' 
-#' @title Highchart version of the Abnormal Return Plot
-#' 
-#' @param df data.frame with abnormal return in long format; 
-#' @param firm set this parameter if just one firm should be plotted
-#' @param window 
-#' @param xlab x-axis label
-#' @param ylab y-axis label
-#' @param facet should each firm get its own plot (default = T)
-#' @param ncol number of facet columns
-#' @param xVar x variable name
-#' @param yVar y variable name
-#' 
-#' @return a highchart object
-#' 
-#' @export
-hcArPlot <- function(df, firm = NULL, window = NULL, xlab = "", ylab = "Abnormal Returns", xVar = "eventTime", yVar = "ar") {
-  
-  if (!is.null(firm)) {
-    df %>% 
-      dplyr::filter(Firm == firm) -> df
-  }
-  
-  hc <- highchart(type = "chart")
-  nCols <- dplyr::n_distinct(df$Firm)
-  mCols <- min(nCols, 9)
-  pal <- RColorBrewer::brewer.pal(mCols, "Blues")
-  
-  if (nCols > mCols)
-    pal <- grDevices::colorRampPalette(pal)(nCols)
-  
-  if (is.null(windows))
-    window <- range(df$eventTime)
-  selectedWindow <- seq(from = window[1], to = window[2], by = 1)
-  
-  df %>% 
-    dplyr::filter(eventTime %in% selectedWindow) -> df
-  
-  for (i in 1:nCols) {
-    firm <- df$Firm[i]
-    df %>% 
-      dplyr::filter(Firm  == firm ) %>% 
-      dplyr::mutate(ar = 100 * ar) %>% 
-      dplyr::rename(x = eventTime, y = ar) -> tmp
-    hc %>% 
-      hc_add_series(tmp %>% dplyr::select(x, y), 
-                    type        = "area", 
-                    fillOpacity = .15, 
-                    lineWidth   = 1, 
-                    color       = pal[i],
-                    marker      = list(enabled = F),
-                    name        = firm) -> hc
-  }
-  hc %>%   
-    hc_tooltip(headerFormat  = '<b><span style="font-size: 12px">Event Day: {point.x}</span></b><br>',
-               pointFormat   = '<span style="color:{point.color}">\u25CF</span> {series.name}: <b>{point.y}</b><br/>',
-               sort          = F,
-               valueDecimals = 2,
-               valueSuffix   = "%",
-               table         = T) %>% 
-    hc_yAxis(title = list(text = ""),
-             labels = list(
-               format = "{value}%"
-             )) %>% 
-    hc_xAxis(title = list(text = ""),
-             plotLines = list(
-               list(
-                 label = list(text          = "Event Day",
-                              style         = list(color = "gray"),
-                              rotation      = 0,
-                              verticalAlign = "top",
-                              y             = 10),
-                 dashStyle = "Dash",
-                 color     = "gray",
-                 width     = 1,
-                 value     = 0
-               )
-             )) %>% 
-    hc_legend(align         = "right",
-              title         = list(text = "Firms"),
-              verticalAlign = "top",
-              layout        = "vertical")
-}
-
-
 #' @name aarPlot
 #' 
 #' @title Averaged Abnormal Return Plot
@@ -238,37 +152,6 @@ aarPlot <- function(ResultParserObj,
 }
 
 
-#' @name hcAarPlot
-#' 
-#' @title Highchart version of Averaged Abnormale Return Plot
-#'
-#' @param ResultParser An object of class \code{ResultParser}
-#' @param group set this parameter if just one group should be plotted
-#' @param xlab x-axis label
-#' @param ylab y-axis label
-#' @param facet should each firm get its own plot (default = T)
-#' @param ncol number of facet columns
-#' 
-#' @return a highchart object
-#'
-#' @export
-hcAarPlot <- function(df, group = NULL, window = NULL, xlab = "", ylab = "Averaged Abnormal Returns") {
-  
-  if (!is.null(group)) {
-    df %>% 
-      dplyr::filter(level == group) -> df
-  }
-  
-  if (is.null(windows))
-    window <- range(df$eventTime)
-  selectedWindow <- seq(from = window[1], to = window[2], by = 1)
-  
-  df %>% 
-    dplyr::filter(eventTime %in% selectedWindow) -> df
-  
-}
-
-
 #' @name pointwiseCARPlot
 #' 
 #' @title Pointwise Cumulative Abnormal Return Plot
@@ -303,41 +186,4 @@ pointwiseCARPlot <- function(df, firm = NULL, xlab = "", ylab = "pointwise Cumul
            ncol  = ncol, 
            xVar  = "eventTime", 
            yVar  = "car")
-}
-
-
-#' @name hcPointwiseCARPlot
-#' 
-#' @title Highchart version of Pointwise Cumulative Abnormal Return Plot
-#' 
-#' @param df data.frame with abnormal return in long format; 
-#' @param firm set this parameter if just one firm should be plotted
-#' @param xlab x-axis label
-#' @param ylab y-axis label
-#' @param facet should each firm get its own plot (default = T)
-#' @param ncol number of facet columns
-#' 
-#' @return a highchart object
-#' 
-#' @export
-hcPointwiseCARPlot <- function(df, firm = NULL, xlab = "", ylab = "pointwise Cumulative Abnormal Returns", facet = T, ncol = 4) {
-  
-  if (!is.null(firm)) {
-    df %>% 
-      dplyr::filter(Firm == firm) -> df
-  }
-  
-  # calculate cumulative sum
-  df <- as.data.table(df)
-  setkeyv(df, c("Firm", "eventTime"))
-  df[, car := cumsum(ar), by = Firm]
-  
-  # plot pCAR
-  df %>% 
-    hcArPlot(xlab  = xlab, 
-             ylab  = ylab, 
-             facet = facet, 
-             ncol  = ncol, 
-             xVar  = "eventTime", 
-             yVar  = "car")
 }
