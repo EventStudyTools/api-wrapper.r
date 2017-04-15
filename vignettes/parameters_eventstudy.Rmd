@@ -295,7 +295,7 @@ found on our [website](https://www.eventstudytools.com/volatiliy-event-study).
 - Cross-Sectional Test for Abnormal Volatility
     - aarcsvyt
 - Corrected Cross-Sectional Test for Abnormal Volatility
-    - aarcsvyt
+    - aarcscvyt
 - AAR Volatility Ratio-Test
     - aarlambdaz
 
