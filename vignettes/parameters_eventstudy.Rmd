@@ -1,5 +1,5 @@
 ---
-title: "Event Study: Parameter"
+title: "Event Study: Parameters"
 author: "Dr. Simon Müller"
 date: "`r Sys.Date()`"
 output:
@@ -26,6 +26,26 @@ knitr::opts_chunk$set(echo = TRUE)
 You can manually adjust all parameters in your R environment. Save this object 
 and use it in all your Event Studies. This vignette gives you an overview on how
 to set the correct parameters in R.
+
+
+
+# Performing an Event Study (ARC, AVC, or AVyC)
+
+After you have set your paramaeters, you can easily perform your Event Study:
+
+```{r, eval=FALSE}
+apiUrl <- "http://api.dev.eventstudytools.com"
+apiKey <- "Please insert your key here"
+
+# Setup API Connection
+estSetup <- EventStudyAPI$new(apiUrl)
+estSetup$authentication(apiKey)
+
+estSetup$performEventStudy(estParams = volatilityEstParams, 
+                           dataFiles = c("request_file" = "01_RequestFile.csv",
+                                         "firm_data"    = "02_firmData.csv",
+                                         "market_data"  = "03_marketData.csv"))
+```
 
 
 # General Parameters
@@ -74,10 +94,10 @@ returnEstParams$setReturnType("simple")
 
 ## Adjustment of Non-trading Days
 
-- **earlier**: Take earlier trading day
-- **later** (default): Take later trading day
-- **keep**: Keep non-trading day
-- **skip**: Skip respective observations
+- **earlier**: Take earlier trading day (Pick an earlier date if the event day falls on a non-trading day (e.g., a weekend day))
+- **later** (default): Take later trading day (Pick the next trading day if the event day falls on a non-trading day (e.g., a weekend day)).
+- **keep**: Keep non-trading day (Keep announcement dates even if they fall on a non-trading day (e.g., a weekend day))
+- **skip**: Skip respective observations (Skip observations with event dates falling on non-trading days (e.g., weekends))
 
 Usage:
 ```{r, eval=FALSE}
@@ -289,23 +309,4 @@ found on our [website](https://www.eventstudytools.com/volatiliy-event-study).
 Usage:
 ```{r, eval=FALSE}
 volatilityEstParams$setTestStatistics(c("aarptlz", "aarrankz"))
-```
-
-
-# Performing an Event Study (ARC, AVC, or AVyC)
-
-After you have set your paramaeters, you can easily perform your Event Study:
-
-```{r, eval=FALSE}
-apiUrl <- "http://api.dev.eventstudytools.com"
-apiKey <- "Please insert your key here"
-
-# Setup API Connection
-estSetup <- EventStudyAPI$new(apiUrl)
-estSetup$authentication(apiKey)
-
-estSetup$performEventStudy(estParams = volatilityEstParams, 
-                           dataFiles = c("request_file" = "01_RequestFile.csv",
-                                         "firm_data"    = "02_firmData.csv",
-                                         "market_data"  = "03_marketData.csv"))
 ```
