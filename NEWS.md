@@ -6,8 +6,8 @@
   - Introduction
   - Parameters
   - RStudio Addin
-- add abnormal volume R6 class
-- add abnormal volatility R6 class
+- add abnormal volume Event Study R6 class
+- add abnormal volatility Event Study R6 class
 
 # Version 0.1.1
 
