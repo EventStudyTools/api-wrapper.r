@@ -34,12 +34,28 @@ For performing an Event Study with our API you need:
 - **API url** (defaults to `http://api.eventstudytools.com`)
 - **API key**
 
-You get a **free** API key from our website [TODO: Link to Site](http://eventstudytools.com). In the first step we need to authenticate to the web API.
+You get a **free** API key from our website [TODO: Link to Site](http://eventstudytools.com). In the first step we need to authenticate to the web API. There are two ways to handle this two parameters:
+
 
 ```{r, eval=FALSE}
 apiUrl <- "http://api.dev.eventstudytools.com"
 apiKey <- "Please insert your key here"
+```
 
+**Option 1:** You can save API key and url in the `options` object
+
+```{r, eval=FALSE}
+options(apiServerUrl = apiUrl)
+options(eventStudyKey = apiKey)
+
+# initialize object
+estSetup <- EventStudyAPI$new()
+```
+
+
+**Option 2:** or set them directly during the `EventStudyAPI` `R6-class` initialization
+
+```{r, eval=FALSE}
 # Setup API Connection
 estSetup <- EventStudyAPI$new(apiUrl)
 estSetup$authentication(apiKey)

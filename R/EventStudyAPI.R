@@ -77,12 +77,31 @@
 EventStudyAPI <- R6::R6Class(classname = "EventStudyAPI",
                              public = list(
                                resultFiles = NULL,
-                               initialize = function(apiServerUrl) {
+                               initialize = function(apiServerUrl = NULL) {
+                                 # if API key is null try to fetch it from options
+                                 if (is.null(apiServerUrl)) {
+                                   apiServerUrl <- getOption("eventStudyUrl")
+                                 }
+                                 
+                                 # Else throw an error
+                                 if (is.null(apiServerUrl)) {
+                                   stop("An API server url is required!")
+                                 }
+                                 
                                  private$apiServerUrl <- apiServerUrl
                                },
                                # @param apiKey
                                # @return boolean
-                               authentication = function(apiKey, debug=F) {
+                               authentication = function(apiKey = NULL, debug=F) {
+                                 # if API key is null try to fetch it from options
+                                 if (is.null(apiKey)) {
+                                   apiKey <- getOption("eventStudyKey")
+                                 }
+                                 
+                                 # Else throw an error
+                                 if (is.null(apiKey)) {
+                                   stop("An API key is required!")
+                                 }
 
                                  new_handle() %>%
                                    handle_setopt(customrequest = "POST") %>%
