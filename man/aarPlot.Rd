@@ -4,11 +4,13 @@
 \alias{aarPlot}
 \title{Averaged Abnormal Return Plot}
 \usage{
-aarPlot(ResultParserObt, group = NULL, window = NULL, ciStatistics = NULL,
-  p = 0.95, xlab = "", ylab = "Averaged Abnormal Returns", facet = T,
-  ncol = 4)
+aarPlot(ResultParserObj, cumSum = F, group = NULL, window = NULL,
+  ciStatistics = NULL, p = 0.95, ciType = "band", xlab = "",
+  ylab = "Averaged Abnormal Returns", facet = T, ncol = 4)
 }
 \arguments{
+\item{cumSum}{plot CAAR}
+
 \item{group}{set this parameter if just one group should be plotted}
 
 \item{xlab}{x-axis label}

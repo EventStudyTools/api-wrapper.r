@@ -4,26 +4,26 @@
 \alias{arPlot}
 \title{Abnormal Return Plot}
 \usage{
-arPlot(df, firm = NULL, window = NULL, xlab = "",
-  ylab = "Abnormal Returns", facet = T, ncol = 4, xVar = "eventTime",
-  yVar = "ar")
+arPlot(ResultParserObj, firm = NULL, window = NULL, xlab = "",
+  ylab = "Abnormal Returns", alpha = 0.5, facetVar = NULL, ncol = 4,
+  addAAR = F, xVar = "eventTime", yVar = "ar")
 }
 \arguments{
-\item{df}{data.frame with abnormal return in long format;}
-
 \item{firm}{set this parameter if just one firm should be plotted}
 
 \item{xlab}{x-axis label}
 
 \item{ylab}{y-axis label}
 
-\item{facet}{should each firm get its own plot (default = T)}
-
 \item{ncol}{number of facet columns}
 
 \item{xVar}{x variable name}
 
 \item{yVar}{y variable name}
+
+\item{ResultParser}{An object of class \code{ResultParser}}
+
+\item{facet}{should each firm get its own plot (default = T)}
 }
 \value{
 a ggplot2 object
