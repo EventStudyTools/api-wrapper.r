@@ -38,15 +38,16 @@ You get a **free** API key from our website [TODO: Link to Site](http://eventstu
 
 
 ```{r, eval=FALSE}
-apiUrl <- "http://api.dev.eventstudytools.com"
+apiUrl <- "http://api.eventstudytools.com"
 apiKey <- "Please insert your key here"
 ```
 
 **Option 1:** You can save API key and url in the `options` object
 
 ```{r, eval=FALSE}
-options(apiServerUrl = apiUrl)
-options(eventStudyKey = apiKey)
+# The URL is already set by default
+# options(EventStudy.URL = apiUrl)
+options(EventStudy.KEY = apiKey)
 
 # initialize object
 estSetup <- EventStudyAPI$new()
@@ -128,7 +129,7 @@ Finally, the Event Study is performed by:
 ```{r, eval=FALSE} 
 estResult <- estSetup$performDefaultEventStudy(estType    = estType,
                                                dataFiles  = dataFiles, 
-                                               resultPath = resultPath)
+                                               destDir    = resultPath)
 ```
 
 It will write all result files into the result directory. Furthermore,
