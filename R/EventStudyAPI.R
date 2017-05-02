@@ -80,7 +80,7 @@ EventStudyAPI <- R6::R6Class(classname = "EventStudyAPI",
                                initialize = function(apiServerUrl = NULL) {
                                  # if API key is null try to fetch it from options
                                  if (is.null(apiServerUrl)) {
-                                   apiServerUrl <- getOption("eventStudyUrl")
+                                   apiServerUrl <- getOption("EventStudy.URL")
                                  }
                                  
                                  # Else throw an error
@@ -95,7 +95,7 @@ EventStudyAPI <- R6::R6Class(classname = "EventStudyAPI",
                                authentication = function(apiKey = NULL, debug=F) {
                                  # if API key is null try to fetch it from options
                                  if (is.null(apiKey)) {
-                                   apiKey <- getOption("eventStudyKey")
+                                   apiKey <- getOption("EventStudy.KEY")
                                  }
                                  
                                  # Else throw an error
@@ -138,11 +138,11 @@ EventStudyAPI <- R6::R6Class(classname = "EventStudyAPI",
                                  self$configureTask(estParams)
                                  
                                  self$uploadFile(fileKey  = "request_file", 
-                                                 fileName = dataFiles["request_file"])
+                                                 fileName = unname(dataFiles["request_file"]))
                                  self$uploadFile(fileKey  = "firm_data", 
-                                                 fileName = dataFiles["firm_data"])
+                                                 fileName = unname(dataFiles["firm_data"]))
                                  self$uploadFile(fileKey  = "market_data", 
-                                                 fileName = dataFiles["market_data"])
+                                                 fileName = unname(dataFiles["market_data"]))
                                  self$commitData()
                                  
                                  self$processTask()
@@ -184,11 +184,11 @@ EventStudyAPI <- R6::R6Class(classname = "EventStudyAPI",
                                                                    destDir   = "results") {
                                  estType <- match.arg(estType, c("arc", "avc", "avyc"))
                                  if (estType == "arc") {
-                                   defaultParams <- ARCApplicationInputs$new()
+                                   defaultParams <- ARCApplicationInput$new()
                                  } else if (estType == "avc") {
-                                   defaultParams <- AVCApplicationInputs$new()
+                                   defaultParams <- ARCApplicationInput$new()
                                  } else if (estType == "avyc") {
-                                   defaultParams <- AVyCApplicationInputs$new()
+                                   defaultParams <- ARCApplicationInput$new()
                                  }
                                  self$performEventStudy(defaultParams, dataFiles, destDir)
                                },
@@ -258,10 +258,10 @@ EventStudyAPI <- R6::R6Class(classname = "EventStudyAPI",
                                  fSize <- file.size(fileName)
                                  fd <- file(fileName, "r", method = "libcurl")
 
-                                 ch <- POST(url=paste0(private$apiServerUrl, "/task/content/", fileKey, "/0"),
-                                            body = upload_file(path =  fileName),
-                                            add_headers('Content-Type' = "application/octet-stream",
-                                                        "X-Task-Key"   = private$token)
+                                 ch <- httr::POST(url    = paste0(private$apiServerUrl, "/task/content/", fileKey, "/0"),
+                                                  body   = httr::upload_file(path = fileName),
+                                                  config = httr::add_headers('Content-Type' = "application/octet-stream",
+                                                                             "X-Task-Key"   = private$token)
                                  )
 
                                  rawToChar(ch$content) %>%
