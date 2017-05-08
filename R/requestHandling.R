@@ -154,9 +154,9 @@ checkESTAPIError <- function(req,
     }
     
     ## get error message from API
-    if (!is.null(est.json$error$message)) {
-      stop("JSON fetch error: ", paste(est.json$error$message))
-    }
+    # if (!is.null(est.json$error$message)) {
+    #   stop("JSON fetch error: ", paste(est.json$error$message))
+    # }
     httr::stop_for_status(req)
   } else {
     est.json <- req

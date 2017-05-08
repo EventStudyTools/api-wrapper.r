@@ -241,7 +241,7 @@ EventStudyAPI <- R6::R6Class(classname = "EventStudyAPI",
                                                      config       = httr::add_headers(c("Content-Type" = "application/octet-stream", 
                                                                                         "X-Task-Key"   = private$token))
                                  )
-                                 
+                                 result <- ch$content
                                  
                                  if (!result)
                                    stop(paste0("Error in uploadFile: configuration error"))
