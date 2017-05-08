@@ -144,6 +144,7 @@ EventStudyAPI <- R6::R6Class(classname = "EventStudyAPI",
                                  while(iter < maxIter) {
                                    print(paste0("Step: ", iter))
                                    Sys.sleep(1)
+                                   browser()
                                    status <- self$getTaskStatus()
                                    if (status %in% c(3, 4)) {
                                      break()
@@ -241,9 +242,7 @@ EventStudyAPI <- R6::R6Class(classname = "EventStudyAPI",
                                                      config       = httr::add_headers(c("Content-Type" = "application/octet-stream", 
                                                                                         "X-Task-Key"   = private$token))
                                  )
-                                 result <- ch$content
-                                 
-                                 if (!result)
+                                 if (!ch$content)
                                    stop(paste0("Error in uploadFile: configuration error"))
 
                                  return(TRUE)
@@ -264,16 +263,15 @@ EventStudyAPI <- R6::R6Class(classname = "EventStudyAPI",
                                    stop("Error: Configuration validation error")
                                  
                                  ch <- doHttrRequest(url          = httr::modify_url(private$apiServerUrl, path = "/task/commit"), 
-                                                     request_type = "POST", 
+                                                     request_type = "VERB", 
                                                      config = httr::add_headers(c("Content-Type" = "application/json", 
-                                                                                             "X-Task-Key"   = private$token))
+                                                                                  "X-Task-Key"   = private$token))
                                  )
-                                 result <- ch$content
                                  
-                                 if (!is(result, "list") || is.null(result$log))
-                                   stop("Error in commitData: response is invalid")
+                                 if (!inherits(ch$content, "list") || is.null(ch$content$log))
+                                   myMessage("Error in commitData: response is invalid")
 
-                                 return(result)
+                                 return(ch$content)
 
                                },
                                getTaskStatus = function(exceptionOnError = FALSE) {
@@ -281,14 +279,19 @@ EventStudyAPI <- R6::R6Class(classname = "EventStudyAPI",
                                  if (is.null(private$token))
                                    stop("Error: Configuration validation error")
 
-                                 ch <- doHttrRequest(url          = httr::modify_url(private$apiServerUrl, path = "/task/status"), 
-                                                     request_type = "POST", 
-                                                     config = httr::add_headers(c("Content-Type" = "application/json", 
-                                                                                             "X-Task-Key"   = private$token))
-                                 )
-                                 result <- ch$content
-
                                  # TODO
+                                 new_handle() %>%
+                                   handle_setheaders("Content-Type" = "application/json",
+                                                     "X-Task-Key"   = private$token) -> handle
+                                 
+                                 ch <- curl_fetch_memory(url    = paste0(private$apiServerUrl, "/task/status"),
+                                                         handle = handle)
+                                 
+                                 rawToChar(ch$content) %>%
+                                   jsonlite::fromJSON() %>%
+                                   private$checkAndNormalizeResponse(httpcode = ch$status_code,
+                                                                     method   = "getTaskResults") -> result
+                                 
                                  return(result)
                                },
                                getTaskResults = function(destDir = getwd()) {
