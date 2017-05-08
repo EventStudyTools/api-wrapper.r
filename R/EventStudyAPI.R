@@ -92,7 +92,7 @@ EventStudyAPI <- R6::R6Class(classname = "EventStudyAPI",
                                },
                                # @param apiKey
                                # @return boolean
-                               authentication = function(apiKey = NULL, debug=F) {
+                               authentication = function(apiKey = NULL) {
                                  # if API key is null try to fetch it from options
                                  if (is.null(apiKey)) {
                                    apiKey <- getOption("EventStudy.KEY")
@@ -102,35 +102,26 @@ EventStudyAPI <- R6::R6Class(classname = "EventStudyAPI",
                                  if (is.null(apiKey)) {
                                    stop("An API key is required!")
                                  }
-
-                                 new_handle() %>%
-                                   handle_setopt(customrequest = "POST") %>%
-                                   handle_setopt(postfields = "") %>%
-                                   handle_setheaders("Content-Type" = "application/json",
-                                                     "X-Customer-Key" = apiKey) -> handle
-
-                                 # fetch result
-                                 ch <- curl_fetch_memory(url    = paste0(private$apiServerUrl, "/task/create"),
-                                                         handle = handle)
-
+                                 
+                                 ch <- doHttrRequest(url          = httr::modify_url(private$apiServerUrl, path = "/task/create"), 
+                                                     request_type = "POST", 
+                                                     config = httr::add_headers(c("Content-Type"   = "application/json", 
+                                                                                             "X-Customer-Key" = apiKey))
+                                 )
+                                 
                                  # get token & check it
-                                 rawToChar(ch$content) %>%
-                                   jsonlite::fromJSON() %>%
-                                   private$checkAndNormalizeResponse(httpcode = ch$status_code,
-                                                                     method   = "authentication") -> result
-
+                                 result <- ch$content
                                  if (!is(result, "list") || is.null(result$token)) {
-                                   message("Error: authentication failed")
-                                   return(FALSE)
+                                   myMessage("Error: authentication failed", level = 1)
+                                   FALSE
                                  }
-
                                  private$token <- result$token
-                                 return(TRUE)
+                                 TRUE
                                },
                                performEventStudy = function(estParams = NULL,
                                                             dataFiles = c("request_file" = "01_RequestFile.csv", 
-                                                                           "firm_data"    = "02_firmData.csv", 
-                                                                           "market_data"  = "03_MarketData.csv"), 
+                                                                           "firm_data"   = "02_firmData.csv", 
+                                                                           "market_data" = "03_MarketData.csv"), 
                                                             destDir   = "results") {
                                  estParams$setup()
                                  
@@ -196,55 +187,44 @@ EventStudyAPI <- R6::R6Class(classname = "EventStudyAPI",
                                  if (is.null(private$token) || is.null(private$apiServerUrl))
                                    stop("Error in uploadFile: configuration error")
 
-                                 new_handle() %>%
-                                   handle_setopt(customrequest = "POST") %>%
-                                   handle_setopt(postfields = "") %>%
-                                   handle_setheaders("Content-Type" = "application/json",
-                                                     "X-Task-Key"   = private$token) -> handle
-
-                                 ch <- curl_fetch_memory(url    = paste0(private$apiServerUrl, "/task/process"),
-                                                         handle = handle)
-
-                                 rawToChar(ch$content) %>%
-                                   jsonlite::fromJSON() %>%
-                                   private$checkAndNormalizeResponse(httpcode = ch$status_code,
-                                                                     method   = "processTask") -> result
-
+                                 ch <- doHttrRequest(url          = httr::modify_url(private$apiServerUrl, path = "/task/process"), 
+                                                     request_type = "POST", 
+                                                     config       = httr::add_headers(c("Content-Type" = "application/json", 
+                                                                                        "X-Task-Key"   = private$token))
+                                 )
+                                 
+                                 result <- ch$content
                                  self$resultFiles <- result$results
                                  result
                                },
                                configureTask = function(estParams = NULL) {
 
                                  # Setup Standard Parameters
-                                 if (is.null(estParams) || !is(estParams, "ApplicationInputInterface")) {
+                                 if (is.null(estParams) || !inherits(estParams,"ApplicationInputInterface"))
                                    stop("Parameters are not set. Please set parameter object or run .$performDefaultEventStudy")
-                                 }
                                  
                                  if (is.null(private$token))
                                    stop("Error in configureTask: token is not set")
-
+                                 
+                                 json <- estParams$serializeToJson(level = "parameters")
                                  new_handle() %>%
                                    handle_setopt(customrequest = "POST") %>%
-                                   handle_setopt(postfields = "") %>%
+                                   handle_setopt(postfields = json) %>%
                                    handle_setheaders("Content-Type" = "application/json",
                                                      "X-Task-Key"   = private$token) -> handle
-                                 json <- estParams$serializeToJson(level = "parameters")
-
-                                 handle %>%
-                                   handle_setopt(postfields = json) -> handle
-
+                                 
                                  # fetch result
                                  ch <- curl_fetch_memory(url    = paste0(private$apiServerUrl, "/task/conf"),
                                                          handle = handle)
-
+                                 
                                  rawToChar(ch$content) %>%
                                    jsonlite::fromJSON() %>%
                                    private$checkAndNormalizeResponse(httpcode = ch$status_code,
                                                                      method   = "configureTask") -> result
-
+                                 
                                  if (!result)
                                    stop(paste0("Error in configureTask: configuration error"))
-
+                                 
                                  return(TRUE)
                                },
                                uploadFile = function(fileKey, fileName, partNumber = 0) {
@@ -255,20 +235,14 @@ EventStudyAPI <- R6::R6Class(classname = "EventStudyAPI",
                                  if (!file.exists(fileName))
                                    stop("Error: file do not exist")
 
-                                 fSize <- file.size(fileName)
-                                 fd <- file(fileName, "r", method = "libcurl")
-
-                                 ch <- httr::POST(url    = paste0(private$apiServerUrl, "/task/content/", fileKey, "/0"),
-                                                  body   = httr::upload_file(path = fileName),
-                                                  config = httr::add_headers('Content-Type' = "application/octet-stream",
-                                                                             "X-Task-Key"   = private$token)
+                                 ch <- doHttrRequest(url          = httr::modify_url(private$apiServerUrl, path = paste0("/task/content/", fileKey, "/0")), 
+                                                     request_type = "POST", 
+                                                     the_body     = httr::upload_file(path = fileName),
+                                                     config       = httr::add_headers(c("Content-Type" = "application/octet-stream", 
+                                                                                        "X-Task-Key"   = private$token))
                                  )
-
-                                 rawToChar(ch$content) %>%
-                                   jsonlite::fromJSON() %>%
-                                   private$checkAndNormalizeResponse(httpcode = ch$status_code,
-                                                                     method   = "uploadFile") -> result
-
+                                 
+                                 
                                  if (!result)
                                    stop(paste0("Error in uploadFile: configuration error"))
 
@@ -288,21 +262,14 @@ EventStudyAPI <- R6::R6Class(classname = "EventStudyAPI",
 
                                  if (is.null(private$token))
                                    stop("Error: Configuration validation error")
-
-                                 new_handle() %>%
-                                   handle_setopt(customrequest = "POST") %>%
-                                   handle_setopt(postfields = "") %>%
-                                   handle_setheaders("Content-Type" = "application/json",
-                                                     "X-Task-Key"   = private$token) -> handle
-
-                                 ch <- curl_fetch_memory(url    = paste0(private$apiServerUrl, "/task/commit"),
-                                                         handle = handle)
-
-                                 rawToChar(ch$content) %>%
-                                   jsonlite::fromJSON() %>%
-                                   private$checkAndNormalizeResponse(httpcode = ch$status_code,
-                                                                     method   = "commitData") -> result
-
+                                 
+                                 ch <- doHttrRequest(url          = httr::modify_url(private$apiServerUrl, path = "/task/commit"), 
+                                                     request_type = "POST", 
+                                                     config = httr::add_headers(c("Content-Type" = "application/json", 
+                                                                                             "X-Task-Key"   = private$token))
+                                 )
+                                 result <- ch$content
+                                 
                                  if (!is(result, "list") || is.null(result$log))
                                    stop("Error in commitData: response is invalid")
 
@@ -314,17 +281,12 @@ EventStudyAPI <- R6::R6Class(classname = "EventStudyAPI",
                                  if (is.null(private$token))
                                    stop("Error: Configuration validation error")
 
-                                 new_handle() %>%
-                                   handle_setheaders("Content-Type" = "application/json",
-                                                     "X-Task-Key"   = private$token) -> handle
-
-                                 ch <- curl_fetch_memory(url    = paste0(private$apiServerUrl, "/task/status"),
-                                                         handle = handle)
-
-                                 rawToChar(ch$content) %>%
-                                   jsonlite::fromJSON() %>%
-                                   private$checkAndNormalizeResponse(httpcode = ch$status_code,
-                                                                     method   = "getTaskResults") -> result
+                                 ch <- doHttrRequest(url          = httr::modify_url(private$apiServerUrl, path = "/task/status"), 
+                                                     request_type = "POST", 
+                                                     config = httr::add_headers(c("Content-Type" = "application/json", 
+                                                                                             "X-Task-Key"   = private$token))
+                                 )
+                                 result <- ch$content
 
                                  # TODO
                                  return(result)
@@ -345,22 +307,10 @@ EventStudyAPI <- R6::R6Class(classname = "EventStudyAPI",
                                  })
                                },
                                getApiVersion = function() {
-
-                                 new_handle() %>%
-                                   handle_setopt(customrequest = "GET") -> handle
-
-                                 # fetch result
-                                 ch <- curl_fetch_memory(url    = paste0(private$apiServerUrl, "/version"),
-                                                         handle = handle)
-
-                                 version <- ""
-                                 if (ch$status_code == 200) {
-                                   ch$content %>%
-                                     base::rawToChar() %>%
-                                     jsonlite::fromJSON() -> response
-                                   if (!is.null(response$version))
-                                     version <- response$version
-                                 }
+                                 ch <- doHttrRequest(url          = httr::modify_url(private$apiServerUrl, path = "/version"), 
+                                                     request_type = "GET"
+                                 )
+                                 version <- ch$content
                                  return(version)
                                }
                              ),

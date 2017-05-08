@@ -5,7 +5,7 @@
 #' @param f A function of a http request
 #'
 #' @keywords internal
-retryRequest <- function(f){
+retryRequest <- function(f) {
   
   verbose <- getOption("EventStudy.verbose")
   
@@ -65,7 +65,7 @@ retryRequest <- function(f){
 #' @details 0 = everything, 1 = debug, 2=normal, 3=important
 myMessage <- function(..., level = 2){
   compareLevel <- getOption("EventStudy.verbose")
-  if(level >= compare_level){
+  if(level >= compareLevel) {
     message(...)
   }
 }
@@ -82,4 +82,16 @@ myMessage <- function(..., level = 2){
 #' @keywords internal
 isError <- function(x){
   inherits(x, "try-error")
+}
+
+
+#' Get the error message
+#'
+#' @param test_me an object that has failed is.error
+#'
+#' @return The error message
+#'
+#' @keywords internal
+errorMessage <- function(x) {
+  if(is.error(x)) attr(x, "condition")$message
 }
