@@ -9,22 +9,31 @@ arPlot(ResultParserObj, firm = NULL, window = NULL, xlab = "",
   addAAR = F, xVar = "eventTime", yVar = "ar")
 }
 \arguments{
+\item{ResultParserObj}{An object of class \code{ResultParser}}
+
 \item{firm}{set this parameter if just one firm should be plotted}
+
+\item{window}{filter event time window}
 
 \item{xlab}{x-axis label}
 
 \item{ylab}{y-axis label}
 
+\item{alpha}{alpha value}
+
+\item{facetVar}{should each firm get its own plot (default = T)}
+
 \item{ncol}{number of facet columns}
+
+\item{addAAR}{add aar line}
 
 \item{xVar}{x variable name}
 
 \item{yVar}{y variable name}
-
-\item{ResultParser}{An object of class \code{ResultParser}}
-
-\item{facet}{should each firm get its own plot (default = T)}
 }
 \value{
 a ggplot2 object
+}
+\description{
+Abnormal return plots
 }

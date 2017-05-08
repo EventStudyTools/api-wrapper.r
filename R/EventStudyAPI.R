@@ -20,7 +20,7 @@
 #' @description R interface for performing Event Studies on 
 #' \url{www.eventstudytools.com}.
 #'
-#' @format \code{\link{R6Class}} object.
+#' @format \code{\link[R6]{R6Class}} object.
 #'
 #' @section Usage:
 #' For usage details see \bold{Methods, Arguments, and Examples} sections.
@@ -55,7 +55,6 @@
 #'   }
 #'
 #' @section Arguments:
-#' 
 #' \describe{
 #'  \item{eventstudyapi}{An \code{EventStudyAPI} object.}
 #'  \item{apiServerUrl}{URL to the API endpoint.}
@@ -68,10 +67,9 @@
 #' }
 #'
 #' @section Class Members:
-#' 
-#' @param token token returned after authentication
-#' @param apiServerUrl url to Event Study API
-#' @param resultFiles Result file names
+#' @field field token returned after authentication
+#' @field field url to Event Study API
+#' @field field Result file names
 #' 
 #' @export
 EventStudyAPI <- R6::R6Class(classname = "EventStudyAPI",

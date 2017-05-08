@@ -9,21 +9,27 @@ Encoding: UTF-8
 URL: http://eventdtudytools.com
 Maintainer: Dr. Simon Mueller <simon.mueller@muon-stat.com>
 License: MIT
-Depends:
-    httr,
-    jsonlite,
-    data.table,
+Imports:
     shiny,
     miniUI,
     rstudioapi,
+    magrittr (>= 1.5),
+    httr,
+    jsonlite,
+    data.table,
     dplyr,
     purrr,
     ggplot2,
     scales,
     tidyquant,
-    stringr
+    stringr,
+    RColorBrewer,
+    readr
+Suggests: 
+    knitr,
+    rmarkdown
+URL: http://eventstudytools.com
+BugReports: https://github.com/EventStudyTools/api-wrapper.r/issues
 LazyData: true
 RoxygenNote: 6.0.1
-Suggests: knitr,
-    rmarkdown
 VignetteBuilder: knitr

@@ -19,7 +19,7 @@
 #' @description
 #' Abstract class no description.
 #'
-#' @format \code{\link{R6Class}} object.
+#' @format \code{\link[R6]{R6Class}} object.
 #'
 #' @section Methods:
 #' \describe{
@@ -38,11 +38,11 @@
 #'}
 #'
 #' @section Class Members:
-#' @param parameters \code{list} of parameters thaat are send to EST API
-#' @param result_file_type result file type
-#' @param allowedResultFileType allowed result file types
+#' @field parameters \code{list} of parameters thaat are send to EST API
+#' @field result_file_type result file type
+#' @field allowedResultFileType allowed result file types
+#' @field allowedResultFileType available result file types
 #' 
-#' @param allowedResultFileType available result file types
 ApplicationInputInterface <- R6::R6Class(classname = "ApplicationInputInterface",
                                          lock_objects = F,
                                          public = list(

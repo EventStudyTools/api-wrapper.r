@@ -47,20 +47,17 @@
 #' 
 #' 
 #' @section Class Members:
-#' @param task Actually, just \code{locale} is defined. E-Mail-Address is added
-#' in a later version.
-#' @param return_type return type calculation: log (default), simple
-#' @param non_trading_days handler for non-trading days: later (default), 
-#' earlier, keep, and skip
-#' @param test_statistics test statistics that will be used in the Event Study
-#' @param request_file list of request file key and type
-#' @param firm_data list of firm data file key and type
-#' @param market_data list of market data file key and type 
-#' @param allowedTestStatistics allowed test statistics
-#' @param allowedBenchmarkModel available market models
-#' @param allowedNonTradingDays available market models
-#' 
-#' @format \code{\link{R6Class}} object.
+#' \describe{
+#' \item{task}{Actually, just \code{locale} is defined. E-Mail-Address is added
+#' in a later version.}
+#' \item{return_type}{Return type calculation: log (default), simple}
+#' \item{non_trading_days}{handler for non-trading days: later (default), 
+#' earlier, keep, and skip}
+#' \item{test_statistics}{Test statistics that will be used in the Event Study.}
+#' \item{request_file}{List of request file key and type.}
+#' \item{firm_data}{List of firm file key and type.}
+#' \item{market_data}{List of market file key and type.}
+#' }
 #' 
 #' @seealso \url{https://www.eventstudytools.com/axc/upload}
 #' 
@@ -87,7 +84,7 @@ ARCApplicationInput <- R6::R6Class(classname = "ARCApplicationInput",
                                                              "aargrankz", "caargrankz", 
                                                              "aargsignz", "caargsignz"
                                                              #"aarjackknivet", "caarjackknivet"
-                                                             ),
+                                     ),
                                      request_file = list(
                                        key  = "request_file",
                                        type = "csv"

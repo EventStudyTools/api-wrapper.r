@@ -4,22 +4,25 @@
 \name{ApplicationInputInterface}
 \alias{ApplicationInputInterface}
 \title{Abstract Application Input Interface for Event Study R Package}
-\format{\code{\link{R6Class}} object.}
+\format{\code{\link[R6]{R6Class}} object.}
 \usage{
 ApplicationInputInterface
-}
-\arguments{
-\item{parameters}{\code{list} of parameters thaat are send to EST API}
-
-\item{result_file_type}{result file type}
-
-\item{allowedResultFileType}{allowed result file types}
-
-\item{allowedResultFileType}{available result file types}
 }
 \description{
 Abstract class no description.
 }
+\section{Fields}{
+
+\describe{
+\item{\code{parameters}}{\code{list} of parameters thaat are send to EST API}
+
+\item{\code{result_file_type}}{result file type}
+
+\item{\code{allowedResultFileType}}{allowed result file types}
+
+\item{\code{allowedResultFileType}}{available result file types}
+}}
+
 \section{Methods}{
 
 \describe{

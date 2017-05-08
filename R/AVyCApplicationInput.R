@@ -38,11 +38,11 @@
 #' 
 #' @section Arguments:
 #' 
-#' @param AVyCApplicationInput An \code{AVyCApplicationInput} object.
-#' @param eMail An E-Mail address in \code{String} format.
-#' @param model A benchmark model in \code{String} format.
-#' @param returnType A return type in \code{String} format.
-#' @param testStatistics A \code{String} vector with test statistics.
+#' @field AVyCApplicationInput An \code{AVyCApplicationInput} object.
+#' @field eMail An E-Mail address in \code{String} format.
+#' @field model A benchmark model in \code{String} format.
+#' @field returnType A return type in \code{String} format.
+#' @field testStatistics A \code{String} vector with test statistics.
 #' 
 #' @section Class Members:
 #' \describe{
@@ -60,7 +60,7 @@
 #'  \item{allowedNonTradingDays}{Available market models.}
 #' }
 #' 
-#' @format \code{\link{R6Class}} object.
+#' @format \code{\link[R6]{R6Class}} object.
 #' 
 #' @seealso \url{https://www.eventstudytools.com/axc/upload}
 #' 

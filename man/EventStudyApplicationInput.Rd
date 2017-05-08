@@ -4,7 +4,7 @@
 \name{EventStudyApplicationInput}
 \alias{EventStudyApplicationInput}
 \title{Abnormal Return Calculation (ARC) API Wrapper}
-\format{\code{\link{R6Class}} object.}
+\format{\code{\link[R6]{R6Class}} object.}
 \usage{
 EventStudyApplicationInput
 }

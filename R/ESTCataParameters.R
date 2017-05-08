@@ -17,6 +17,8 @@
 #' 
 #' @title CATA Parameters
 #' 
+#' @description TBD
+#' 
 #' @export
 ESTCataParameters <- R6::R6Class(classname = "ESTCataParameters",
                                  inherit = ApplicationInputInterface,

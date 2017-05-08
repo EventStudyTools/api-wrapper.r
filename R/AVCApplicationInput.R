@@ -47,20 +47,20 @@
 #' 
 #' 
 #' @section Class Members:
-#' @param task Actually, just \code{locale} is defined. E-Mail-Address is added
+#' @field task Actually, just \code{locale} is defined. E-Mail-Address is added
 #' in a later version.
-#' @param return_type return type calculation: log (default), simple
-#' @param non_trading_days handler for non-trading days: later (default), 
+#' @field return_type return type calculation: log (default), simple
+#' @field non_trading_days handler for non-trading days: later (default), 
 #' earlier, keep, and skip
-#' @param test_statistics test statistics that will be used in the Event Study
-#' @param request_file list of request file key and type
-#' @param firm_data list of firm data file key and type
-#' @param market_data list of market data file key and type 
-#' @param allowedTestStatistics allowed test statistics
-#' @param allowedBenchmarkModel available market models
-#' @param allowedNonTradingDays available market models
+#' @field  test_statistics test statistics that will be used in the Event Study
+#' @field request_file list of request file key and type
+#' @field firm_data list of firm data file key and type
+#' @field market_data list of market data file key and type 
+#' @field allowedTestStatistics allowed test statistics
+#' @field allowedBenchmarkModel available market models
+#' @field allowedNonTradingDays available market models
 #' 
-#' @format \code{\link{R6Class}} object.
+#' @format \code{\link[R6]{R6Class}} object.
 #' 
 #' @seealso \url{https://www.eventstudytools.com/axc/upload}
 #' 

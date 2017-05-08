@@ -2,12 +2,17 @@
 #' 
 #' @title Abnormal Return Plot
 #'
-#' @param ResultParser An object of class \code{ResultParser}
+#' @description Abnormal return plots
+#'
+#' @param ResultParserObj An object of class \code{ResultParser}
 #' @param firm set this parameter if just one firm should be plotted
+#' @param window filter event time window
 #' @param xlab x-axis label
 #' @param ylab y-axis label
-#' @param facet should each firm get its own plot (default = T)
+#' @param alpha alpha value
+#' @param facetVar should each firm get its own plot (default = T)
 #' @param ncol number of facet columns
+#' @param addAAR add aar line
 #' @param xVar x variable name
 #' @param yVar y variable name
 #' 
@@ -69,9 +74,15 @@ arPlot <- function(ResultParserObj, firm = NULL, window = NULL,
 #' 
 #' @title Averaged Abnormal Return Plot
 #'
-#' @param ResultParser An object of class \code{ResultParser}
+#' @description Averaged abnormal return plots
+#' 
+#' @param ResultParserObj An object of class \code{ResultParser}
 #' @param cumSum plot CAAR
 #' @param group set this parameter if just one group should be plotted
+#' @param window numeric vector of length 2
+#' @param ciStatistics Statistic used for confidence intervals
+#' @param p p-value
+#' @param ciType type of CI band 
 #' @param xlab x-axis label
 #' @param ylab y-axis label
 #' @param facet should each firm get its own plot (default = T)
@@ -156,6 +167,8 @@ aarPlot <- function(ResultParserObj,
 #' 
 #' @title Pointwise Cumulative Abnormal Return Plot
 #' 
+#' @description Pointwise cumulative abnormal return plots
+#' 
 #' @param df data.frame with abnormal return in long format; 
 #' @param firm set this parameter if just one firm should be plotted
 #' @param xlab x-axis label
@@ -174,8 +187,8 @@ pointwiseCARPlot <- function(df, firm = NULL, xlab = "", ylab = "pointwise Cumul
   }
   
   # calculate cumulative sum
-  df <- as.data.table(df)
-  setkeyv(df, c("Firm", "eventTime"))
+  df <- data.table::as.data.table(df)
+  data.table::setkeyv(df, c("Firm", "eventTime"))
   df[, car := cumsum(ar), by = Firm]
   
   # plot pCAR

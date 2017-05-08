@@ -30,7 +30,7 @@
 #'   \item{\code{$setup()}}{Setup the parameter list.}
 #'}
 #' 
-#' @format \code{\link{R6Class}} object.
+#' @format \code{\link[R6]{R6Class}} object.
 EventStudyApplicationInput <- R6::R6Class(classname = "EventStudyApplicationInput",
                                           inherit = ApplicationInputInterface,
                                           public = list(

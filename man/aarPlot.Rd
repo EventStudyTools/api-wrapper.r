@@ -9,9 +9,19 @@ aarPlot(ResultParserObj, cumSum = F, group = NULL, window = NULL,
   ylab = "Averaged Abnormal Returns", facet = T, ncol = 4)
 }
 \arguments{
+\item{ResultParserObj}{An object of class \code{ResultParser}}
+
 \item{cumSum}{plot CAAR}
 
 \item{group}{set this parameter if just one group should be plotted}
+
+\item{window}{numeric vector of length 2}
+
+\item{ciStatistics}{Statistic used for confidence intervals}
+
+\item{p}{p-value}
+
+\item{ciType}{type of CI band}
 
 \item{xlab}{x-axis label}
 
@@ -20,9 +30,10 @@ aarPlot(ResultParserObj, cumSum = F, group = NULL, window = NULL,
 \item{facet}{should each firm get its own plot (default = T)}
 
 \item{ncol}{number of facet columns}
-
-\item{ResultParser}{An object of class \code{ResultParser}}
 }
 \value{
 a ggplot2 object
+}
+\description{
+Averaged abnormal return plots
 }

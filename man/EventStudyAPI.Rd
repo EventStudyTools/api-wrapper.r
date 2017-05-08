@@ -4,21 +4,24 @@
 \name{EventStudyAPI}
 \alias{EventStudyAPI}
 \title{API for \url{www.eventstudytools.com}}
-\format{\code{\link{R6Class}} object.}
+\format{\code{\link[R6]{R6Class}} object.}
 \usage{
 EventStudyAPI
-}
-\arguments{
-\item{token}{token returned after authentication}
-
-\item{apiServerUrl}{url to Event Study API}
-
-\item{resultFiles}{Result file names}
 }
 \description{
 R interface for performing Event Studies on 
 \url{www.eventstudytools.com}.
 }
+\section{Fields}{
+
+\describe{
+\item{\code{field}}{token returned after authentication}
+
+\item{\code{field}}{url to Event Study API}
+
+\item{\code{field}}{Result file names}
+}}
+
 \section{Usage}{
 
 For usage details see \bold{Methods, Arguments, and Examples} sections.
@@ -56,7 +59,6 @@ For usage details see \bold{Methods, Arguments, and Examples} sections.
 }
 
 \section{Arguments}{
-
 
 \describe{
  \item{eventstudyapi}{An \code{EventStudyAPI} object.}

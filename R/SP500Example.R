@@ -1,4 +1,6 @@
 #' This function copies the 3 csv files to the actual working directory
+#' 
+#' @param targetDir directory to save example files
 #'
 #' @export
 getSP500ExampleFiles <- function(targetDir = getwd()) {

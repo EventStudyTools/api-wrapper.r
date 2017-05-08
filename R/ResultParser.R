@@ -40,7 +40,7 @@
 #' @section Class Members:
 #' 
 #'   
-#' @format \code{\link{R6Class}} object.
+#' @format \code{\link[R6]{R6Class}} object.
 #' 
 #' @export
 ResultParser <- R6::R6Class(classname = "ResultParser",

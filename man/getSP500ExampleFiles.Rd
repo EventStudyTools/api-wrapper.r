@@ -6,6 +6,9 @@
 \usage{
 getSP500ExampleFiles(targetDir = getwd())
 }
+\arguments{
+\item{targetDir}{directory to save example files}
+}
 \description{
 This function copies the 3 csv files to the actual working directory
 }

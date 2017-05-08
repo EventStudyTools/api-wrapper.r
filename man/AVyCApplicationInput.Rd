@@ -4,20 +4,9 @@
 \name{AVyCApplicationInput}
 \alias{AVyCApplicationInput}
 \title{Abnormal Volatility Calculation Parameters}
-\format{\code{\link{R6Class}} object.}
+\format{\code{\link[R6]{R6Class}} object.}
 \usage{
 AVyCApplicationInput
-}
-\arguments{
-\item{AVyCApplicationInput}{An \code{AVyCApplicationInput} object.}
-
-\item{eMail}{An E-Mail address in \code{String} format.}
-
-\item{model}{A benchmark model in \code{String} format.}
-
-\item{returnType}{A return type in \code{String} format.}
-
-\item{testStatistics}{A \code{String} vector with test statistics.}
 }
 \value{
 a ESTParameters R6 object
@@ -27,6 +16,20 @@ This R6 class defines the parameters for the Abnormal Volatility Volume Event
 Study. We recommend to use the \code{set} functionality to setup your Event  
 Study, as we check input parameters.
 }
+\section{Fields}{
+
+\describe{
+\item{\code{AVyCApplicationInput}}{An \code{AVyCApplicationInput} object.}
+
+\item{\code{eMail}}{An E-Mail address in \code{String} format.}
+
+\item{\code{model}}{A benchmark model in \code{String} format.}
+
+\item{\code{returnType}}{A return type in \code{String} format.}
+
+\item{\code{testStatistics}}{A \code{String} vector with test statistics.}
+}}
+
 \section{Methods}{
 
 

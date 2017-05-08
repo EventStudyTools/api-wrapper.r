@@ -4,32 +4,9 @@
 \name{AVCApplicationInput}
 \alias{AVCApplicationInput}
 \title{Abnormal Volume Calculation Parameters}
-\format{\code{\link{R6Class}} object.}
+\format{\code{\link[R6]{R6Class}} object.}
 \usage{
 AVCApplicationInput
-}
-\arguments{
-\item{task}{Actually, just \code{locale} is defined. E-Mail-Address is added
-in a later version.}
-
-\item{return_type}{return type calculation: log (default), simple}
-
-\item{non_trading_days}{handler for non-trading days: later (default), 
-earlier, keep, and skip}
-
-\item{test_statistics}{test statistics that will be used in the Event Study}
-
-\item{request_file}{list of request file key and type}
-
-\item{firm_data}{list of firm data file key and type}
-
-\item{market_data}{list of market data file key and type}
-
-\item{allowedTestStatistics}{allowed test statistics}
-
-\item{allowedBenchmarkModel}{available market models}
-
-\item{allowedNonTradingDays}{available market models}
 }
 \value{
 a ESTParameters R6 object
@@ -39,6 +16,32 @@ This R6 class defines the parameters for the Abnormal Volume Event Study.
 We recommend to use the \code{set} functionality to setup your Event Study, 
 as we check input parameters.
 }
+\section{Fields}{
+
+\describe{
+\item{\code{task}}{Actually, just \code{locale} is defined. E-Mail-Address is added
+in a later version.}
+
+\item{\code{return_type}}{return type calculation: log (default), simple}
+
+\item{\code{non_trading_days}}{handler for non-trading days: later (default), 
+earlier, keep, and skip}
+
+\item{\code{test_statistics}}{test statistics that will be used in the Event Study}
+
+\item{\code{request_file}}{list of request file key and type}
+
+\item{\code{firm_data}}{list of firm data file key and type}
+
+\item{\code{market_data}}{list of market data file key and type}
+
+\item{\code{allowedTestStatistics}}{allowed test statistics}
+
+\item{\code{allowedBenchmarkModel}}{available market models}
+
+\item{\code{allowedNonTradingDays}}{available market models}
+}}
+
 \section{Methods}{
 
 \describe{

@@ -24,21 +24,21 @@
 #'
 #' @export
 EventStudyAddin <- function() {
-  ui <- miniPage(
-    gadgetTitleBar(title = "Event Study", 
-                   right = miniTitleBarButton("performAnalysis", "Perform Analysis", primary = TRUE)),
-    miniTabstripPanel(
-      miniTabPanel("Parameters", icon = icon("sliders"),
-                   miniContentPanel(
-                     uiOutput("parameters_ui")
-                   )
+  ui <- miniUI::miniPage(
+    miniUI::gadgetTitleBar(title = "Event Study", 
+                           right = miniTitleBarButton("performAnalysis", "Perform Analysis", primary = TRUE)),
+    miniUI::miniTabstripPanel(
+      miniUI::miniTabPanel("Parameters", icon = icon("sliders"),
+                           miniUI::miniContentPanel(
+                             uiOutput("parameters_ui")
+                           )
       ),
-      miniTabPanel("Statistics", icon = icon("linode"),
-                   miniContentPanel(
-                     fluidRow(style = "margin: 5px 5px 5px 5px",
-                              uiOutput("statistics_ui")
-                     )
-                   )
+      miniUI::miniTabPanel("Statistics", icon = icon("linode"),
+                           miniUI::miniContentPanel(
+                             fluidRow(style = "margin: 5px 5px 5px 5px",
+                                      uiOutput("statistics_ui")
+                             )
+                           )
       )
     )
   )

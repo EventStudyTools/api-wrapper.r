@@ -4,32 +4,9 @@
 \name{ARCApplicationInput}
 \alias{ARCApplicationInput}
 \title{Abnormal Return Calculation Parameters}
-\format{\code{\link{R6Class}} object.}
+\format{An object of class \code{R6ClassGenerator} of length 24.}
 \usage{
 ARCApplicationInput
-}
-\arguments{
-\item{task}{Actually, just \code{locale} is defined. E-Mail-Address is added
-in a later version.}
-
-\item{return_type}{return type calculation: log (default), simple}
-
-\item{non_trading_days}{handler for non-trading days: later (default), 
-earlier, keep, and skip}
-
-\item{test_statistics}{test statistics that will be used in the Event Study}
-
-\item{request_file}{list of request file key and type}
-
-\item{firm_data}{list of firm data file key and type}
-
-\item{market_data}{list of market data file key and type}
-
-\item{allowedTestStatistics}{allowed test statistics}
-
-\item{allowedBenchmarkModel}{available market models}
-
-\item{allowedNonTradingDays}{available market models}
 }
 \value{
 a ESTParameters R6 object
@@ -67,6 +44,17 @@ input parameters.
 
 \section{Class Members}{
 
+\describe{
+\item{task}{Actually, just \code{locale} is defined. E-Mail-Address is added
+in a later version.}
+\item{return_type}{Return type calculation: log (default), simple}
+\item{non_trading_days}{handler for non-trading days: later (default), 
+earlier, keep, and skip}
+\item{test_statistics}{Test statistics that will be used in the Event Study.}
+\item{request_file}{List of request file key and type.}
+\item{firm_data}{List of firm file key and type.}
+\item{market_data}{List of market file key and type.}
+}
 }
 
 \seealso{
