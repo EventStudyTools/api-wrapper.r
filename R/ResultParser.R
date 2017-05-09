@@ -34,12 +34,6 @@
 #'   \item{\code{plotAR(id = NULL)}}{This method abnormal returns time series 
 #'   with \code{id} as the firm id.}}
 #'   
-#' @section Arguments:
-#' 
-#' 
-#' @section Class Members:
-#' 
-#'   
 #' @format \code{\link[R6]{R6Class}} object.
 #' 
 #' @export

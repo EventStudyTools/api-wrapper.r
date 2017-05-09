@@ -66,11 +66,6 @@
 #'  \item{destDir}{Directory for saving result files.}
 #' }
 #'
-#' @section Class Members:
-#' @field field token returned after authentication
-#' @field field url to Event Study API
-#' @field field Result file names
-#' 
 #' @export
 EventStudyAPI <- R6::R6Class(classname = "EventStudyAPI",
                              public = list(

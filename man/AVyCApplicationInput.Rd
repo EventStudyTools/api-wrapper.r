@@ -16,20 +16,6 @@ This R6 class defines the parameters for the Abnormal Volatility Volume Event
 Study. We recommend to use the \code{set} functionality to setup your Event  
 Study, as we check input parameters.
 }
-\section{Fields}{
-
-\describe{
-\item{\code{AVyCApplicationInput}}{An \code{AVyCApplicationInput} object.}
-
-\item{\code{eMail}}{An E-Mail address in \code{String} format.}
-
-\item{\code{model}}{A benchmark model in \code{String} format.}
-
-\item{\code{returnType}}{A return type in \code{String} format.}
-
-\item{\code{testStatistics}}{A \code{String} vector with test statistics.}
-}}
-
 \section{Methods}{
 
 
@@ -48,23 +34,12 @@ Study, as we check input parameters.
 
 \section{Arguments}{
 
-}
-
-\section{Class Members}{
-
 \describe{
- \item{task}{Actually, just \code{locale} is defined. E-Mail-Address is added
-in a later version.}
- \item{return_type}{Return type calculation: log (default), simple}
- \item{non_trading_days}{Handler for non-trading days: later (default), 
-earlier, keep, and skip}
- \item{test_statistics}{Test statistics that will be used in the Event Study}
- \item{request_file}{A \code{String} vector with test statistics.}
- \item{firm_data}{List of request file key and type.}
- \item{market_data}{List of market file key and type.}
- \item{allowedTestStatistics}{Available test statistics.}
- \item{allowedBenchmarkModel}{Available market models.}
- \item{allowedNonTradingDays}{Available market models.}
+ \item{AVyCApplicationInput}{An \code{AVyCApplicationInput} object}
+ \item{eMail}{An E-Mail address in \code{String} format}
+ \item{model}{A benchmark model in \code{String} format}
+ \item{returnType}{A return type in \code{String} format}
+ \item{testStatistics}{A \code{String} vector with test statistics.}
 }
 }
 

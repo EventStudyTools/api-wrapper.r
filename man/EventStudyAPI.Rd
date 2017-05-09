@@ -12,16 +12,6 @@ EventStudyAPI
 R interface for performing Event Studies on 
 \url{www.eventstudytools.com}.
 }
-\section{Fields}{
-
-\describe{
-\item{\code{field}}{token returned after authentication}
-
-\item{\code{field}}{url to Event Study API}
-
-\item{\code{field}}{Result file names}
-}}
-
 \section{Usage}{
 
 For usage details see \bold{Methods, Arguments, and Examples} sections.
@@ -70,10 +60,6 @@ For usage details see \bold{Methods, Arguments, and Examples} sections.
  \item{fileName}{Data filename.}
  \item{destDir}{Directory for saving result files.}
 }
-}
-
-\section{Class Members}{
-
 }
 
 \keyword{datasets}

@@ -11,18 +11,6 @@ ApplicationInputInterface
 \description{
 Abstract class no description.
 }
-\section{Fields}{
-
-\describe{
-\item{\code{parameters}}{\code{list} of parameters thaat are send to EST API}
-
-\item{\code{result_file_type}}{result file type}
-
-\item{\code{allowedResultFileType}}{allowed result file types}
-
-\item{\code{allowedResultFileType}}{available result file types}
-}}
-
 \section{Methods}{
 
 \describe{
@@ -41,10 +29,6 @@ Abstract class no description.
   \item{\code{type}}{Set the result file type.}
   \item{\code{level}}{LEvel to seriealize.}
 }
-}
-
-\section{Class Members}{
-
 }
 
 \keyword{datasets}

@@ -36,28 +36,14 @@
 #'   statistics.}
 #'}
 #' 
+#' 
 #' @section Arguments:
-#' 
-#' @field AVyCApplicationInput An \code{AVyCApplicationInput} object.
-#' @field eMail An E-Mail address in \code{String} format.
-#' @field model A benchmark model in \code{String} format.
-#' @field returnType A return type in \code{String} format.
-#' @field testStatistics A \code{String} vector with test statistics.
-#' 
-#' @section Class Members:
 #' \describe{
-#'  \item{task}{Actually, just \code{locale} is defined. E-Mail-Address is added
-#' in a later version.}
-#'  \item{return_type}{Return type calculation: log (default), simple}
-#'  \item{non_trading_days}{Handler for non-trading days: later (default), 
-#' earlier, keep, and skip}
-#'  \item{test_statistics}{Test statistics that will be used in the Event Study}
-#'  \item{request_file}{A \code{String} vector with test statistics.}
-#'  \item{firm_data}{List of request file key and type.}
-#'  \item{market_data}{List of market file key and type.}
-#'  \item{allowedTestStatistics}{Available test statistics.}
-#'  \item{allowedBenchmarkModel}{Available market models.}
-#'  \item{allowedNonTradingDays}{Available market models.}
+#'  \item{AVyCApplicationInput}{An \code{AVyCApplicationInput} object}
+#'  \item{eMail}{An E-Mail address in \code{String} format}
+#'  \item{model}{A benchmark model in \code{String} format}
+#'  \item{returnType}{A return type in \code{String} format}
+#'  \item{testStatistics}{A \code{String} vector with test statistics.}
 #' }
 #' 
 #' @format \code{\link[R6]{R6Class}} object.

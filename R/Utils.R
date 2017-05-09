@@ -93,5 +93,5 @@ isError <- function(x){
 #'
 #' @keywords internal
 errorMessage <- function(x) {
-  if(is.error(x)) attr(x, "condition")$message
+  if(isError(x)) attr(x, "condition")$message
 }

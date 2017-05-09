@@ -25,6 +25,9 @@ arPlot <- function(ResultParserObj, firm = NULL, window = NULL,
                    facetVar = NULL, ncol = 4,
                    addAAR = F,
                    xVar = "eventTime", yVar = "ar") {
+  # CRAN check
+  Firm <- eventTime <- y <- NULL
+  
   ar <- ResultParserObj$arResults
   if (!is.null(firm)) {
     ar %>% 
@@ -44,18 +47,18 @@ arPlot <- function(ResultParserObj, firm = NULL, window = NULL,
     geom_vline(xintercept = 0, color = "black", linetype = 2, alpha = .5) +
     geom_line(aes_string(x = xVar, y = yVar, group = "Firm"), 
               color = pal[3], alpha = alpha) + 
-    scale_y_continuous(label = scales::percent) +
+    scale_y_continuous(labels = scales::percent) +
     xlab(xlab) +
     ylab(ylab) +
     theme_tq() -> q
   
   if (addAAR) {
     if (facetVar != "Firm") {
-      setnames(ar, yVar, "y")
+      data.table::setnames(ar, yVar, "y")
       ar %>% 
         dplyr::group_by_(.dots = c(xVar, facetVar)) %>% 
         dplyr::summarise(y = mean(y, na.rm = T)) -> mAr
-      setnames(ar, "y", yVar)
+      data.table::setnames(ar, "y", yVar)
       q <- q +
         geom_line(data = mAr, aes_string(x = xVar, y = "y"), color = "black")
     }
@@ -103,6 +106,9 @@ aarPlot <- function(ResultParserObj,
                     facet        = T, 
                     ncol         = 4) {
   
+  # CRAN check
+  level <- eventTime <- lower <- upper <- NULL
+
   aar <- ResultParserObj$aarResults
   if (cumSum) {
     aar %>% 
@@ -137,7 +143,7 @@ aarPlot <- function(ResultParserObj,
     geom_hline(yintercept = 0, color = "black", alpha = .5) +
     geom_vline(xintercept = 0, color = "black", linetype = 2, alpha = .5) +
     geom_line(aes(x = eventTime, y = aar), color = pal[3]) + 
-    scale_y_continuous(label = percent) +
+    scale_y_continuous(labels = scales::percent) +
     xlab(xlab) +
     ylab(ylab) +
     theme_tq() -> q
@@ -180,6 +186,8 @@ aarPlot <- function(ResultParserObj,
 #' 
 #' @export 
 pointwiseCARPlot <- function(df, firm = NULL, xlab = "", ylab = "pointwise Cumulative Abnormal Returns", facet = T, ncol = 4) {
+  # CRAN check
+  Firm <- car <- NULL
   
   if (!is.null(firm)) {
     df %>% 
@@ -193,10 +201,10 @@ pointwiseCARPlot <- function(df, firm = NULL, xlab = "", ylab = "pointwise Cumul
   
   # plot pCAR
   df %>% 
-    arPlot(xlab  = xlab, 
-           ylab  = ylab, 
-           facet = facet, 
-           ncol  = ncol, 
-           xVar  = "eventTime", 
-           yVar  = "car")
+    arPlot(xlab     = xlab, 
+           ylab     = ylab, 
+           facetVar = facet, 
+           ncol     = ncol, 
+           xVar     = "eventTime", 
+           yVar     = "car")
 }

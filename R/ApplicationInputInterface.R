@@ -37,12 +37,6 @@
 #'   \item{\code{level}}{LEvel to seriealize.}
 #'}
 #'
-#' @section Class Members:
-#' @field parameters \code{list} of parameters thaat are send to EST API
-#' @field result_file_type result file type
-#' @field allowedResultFileType allowed result file types
-#' @field allowedResultFileType available result file types
-#' 
 ApplicationInputInterface <- R6::R6Class(classname = "ApplicationInputInterface",
                                          lock_objects = F,
                                          public = list(

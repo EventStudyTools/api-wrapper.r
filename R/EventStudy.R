@@ -17,6 +17,9 @@ NULL
 #' @import shiny
 #' @import miniUI
 #' @import rstudioapi
+#' @import ggplot2
+#' @importFrom tidyquant theme_tq
+#' @importFrom data.table :=
 
 
 #' @export

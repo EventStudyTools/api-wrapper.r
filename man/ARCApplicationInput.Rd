@@ -42,21 +42,6 @@ input parameters.
 }
 }
 
-\section{Class Members}{
-
-\describe{
-\item{task}{Actually, just \code{locale} is defined. E-Mail-Address is added
-in a later version.}
-\item{return_type}{Return type calculation: log (default), simple}
-\item{non_trading_days}{handler for non-trading days: later (default), 
-earlier, keep, and skip}
-\item{test_statistics}{Test statistics that will be used in the Event Study.}
-\item{request_file}{List of request file key and type.}
-\item{firm_data}{List of firm file key and type.}
-\item{market_data}{List of market file key and type.}
-}
-}
-
 \seealso{
 \url{https://www.eventstudytools.com/axc/upload}
 }

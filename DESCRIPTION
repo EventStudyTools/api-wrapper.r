@@ -1,29 +1,31 @@
 Package: EventStudy
 Type: Package
 Title: Event Study Analysis in R
-Description: This package provides functionality for doing Event Studies from R by using EventStudyTools.com API interface, parsing results, and visualize them.
+Description: EventStudy provides functionality for doing Event Studies from R by using EventStudyTools.com API interface, parsing results, and visualize them.
 Author: Dr. Simon Mueller
 Date: 2017-03-06
 Version: 0.30
 Encoding: UTF-8
 URL: http://eventdtudytools.com
 Maintainer: Dr. Simon Mueller <simon.mueller@muon-stat.com>
-License: MIT
+License: MIT + file LICENSE
+Depends:
+    ggplot2
 Imports:
     shiny,
     miniUI,
     rstudioapi,
-    magrittr (>= 1.5),
     httr,
+    curl,
     jsonlite,
+    magrittr (>= 1.5),
     data.table,
     dplyr,
     purrr,
-    ggplot2,
     scales,
     tidyquant,
-    stringr,
     RColorBrewer,
+    stringr,
     readr
 Suggests: 
     knitr,

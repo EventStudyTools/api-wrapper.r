@@ -27,12 +27,4 @@ the vignette for further details.
   with \code{id} as the firm id.}}
 }
 
-\section{Arguments}{
-
-}
-
-\section{Class Members}{
-
-}
-
 \keyword{datasets}
