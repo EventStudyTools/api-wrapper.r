@@ -27,8 +27,8 @@ Abstract class no description.
 
 \describe{
   \item{\code{type}}{Set the result file type.}
-  \item{\code{level}}{LEvel to seriealize.}
+  \item{\code{level}}{Level to seriealize.}
 }
 }
 
-\keyword{datasets}
+\keyword{internal}

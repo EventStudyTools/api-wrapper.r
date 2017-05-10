@@ -15,11 +15,14 @@
 # // along with EventStudy  If not, see <http://www.gnu.org/licenses/>.
 #' @name ResultParser
 #' 
-#' @title A parser for Event Study result files
+#' @title Parses request and results files returned from our Event Study API
+#' interface.
 #' 
 #' @description 
 #' This result file parser works at the moment just for csv files. Please read
-#' the vignette for further details.
+#' the vignette for further details (Coming soon). We will restructure our 
+#' result reports soon. So, this function may change dramatically. This object 
+#' can be used for plotting your results.
 #' 
 #' @section Methods:
 #' 
@@ -35,6 +38,15 @@
 #'   with \code{id} as the firm id.}}
 #'   
 #' @format \code{\link[R6]{R6Class}} object.
+#' 
+#' @examples 
+#' # Assume you already performed an Event Study and result files are saved in 
+#' # the actual working directory.
+#' estParser <- ResultParser$new()
+#' estParser$parseRequestFile("01_RequestFile.csv")
+#' estParser$parseReport("Analysis report.csv")
+#' estParser$parseAR("AR results.csv")
+#' estParser$parseAAR("AAR results.csv")
 #' 
 #' @export
 ResultParser <- R6::R6Class(classname = "ResultParser",

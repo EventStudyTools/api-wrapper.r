@@ -3,14 +3,17 @@
 \docType{data}
 \name{ResultParser}
 \alias{ResultParser}
-\title{A parser for Event Study result files}
+\title{Parses request and results files returned from our Event Study API
+interface.}
 \format{\code{\link[R6]{R6Class}} object.}
 \usage{
 ResultParser
 }
 \description{
 This result file parser works at the moment just for csv files. Please read
-the vignette for further details.
+the vignette for further details (Coming soon). We will restructure our 
+result reports soon. So, this function may change dramatically. This object 
+can be used for plotting your results.
 }
 \section{Methods}{
 
@@ -27,4 +30,14 @@ the vignette for further details.
   with \code{id} as the firm id.}}
 }
 
+\examples{
+# Assume you already performed an Event Study and result files are saved in 
+# the actual working directory.
+estParser <- ResultParser$new()
+estParser$parseRequestFile("01_RequestFile.csv")
+estParser$parseReport("Analysis report.csv")
+estParser$parseAR("AR results.csv")
+estParser$parseAAR("AAR results.csv")
+
+}
 \keyword{datasets}

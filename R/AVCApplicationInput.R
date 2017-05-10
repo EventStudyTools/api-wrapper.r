@@ -22,6 +22,9 @@
 #' We recommend to use the \code{set} functionality to setup your Event Study, 
 #' as we check input parameters.
 #' 
+#' For more details see the help vignette:
+#' \code{vignette("parameters_eventstudy", package = "EventStudy")}
+#' 
 #' @section Methods:
 #' \describe{
 #'   \item{\code{$new()}}{Constructor for AVCApplicationInput}
@@ -51,7 +54,32 @@
 #' @seealso \url{https://www.eventstudytools.com/axc/upload}
 #' 
 #' @return a ESTParameters R6 object
+#' 
+#' @examples 
+#' # get files for our S&P500 example; 3 files are written in the current 
+#' # working directory
+#' getSP500ExampleFiles()
+#' 
+#' # Generate a new parameter object
+#' avcParams <- AVCApplicationInput$new()
+#' 
+#' # set test statistics
+#' arcParams$setBenchmarkModel("garch")
+#' 
+#' # Setup API object
+#' apiKey <- "{Your API key}"
+#' estSetup <- EventStudyAPI$new()
+#' estSetup$authentication(apiKey)
 #'
+#' # Perform Event Study
+#' estSetup$performEventStudy(estParams = avcParams, 
+#'                            dataFiles = c("request_file" = "01_RequestFile.csv",
+#'                                          "firm_data"    = "02_firmData.csv",
+#'                                          "market_data"  = "03_marketData.csv"))
+#'
+#' # Download task results and save them in the actiual working directory
+#' estSetup$getTaskResults()
+#' 
 #' @export
 AVCApplicationInput <- R6::R6Class(classname = "AVCApplicationInput",
                                    inherit = EventStudyApplicationInput,

@@ -11,17 +11,18 @@ arPlot(ResultParserObj, firm = NULL, window = NULL, xlab = "",
 \arguments{
 \item{ResultParserObj}{An object of class \code{ResultParser}}
 
-\item{firm}{set this parameter if just one firm should be plotted}
+\item{firm}{set this parameter if just a subset of firms should be plotted}
 
 \item{window}{filter event time window}
 
-\item{xlab}{x-axis label}
+\item{xlab}{x-axis label of the plot}
 
 \item{ylab}{y-axis label}
 
 \item{alpha}{alpha value}
 
-\item{facetVar}{should each firm get its own plot (default = T)}
+\item{facetVar}{should each firm get its own plot. You may plot each firm in
+an own plot or by each group. (Default: NULL, available: Group and Firm)}
 
 \item{ncol}{number of facet columns}
 
@@ -35,5 +36,14 @@ arPlot(ResultParserObj, firm = NULL, window = NULL, xlab = "",
 a ggplot2 object
 }
 \description{
-Abnormal return plots
+Plot abnormal returns in the event window of single or multiple
+firms.
+}
+\examples{
+# plot abnormal returns in one plot
+arPlot(resultParser)
+
+# plot abnormal returns by group
+arPlot(resultParser, facetVar = "Group")
+
 }

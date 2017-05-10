@@ -35,5 +35,16 @@ aarPlot(ResultParserObj, cumSum = F, group = NULL, window = NULL,
 a ggplot2 object
 }
 \description{
-Averaged abnormal return plots
+Averaged abnormal return plots with confidence intervals
+
+For more details see the help vignette:
+\code{vignette("parameters_eventstudy", package = "EventStudy")}
+}
+\examples{
+# plot averaged abnormal returns in one plot
+aarPlot(resultParser)
+
+# plot averaged abnormal returns with .95-CI
+arPlot(resultParser, ciStatistics = "Patell Z",p = .95)
+
 }

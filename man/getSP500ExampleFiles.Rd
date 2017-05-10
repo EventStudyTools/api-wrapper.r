@@ -2,7 +2,8 @@
 % Please edit documentation in R/SP500Example.R
 \name{getSP500ExampleFiles}
 \alias{getSP500ExampleFiles}
-\title{This function copies the 3 csv files to the actual working directory}
+\title{This function copies the 3 csv files to the actual working directory. This 
+example data is used as motivation for using Event Studies in M&A research.}
 \usage{
 getSP500ExampleFiles(targetDir = getwd())
 }
@@ -10,5 +11,14 @@ getSP500ExampleFiles(targetDir = getwd())
 \item{targetDir}{directory to save example files}
 }
 \description{
-This function copies the 3 csv files to the actual working directory
+For more details see the help vignette:
+\code{vignette("introduction_eventstudy", package = "EventStudy")}
+}
+\details{
+or on our website:
+\url{https://www.eventstudytools.com/mergers-acquisitions}
+}
+\examples{
+getSP500ExampleFiles("data")
+
 }

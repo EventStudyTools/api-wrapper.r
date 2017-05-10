@@ -34,9 +34,10 @@
 #' @section Arguments:
 #' \describe{
 #'   \item{\code{type}}{Set the result file type.}
-#'   \item{\code{level}}{LEvel to seriealize.}
+#'   \item{\code{level}}{Level to seriealize.}
 #'}
 #'
+#' @keywords internal
 ApplicationInputInterface <- R6::R6Class(classname = "ApplicationInputInterface",
                                          lock_objects = F,
                                          public = list(

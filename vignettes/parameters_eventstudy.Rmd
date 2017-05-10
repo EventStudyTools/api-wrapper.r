@@ -38,7 +38,7 @@ apiUrl <- "http://api.dev.eventstudytools.com"
 apiKey <- "Please insert your key here"
 
 # Setup API Connection
-estSetup <- EventStudyAPI$new(apiUrl)
+estSetup <- EventStudyAPI$new()
 estSetup$authentication(apiKey)
 
 estSetup$performEventStudy(estParams = volatilityEstParams, 

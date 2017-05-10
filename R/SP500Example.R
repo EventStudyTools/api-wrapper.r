@@ -1,6 +1,16 @@
-#' This function copies the 3 csv files to the actual working directory
+#' This function copies the 3 csv files to the actual working directory. This 
+#' example data is used as motivation for using Event Studies in M&A research.
+#' 
+#' For more details see the help vignette:
+#' \code{vignette("introduction_eventstudy", package = "EventStudy")}
+#' 
+#' or on our website:
+#' \url{https://www.eventstudytools.com/mergers-acquisitions}
 #' 
 #' @param targetDir directory to save example files
+#' 
+#' @examples 
+#' getSP500ExampleFiles("data")
 #'
 #' @export
 getSP500ExampleFiles <- function(targetDir = getwd()) {

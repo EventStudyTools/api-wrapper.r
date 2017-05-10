@@ -1,22 +1,46 @@
+# // Copyright (C) 2017 Simon Müller
+# // This file is part of EventStudy
+# //
+# // EventStudy is free software: you can redistribute it and/or modify it
+# // under the terms of the GNU General Public License as published by
+# // the Free Software Foundation, either version 2 of the License, or
+# // (at your option) any later version.
+# //
+# // EventStudy is distributed in the hope that it will be useful, but
+# // WITHOUT ANY WARRANTY; without even the implied warranty of
+# // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# // GNU General Public License for more details.
+# //
+# // You should have received a copy of the GNU General Public License
+# // along with EventStudy  If not, see <http://www.gnu.org/licenses/>.
 #' @name arPlot
 #' 
 #' @title Abnormal Return Plot
 #'
-#' @description Abnormal return plots
+#' @description Plot abnormal returns in the event window of single or multiple
+#' firms. 
 #'
 #' @param ResultParserObj An object of class \code{ResultParser}
-#' @param firm set this parameter if just one firm should be plotted
+#' @param firm set this parameter if just a subset of firms should be plotted
 #' @param window filter event time window
-#' @param xlab x-axis label
+#' @param xlab x-axis label of the plot
 #' @param ylab y-axis label
 #' @param alpha alpha value
-#' @param facetVar should each firm get its own plot (default = T)
+#' @param facetVar should each firm get its own plot. You may plot each firm in
+#' an own plot or by each group. (Default: NULL, available: Group and Firm)
 #' @param ncol number of facet columns
 #' @param addAAR add aar line
 #' @param xVar x variable name
 #' @param yVar y variable name
 #' 
 #' @return a ggplot2 object
+#' 
+#' @examples
+#' # plot abnormal returns in one plot
+#' arPlot(resultParser)
+#' 
+#' # plot abnormal returns by group
+#' arPlot(resultParser, facetVar = "Group")
 #'
 #' @export
 arPlot <- function(ResultParserObj, firm = NULL, window = NULL, 
@@ -27,6 +51,9 @@ arPlot <- function(ResultParserObj, firm = NULL, window = NULL,
                    xVar = "eventTime", yVar = "ar") {
   # CRAN check
   Firm <- eventTime <- y <- NULL
+  
+  if (!is.null(facetVar))
+    facetVar <- match.arg(facetVar, c("Firm", "Group"))
   
   ar <- ResultParserObj$arResults
   if (!is.null(firm)) {
@@ -75,9 +102,12 @@ arPlot <- function(ResultParserObj, firm = NULL, window = NULL,
 
 #' @name aarPlot
 #' 
-#' @title Averaged Abnormal Return Plot
+#' @title Averaged Abnormal Return Plot 
 #'
-#' @description Averaged abnormal return plots
+#' @description Averaged abnormal return plots with confidence intervals
+#' 
+#' For more details see the help vignette:
+#' \code{vignette("parameters_eventstudy", package = "EventStudy")}
 #' 
 #' @param ResultParserObj An object of class \code{ResultParser}
 #' @param cumSum plot CAAR
@@ -92,6 +122,13 @@ arPlot <- function(ResultParserObj, firm = NULL, window = NULL,
 #' @param ncol number of facet columns
 #' 
 #' @return a ggplot2 object
+#'
+#' @examples
+#' # plot averaged abnormal returns in one plot
+#' aarPlot(resultParser)
+#' 
+#' # plot averaged abnormal returns with .95-CI
+#' arPlot(resultParser, ciStatistics = "Patell Z",p = .95)
 #'
 #' @export
 aarPlot <- function(ResultParserObj, 
@@ -179,15 +216,31 @@ aarPlot <- function(ResultParserObj,
 #' @param firm set this parameter if just one firm should be plotted
 #' @param xlab x-axis label
 #' @param ylab y-axis label
-#' @param facet should each firm get its own plot (default = T)
+#' @param facetVar should each firm get its own plot. You may plot each firm in
+#' an own plot or by each group. (Default: NULL, available: Group and Firm)
 #' @param ncol number of facet columns
 #' 
 #' @return a ggplot2 object
 #' 
-#' @export 
-pointwiseCARPlot <- function(df, firm = NULL, xlab = "", ylab = "pointwise Cumulative Abnormal Returns", facet = T, ncol = 4) {
+#' @examples
+#' # plot abnormal returns in one plot
+#' arPlot(resultParser)
+#' 
+#' # plot abnormal returns by group
+#' arPlot(resultParser, facetVar = "Group")
+#' 
+#' This function must be revised
+#' 
+#' @keywords internal
+pointwiseCARPlot <- function(df, firm = NULL, 
+                             xlab = "", ylab = "pointwise Cumulative Abnormal Returns", 
+                             facetVar = NULL, ncol = 4) {
   # CRAN check
   Firm <- car <- NULL
+  
+  # check facet variable
+  if (!is.null(facetVar))
+    facetVar <- match.arg(facetVar, c("Firm", "Group"))
   
   if (!is.null(firm)) {
     df %>% 
@@ -203,7 +256,7 @@ pointwiseCARPlot <- function(df, firm = NULL, xlab = "", ylab = "pointwise Cumul
   df %>% 
     arPlot(xlab     = xlab, 
            ylab     = ylab, 
-           facetVar = facet, 
+           facetVar = facetVar, 
            ncol     = ncol, 
            xVar     = "eventTime", 
            yVar     = "car")

@@ -5,7 +5,8 @@
 \title{Pointwise Cumulative Abnormal Return Plot}
 \usage{
 pointwiseCARPlot(df, firm = NULL, xlab = "",
-  ylab = "pointwise Cumulative Abnormal Returns", facet = T, ncol = 4)
+  ylab = "pointwise Cumulative Abnormal Returns", facetVar = NULL,
+  ncol = 4)
 }
 \arguments{
 \item{df}{data.frame with abnormal return in long format;}
@@ -16,7 +17,8 @@ pointwiseCARPlot(df, firm = NULL, xlab = "",
 
 \item{ylab}{y-axis label}
 
-\item{facet}{should each firm get its own plot (default = T)}
+\item{facetVar}{should each firm get its own plot. You may plot each firm in
+an own plot or by each group. (Default: NULL, available: Group and Firm)}
 
 \item{ncol}{number of facet columns}
 }
@@ -26,3 +28,14 @@ a ggplot2 object
 \description{
 Pointwise cumulative abnormal return plots
 }
+\examples{
+# plot abnormal returns in one plot
+arPlot(resultParser)
+
+# plot abnormal returns by group
+arPlot(resultParser, facetVar = "Group")
+
+This function must be revised
+
+}
+\keyword{internal}
