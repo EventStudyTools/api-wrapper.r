@@ -15,6 +15,6 @@
 
 .onAttach = function(libname, pkgname) {
   if (interactive()) {
-    packageStartupMessage("EventStudy is still in beta version - APIs can be changed.")
+    packageStartupMessage("EventStudy is still in alpha version - APIs can be changed.")
   }
 }

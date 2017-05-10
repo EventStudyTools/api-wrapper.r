@@ -43,7 +43,11 @@
 #' # Assume you already performed an Event Study and result files are saved in 
 #' # the actual working directory.
 #' estParser <- ResultParser$new()
+#' 
+#' # parse request file
 #' estParser$parseRequestFile("01_RequestFile.csv")
+#' 
+#' # parse result files
 #' estParser$parseReport("Analysis report.csv")
 #' estParser$parseAR("AR results.csv")
 #' estParser$parseAAR("AAR results.csv")
