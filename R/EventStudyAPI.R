@@ -98,6 +98,7 @@
 EventStudyAPI <- R6::R6Class(classname = "EventStudyAPI",
                              public = list(
                                resultFiles = NULL,
+                               dataFiles   = NULL,
                                initialize = function(apiServerUrl = NULL) {
                                  # if API key is null try to fetch it from options
                                  if (is.null(apiServerUrl)) {
@@ -143,8 +144,10 @@ EventStudyAPI <- R6::R6Class(classname = "EventStudyAPI",
                                                             dataFiles = c("request_file" = "01_RequestFile.csv", 
                                                                            "firm_data"   = "02_firmData.csv", 
                                                                            "market_data" = "03_MarketData.csv"), 
-                                                            destDir   = "results") {
+                                                            destDir   = "results",
+                                                            downloadFiles = T) {
                                  estParams$setup()
+                                 self$dataFiles <- dataFiles
                                  
                                  # Perform Study
                                  self$configureTask(estParams)
@@ -165,7 +168,6 @@ EventStudyAPI <- R6::R6Class(classname = "EventStudyAPI",
                                  while(iter < maxIter) {
                                    print(paste0("Step: ", iter))
                                    Sys.sleep(1)
-                                   browser()
                                    status <- self$getTaskStatus()
                                    if (status %in% c(3, 4)) {
                                      break()
@@ -187,8 +189,8 @@ EventStudyAPI <- R6::R6Class(classname = "EventStudyAPI",
                                  if (!dir.exists(destDir)) {
                                    dir.create(destDir)
                                  }
-                                 self$getTaskResults(destDir)
-                                 return(T)
+                                 
+                                 return(self$getTaskResults(downloadFiles, destDir))
                                },
                                performDefaultEventStudy = function(estType   = "arc", 
                                                                    dataFiles = c("request_file" = "01_RequestFile.csv", 
@@ -203,6 +205,7 @@ EventStudyAPI <- R6::R6Class(classname = "EventStudyAPI",
                                  } else if (estType == "avyc") {
                                    defaultParams <- ARCApplicationInput$new()
                                  }
+                                 
                                  self$performEventStudy(defaultParams, dataFiles, destDir)
                                },
                                processTask = function() {
@@ -283,11 +286,25 @@ EventStudyAPI <- R6::R6Class(classname = "EventStudyAPI",
                                  if (is.null(private$token))
                                    stop("Error: Configuration validation error")
                                  
-                                 ch <- doHttrRequest(url          = httr::modify_url(private$apiServerUrl, path = "/task/commit"), 
-                                                     request_type = "VERB", 
-                                                     config = httr::add_headers(c("Content-Type" = "application/json", 
-                                                                                  "X-Task-Key"   = private$token))
-                                 )
+                                 # ch <- doHttrRequest(url          = httr::modify_url(private$apiServerUrl, path = "/task/commit"), 
+                                 #                     request_type = "VERB", 
+                                 #                     config = httr::add_headers(c("Content-Type" = "application/json", 
+                                 #                                                  "X-Task-Key"   = private$token))
+                                 # )
+                                 
+                                 new_handle() %>%
+                                   handle_setopt(customrequest = "POST") %>%
+                                   handle_setopt(postfields = "") %>%
+                                   handle_setheaders("Content-Type" = "application/json",
+                                                     "X-Task-Key"   = private$token) -> handle
+                                 
+                                 ch <- curl_fetch_memory(url    = paste0(private$apiServerUrl, "/task/commit"),
+                                                         handle = handle)
+                                 
+                                 rawToChar(ch$content) %>%
+                                   jsonlite::fromJSON() %>%
+                                   private$checkAndNormalizeResponse(httpcode = ch$status_code,
+                                                                     method   = "commitData") -> result  
                                  
                                  if (!inherits(ch$content, "list") || is.null(ch$content$log))
                                    myMessage("Error in commitData: response is invalid")
@@ -315,7 +332,7 @@ EventStudyAPI <- R6::R6Class(classname = "EventStudyAPI",
                                  
                                  return(result)
                                },
-                               getTaskResults = function(destDir = getwd()) {
+                               getTaskResults = function(downloadFiles = T, destDir = getwd()) {
                                  if (is.null(private$token))
                                    stop("Error: Configuration validation error")
 
@@ -323,12 +340,26 @@ EventStudyAPI <- R6::R6Class(classname = "EventStudyAPI",
                                    stop("Error: No result files")
 
                                  # fetch data
-                                 # destDir <- stringr::str_replace_all(destDir, "[/\\]", "")
-                                 l <- lapply(self$resultFiles, function(x) {
-                                   destFile <- unlist(stringr::str_split(x, "/"))
-                                   destFile <- destFile[length(destFile)]
-                                   curl::curl_download(url = x, destfile = paste0(destDir, "/", destFile))
-                                 })
+                                 if (downloadFiles) {
+                                   # destDir <- stringr::str_replace_all(destDir, "[/\\]", "")
+                                   l <- lapply(self$resultFiles, function(x) {
+                                     destFile <- unlist(stringr::str_split(x, "/"))
+                                     destFile <- destFile[length(destFile)]
+                                     curl::curl_download(url = x, destfile = paste0(destDir, "/", destFile))
+                                   })
+                                 } 
+                                 
+                                 # Parse data
+                                 estParser <- ResultParser$new()
+                                 estParser$parseRequestFile(self$dataFiles[["request_file"]])
+                                 id <- which(stringr::str_detect(self$resultFiles, "^Analysis"))
+                                 estParser$parseReport(self$resultFiles[id])
+                                 id <- which(stringr::str_detect(self$resultFiles, "^AR"))
+                                 estParser$parseAR(self$resultFiles[id])
+                                 id <- which(stringr::str_detect(self$resultFiles, "^AAR"))
+                                 estParser$parseAAR(self$resultFiles[id])
+                                   
+                                 estParser
                                },
                                getApiVersion = function() {
                                  ch <- doHttrRequest(url          = httr::modify_url(private$apiServerUrl, path = "/version"), 
