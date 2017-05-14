@@ -164,8 +164,7 @@ EventStudyAPI <- R6::R6Class(classname = "EventStudyAPI",
                                  
                                  waiting <- T
                                  iter <- 0
-                                 maxIter <- 15
-                                 while(iter < maxIter) {
+                                 while(iter < getOption("EventStudy.tryAttempts")) {
                                    print(paste0("Step: ", iter))
                                    Sys.sleep(1)
                                    status <- self$getTaskStatus()
@@ -176,7 +175,9 @@ EventStudyAPI <- R6::R6Class(classname = "EventStudyAPI",
                                  }
                                  
                                  if (!status %in% c(3, 4)) {
-                                   message("Calculation is not finished. Please try to get results later.")
+                                   myMessage("Calculation is not finished. Please try to get results later.", level = 1)
+                                   myMessage("Check status with: .$getTaskStatus()", level = 1)
+                                   myMessage("Get results with: .$getTaskResults()", level = 1)
                                    return(T)
                                  }
                                  
