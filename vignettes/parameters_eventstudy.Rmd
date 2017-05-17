@@ -50,7 +50,6 @@ The options can be retained by the
 getOption("EventStudy.tryAttempts")
 ```
 
-
 # Performing an Event Study (ARC, AVC, or AVyC)
 
 After you have set your paramaeters, you can easily perform your Event Study:
@@ -60,7 +59,7 @@ apiUrl <- "http://api.eventstudytools.com"
 apiKey <- "Please insert your key here"
 
 # Setup API Connection
-estSetup <- EventStudyAPI$new()
+estSetup <- EventStudyAPI$new(apiUrl)
 estSetup$authentication(apiKey)
 
 estSetup$performEventStudy(estParams = volatilityEstParams, 
@@ -68,6 +67,9 @@ estSetup$performEventStudy(estParams = volatilityEstParams,
                                          "firm_data"    = "02_firmData.csv",
                                          "market_data"  = "03_marketData.csv"))
 ```
+
+When you set your url or api key by *EventStudy.URL* and *EventStudy.KEY* then
+just leave input parameters in *.$new()* and *.$authentication()* empty.
 
 
 # General Event Study Parameters
