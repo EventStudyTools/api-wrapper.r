@@ -29,6 +29,7 @@ a ggplot2 object
 Pointwise cumulative abnormal return plots
 }
 \examples{
+\dontrun{
 # plot abnormal returns in one plot
 arPlot(resultParser)
 
@@ -36,6 +37,7 @@ arPlot(resultParser)
 arPlot(resultParser, facetVar = "Group")
 
 This function must be revised
+}
 
 }
 \keyword{internal}

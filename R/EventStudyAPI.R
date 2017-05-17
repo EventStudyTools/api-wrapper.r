@@ -71,6 +71,7 @@
 #' }
 #' 
 #' @examples
+#' \dontrun{
 #' apiKey <- "{Please insert your aPI key here}"
 #' 
 #' The URL is already set by default
@@ -93,6 +94,7 @@
 #' estResult <- estSetup$performDefaultEventStudy(estType    = estType,
 #'                                                dataFiles  = dataFiles, 
 #'                                                destDir    = resultPath)
+#'}
 #'
 #' @export
 EventStudyAPI <- R6::R6Class(classname = "EventStudyAPI",

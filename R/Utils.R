@@ -63,6 +63,8 @@ retryRequest <- function(f) {
 #' @param level The severity
 #' 
 #' @details 0 = everything, 1 = debug, 2=normal, 3=important
+#' 
+#' @keywords internal
 myMessage <- function(..., level = 2){
   compareLevel <- getOption("EventStudy.verbose")
   if(level >= compareLevel) {

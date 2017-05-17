@@ -19,6 +19,8 @@ or on our website:
 \url{https://www.eventstudytools.com/mergers-acquisitions}
 }
 \examples{
+\dontrun{
 getSP500ExampleFiles("data")
+}
 
 }

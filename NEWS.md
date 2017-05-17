@@ -1,4 +1,9 @@
-# Version 0.2.0
+# Version 0.30
+
+- add examples execution
+- 
+
+# Version 0.20
 
 - refactoring class hierarchy
 - adding RStudio addins for performing a Return Event Study
@@ -9,7 +14,7 @@
 - add abnormal volume Event Study R6 class
 - add abnormal volatility Event Study R6 class
 
-# Version 0.1.1
+# Version 0.11
 
 - automatic ARC parameter setup
 - ggplot and highchart graphics:
@@ -17,7 +22,7 @@
   - averaged abnormal returns
   - pointwise cumulative abnormal returns
 
-# Version 0.1.0
+# Version 0.10
 
 * Initial version of Event Study Tools API
 

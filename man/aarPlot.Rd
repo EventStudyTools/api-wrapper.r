@@ -41,10 +41,12 @@ For more details see the help vignette:
 \code{vignette("parameters_eventstudy", package = "EventStudy")}
 }
 \examples{
+\dontrun{
 # plot averaged abnormal returns in one plot
 aarPlot(resultParser)
 
 # plot averaged abnormal returns with .95-CI
 arPlot(resultParser, ciStatistics = "Patell Z",p = .95)
+}
 
 }

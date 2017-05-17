@@ -40,10 +40,12 @@ Plot abnormal returns in the event window of single or multiple
 firms.
 }
 \examples{
+\dontrun{
 # plot abnormal returns in one plot
 arPlot(resultParser)
 
 # plot abnormal returns by group
 arPlot(resultParser, facetVar = "Group")
+}
 
 }

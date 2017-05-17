@@ -36,12 +36,14 @@
 #' @return a ggplot2 object
 #' 
 #' @examples
+#' \dontrun{
 #' # plot abnormal returns in one plot
 #' arPlot(resultParser)
 #' 
 #' # plot abnormal returns by group
 #' arPlot(resultParser, facetVar = "Group")
-#'
+#' }
+#' 
 #' @export
 arPlot <- function(ResultParserObj, firm = NULL, window = NULL, 
                    xlab = "", ylab = "Abnormal Returns", 
@@ -124,12 +126,14 @@ arPlot <- function(ResultParserObj, firm = NULL, window = NULL,
 #' @return a ggplot2 object
 #'
 #' @examples
+#' \dontrun{
 #' # plot averaged abnormal returns in one plot
 #' aarPlot(resultParser)
 #' 
 #' # plot averaged abnormal returns with .95-CI
 #' arPlot(resultParser, ciStatistics = "Patell Z",p = .95)
-#'
+#' }
+#' 
 #' @export
 aarPlot <- function(ResultParserObj, 
                     cumSum       = F,
@@ -223,6 +227,7 @@ aarPlot <- function(ResultParserObj,
 #' @return a ggplot2 object
 #' 
 #' @examples
+#' \dontrun{
 #' # plot abnormal returns in one plot
 #' arPlot(resultParser)
 #' 
@@ -230,6 +235,7 @@ aarPlot <- function(ResultParserObj,
 #' arPlot(resultParser, facetVar = "Group")
 #' 
 #' This function must be revised
+#' }
 #' 
 #' @keywords internal
 pointwiseCARPlot <- function(df, firm = NULL, 

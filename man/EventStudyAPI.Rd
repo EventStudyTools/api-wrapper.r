@@ -10,7 +10,11 @@ EventStudyAPI
 }
 \description{
 R interface for performing Event Studies on 
-\url{www.eventstudytools.com}.
+\url{www.eventstudytools.com}. Please get a free API key from our website:
+\url{https://www.eventstudytools.com/api-key}.
+
+For more details see the help vignette:
+\code{vignette("introduction_eventstudy", package = "EventStudy")}
 }
 \section{Usage}{
 
@@ -62,4 +66,31 @@ For usage details see \bold{Methods, Arguments, and Examples} sections.
 }
 }
 
+\examples{
+\dontrun{
+apiKey <- "{Please insert your aPI key here}"
+
+The URL is already set by default
+options(EventStudy.KEY = apiKey)
+
+# initialize object
+estSetup <- EventStudyAPI$new()
+
+# get S&P500 example data
+getSP500ExampleFiles()
+
+# set Event Study parameters
+estType <- "arc"
+dataFiles <- c("request_file" = "01_RequestFile.csv", 
+               "firm_data"    = "02_firmData.csv", 
+               "market_data"  = "03_MarketData.csv")
+resultPath <- "results"
+
+# Perform Event Study 
+estResult <- estSetup$performDefaultEventStudy(estType    = estType,
+                                               dataFiles  = dataFiles, 
+                                               destDir    = resultPath)
+}
+
+}
 \keyword{datasets}

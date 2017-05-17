@@ -10,7 +10,9 @@
 #' @param targetDir directory to save example files
 #' 
 #' @examples 
+#' \dontrun{
 #' getSP500ExampleFiles("data")
+#' }
 #'
 #' @export
 getSP500ExampleFiles <- function(targetDir = getwd()) {

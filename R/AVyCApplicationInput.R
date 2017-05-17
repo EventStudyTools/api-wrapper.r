@@ -57,6 +57,7 @@
 #' @return a ESTParameters R6 object
 #' 
 #' @examples 
+#' \dontrun{
 #' # get files for our S&P500 example; 3 files are written in the current 
 #' # working directory
 #' getSP500ExampleFiles()
@@ -80,7 +81,8 @@
 #'
 #' # Download task results and save them in the actiual working directory
 #' estSetup$getTaskResults()
-#'
+#' }
+#' 
 #' @export
 AVyCApplicationInput <- R6::R6Class(classname = "AVyCApplicationInput",
                                   inherit = EventStudyApplicationInput,

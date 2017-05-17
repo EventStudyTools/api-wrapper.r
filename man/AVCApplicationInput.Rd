@@ -46,6 +46,7 @@ For more details see the help vignette:
 }
 
 \examples{
+\dontrun{
 # get files for our S&P500 example; 3 files are written in the current 
 # working directory
 getSP500ExampleFiles()
@@ -69,6 +70,7 @@ estSetup$performEventStudy(estParams = avcParams,
 
 # Download task results and save them in the actiual working directory
 estSetup$getTaskResults()
+}
 
 }
 \seealso{

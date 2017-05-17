@@ -231,7 +231,7 @@ You are also able to apply a *Fama-French 3-Factor Model* or a *Fama-French Mome
 1. Event Study: Parameters: In this Vignette we show how you can set parameters and which parameters are allowed.
 2. Graphics: In this Vignette we show you how to generate nice (static or interactive) graphs (coming soon)
 3. Data Preparation: In this Vignette we show you how to get and prepare data for your Event Study from R (coming soon)
-4. RStudio Addins: We wrote several RStudio addins for performing an Event Study
-    - Abnormal Return Event Study Addin
-    - Abnormal Volume Event Study Addin (Comming soon)
-    - Abnormal Volatility Event Study Addin (Coming soon)
+4. RStudio Addins: We wrote a RStudio addin for performing different types of Event Studies
+    - Abnormal Return Event Study 
+    - Abnormal Volume Event Study
+    - Abnormal Volatility Event Study
