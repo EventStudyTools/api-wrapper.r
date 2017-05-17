@@ -2,9 +2,10 @@
   op <- options()
   op.EventStudy <- list(
     EventStudy.URL                     = "http://api.eventstudytools.com",
-    EventStudy.ok_content_types        = c("application/json", ("text/html; charset=UTF-8")),
+    EventStudy.KEY                     = NULL,
     EventStudy.verbose                 = 3,
     EventStudy.tryAttempts             = 5,
+    EventStudy.ok_content_types        = c("application/json", ("text/html; charset=UTF-8")),
     EventStudy.rawResponse             = FALSE,
     EventStudy.jsonlite.simplifyVector = TRUE
   )
