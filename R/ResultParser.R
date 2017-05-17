@@ -40,6 +40,7 @@
 #' @format \code{\link[R6]{R6Class}} object.
 #' 
 #' @examples 
+#' \dontrun{
 #' # Assume you already performed an Event Study and result files are saved in 
 #' # the actual working directory.
 #' estParser <- ResultParser$new()
@@ -51,6 +52,7 @@
 #' estParser$parseReport("Analysis report.csv")
 #' estParser$parseAR("AR results.csv")
 #' estParser$parseAAR("AAR results.csv")
+#' }
 #' 
 #' @export
 ResultParser <- R6::R6Class(classname = "ResultParser",

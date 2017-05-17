@@ -31,6 +31,7 @@ can be used for plotting your results.
 }
 
 \examples{
+\dontrun{
 # Assume you already performed an Event Study and result files are saved in 
 # the actual working directory.
 estParser <- ResultParser$new()
@@ -42,6 +43,7 @@ estParser$parseRequestFile("01_RequestFile.csv")
 estParser$parseReport("Analysis report.csv")
 estParser$parseAR("AR results.csv")
 estParser$parseAAR("AAR results.csv")
+}
 
 }
 \keyword{datasets}
