@@ -11,7 +11,7 @@ output:
     highlight: tango
     css: kable.css
 vignette: >
-  %\VignetteIndexEntry{Vignette Title}
+  %\VignetteIndexEntry{Introduction}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
@@ -34,7 +34,7 @@ For performing an Event Study with our API you need:
 - **API url** (defaults to `http://api.eventstudytools.com`)
 - **API key**
 
-You get a **free** API key from our website [http://eventstudytools.com/api-key](http://eventstudytools.com/api-key). In the first step we need to authenticate to the web API. There are two ways to handle this two parameters:
+You get a **free** API key from our website [EventStudyTools](https://eventstudytools.com/api-key). In the first step we need to authenticate to the web API. There are two ways to handle this two parameters:
 
 
 ```{r, eval=FALSE}
