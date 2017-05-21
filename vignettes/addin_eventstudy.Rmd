@@ -1,0 +1,43 @@
+---
+title: "Event Study: RStudio Addin"
+author: "Dr. Simon Müller"
+date: "`r Sys.Date()`"
+output:
+  rmdformats::html_clean:
+    self_contained: true
+    thumbnails: true
+    lightbox: true
+    gallery: false
+    highlight: tango
+    css: kable.css
+vignette: >
+  %\VignetteIndexEntry{Event Study Addin}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# Motivation
+
+We developed a easy to use and intuitive Event Study addin for the popular R IDE from RStudio. This addin is designed in view to our web frontend, but with the advantage that the user can immediately work with the results from R. Furthermore, as there are many test statistics we hope that this addin helps you to perform your Event Study in a fast manner. 
+
+# How to Use
+
+With EventStudy package installation automatically our RStudio Addin (if you use RStudio as IDE) is installed. The addin can be easily started by clicking *Event Study* in the Addins menu. If you do not find the addin in the menu, then you may find it in the window that is opened in *Browse Addins...*.
+
+![Starting our Addin](start_addin.png "How to start our Addin")
+
+You can work then in the addin as on our web API interface that is self-explanatory. Beside our web API interface it is mandatory to use a EventStudyTools key that can be copied from our [web page](https://www.eventstudytools.com/api-key) for **free**. 
+
+One remark: by design we used a upload field for the 3 data files (request, firm, and market data). Internally, we use just the path to the file.
+
+![Event Study Addin](est_addin.png "Event Study Addin")
+
+
+
+# How to Cite
+
+Please cite our work in your [publication](https://www.eventstudytools.com/how-cite-eventstudytoolscom).
