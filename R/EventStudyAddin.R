@@ -158,13 +158,13 @@ EventStudyAddin <- function() {
                          column(4,
                                 textInput(inputId = "apiUrl", 
                                           label   = "API URL", 
-                                          value   = "http://api.dev.eventstudytools.com", 
+                                          value   = getOption("EventStudy.URL"), 
                                           width   = "100%")
                          ),
                          column(4,
                                 textInput(inputId     = "apiKey", 
                                           label       = "API Key", 
-                                          value       = "", 
+                                          value       = getOption("EventStudy.KEY"), 
                                           placeholder = "Please add your API key", 
                                           width       = "100%")
                          ),
