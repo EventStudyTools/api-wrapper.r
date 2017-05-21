@@ -334,3 +334,8 @@ Usage:
 ```{r, eval=FALSE}
 volatilityEstParams$setTestStatistics(c("aarptlz", "aarrankz"))
 ```
+
+# How to Cite
+
+Please cite our work in your [publication](https://www.eventstudytools.com/how-cite-eventstudytoolscom).
+

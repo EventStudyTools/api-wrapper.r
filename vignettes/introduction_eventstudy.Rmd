@@ -235,3 +235,7 @@ You are also able to apply a *Fama-French 3-Factor Model* or a *Fama-French Mome
     - Abnormal Return Event Study 
     - Abnormal Volume Event Study
     - Abnormal Volatility Event Study
+
+# How to Cite
+
+Please cite our work in your [publication](https://www.eventstudytools.com/how-cite-eventstudytoolscom).
