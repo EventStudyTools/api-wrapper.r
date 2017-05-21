@@ -1,4 +1,4 @@
-Name: Perform Event Study in RStudio
+Name: Event Study
 Description: This addin is designed to perform an Event Study from the RStudio R IDE.
 Binding: EventStudyAddin
 Interactive: true
