@@ -1,6 +1,12 @@
+## Version 0.31
+
+- add vignette
+    - Event Study RStudio Addin
+
 ## Version 0.30
 
 - add examples
+- minor bugfixing
 
 
 ## Version 0.20
@@ -10,7 +16,6 @@
 - Vignettes
     - Introduction
     - Parameters
-    - RStudio Addin
 - add abnormal volume Event Study R6 class
 - add abnormal volatility Event Study R6 class
 
