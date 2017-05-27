@@ -52,4 +52,8 @@ estSetup$performDefaultEventStudy(estType    = estType,
 
 ## Details can be found in our vignettes
 
-Links will be provided after first release on CRAN.
+- [Introduction in EventStudy R Package](https://cran.rstudio.com/web/packages/EventStudy/vignettes/introduction_eventstudy.html)
+- [Parameters](https://cran.rstudio.com/web/packages/EventStudy/vignettes/parameters_eventstudy.html)
+- Data Preparation
+- Plotting
+- Reports
