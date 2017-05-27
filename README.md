@@ -1,3 +1,5 @@
+> [`http://cranlogs.r-pkg.org/downloads/total/last-week/EventStudy`](http://cranlogs.r-pkg.org/downloads/total/last-week/ggplot2)
+
 # EventStudyTools (EST) API R Wrapper
 
 This software library provides the capability to easily deploy the EST API.
