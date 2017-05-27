@@ -5,8 +5,8 @@
 
 This software library provides the capability to easily deploy the EST API.
 
-* More detailed documentation about available applications can be found [here](http://wwww.eventstudytools.com)
-* The full API documentation is presented [here](http://wwww.eventstudytools.com/API-ARC)
+* More detailed documentation about available applications can be found on [http://wwww.eventstudytools.com](http://wwww.eventstudytools.com)
+* The full API documentation is presented on our website: [http://wwww.eventstudytools.com/API-ARC](http://wwww.eventstudytools.com/API-ARC)
 
 ## Installation
 
@@ -16,7 +16,7 @@ library(devtools)
 install_github("EventStudyTools/api-wrapper.r")
 ```
 
-CRAN (coming soon)
+CRAN Version
 ```
 install.packages("EventStudy")
 ```
