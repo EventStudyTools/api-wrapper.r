@@ -142,14 +142,20 @@ EventStudyAPI <- R6::R6Class(classname = "EventStudyAPI",
                                  private$token <- result$token
                                  TRUE
                                },
-                               performEventStudy = function(estParams = NULL,
-                                                            dataFiles = c("request_file" = "01_RequestFile.csv", 
+                               performEventStudy = function(estParams     = NULL,
+                                                            dataFiles     = c("request_file" = "01_RequestFile.csv", 
                                                                            "firm_data"   = "02_firmData.csv", 
                                                                            "market_data" = "03_MarketData.csv"), 
-                                                            destDir   = "results",
-                                                            downloadFiles = T) {
+                                                            destDir       = "results",
+                                                            downloadFiles = T,
+                                                            checkFiles    = F) {
                                  estParams$setup()
                                  self$dataFiles <- dataFiles
+                                 
+                                 # check files
+                                 if (checkFiles) {
+                                   EventStudy::checkFiles(dataFiles)
+                                 }
                                  
                                  # Perform Study
                                  self$configureTask(estParams)
@@ -167,7 +173,7 @@ EventStudyAPI <- R6::R6Class(classname = "EventStudyAPI",
                                  waiting <- T
                                  iter <- 0
                                  while(iter < getOption("EventStudy.tryAttempts")) {
-                                   print(paste0("Step: ", iter))
+                                   print(paste0("Check batch process: ", iter))
                                    Sys.sleep(1)
                                    status <- self$getTaskStatus()
                                    if (status %in% c(3, 4)) {
@@ -195,11 +201,13 @@ EventStudyAPI <- R6::R6Class(classname = "EventStudyAPI",
                                  
                                  return(self$getTaskResults(downloadFiles, destDir))
                                },
-                               performDefaultEventStudy = function(estType   = "arc", 
-                                                                   dataFiles = c("request_file" = "01_RequestFile.csv", 
-                                                                                  "firm_data"    = "02_firmData.csv", 
-                                                                                  "market_data"  = "03_MarketData.csv"), 
-                                                                   destDir   = "results") {
+                               performDefaultEventStudy = function(estType       = "arc", 
+                                                                   dataFiles     = c("request_file" = "01_RequestFile.csv", 
+                                                                                     "firm_data"    = "02_firmData.csv", 
+                                                                                     "market_data"  = "03_MarketData.csv"), 
+                                                                   destDir       = "results",
+                                                                   downloadFiles = T,
+                                                                   checkFiles    = F) {
                                  estType <- match.arg(estType, c("arc", "avc", "avyc"))
                                  if (estType == "arc") {
                                    defaultParams <- ARCApplicationInput$new()
@@ -331,7 +339,7 @@ EventStudyAPI <- R6::R6Class(classname = "EventStudyAPI",
                                  rawToChar(ch$content) %>%
                                    jsonlite::fromJSON() %>%
                                    private$checkAndNormalizeResponse(httpcode = ch$status_code,
-                                                                     method   = "getTaskResults") -> result
+                                                                     method   = "getTaskStatus") -> result
                                  
                                  return(result)
                                },

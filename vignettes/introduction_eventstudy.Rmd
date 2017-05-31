@@ -193,7 +193,7 @@ The first column (Event IDs) must be unique and numeric.
 The stock data for each firm defined in the request file. It contains 3 columns.
 
 - **Firm ID** [String]:  The firm or stock ID. This ID must match the ID in the Firm ID in the request file.
-- **Date** [`30.04.1997`]: Dateof the closing price.
+- **Date** [`30.04.1997`]: Date of the closing price.
 - **Closing Price** [Double]: Closing price of volume of that day.
 
 The following table shows the first `20` entries of our example firm data.
