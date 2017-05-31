@@ -23,9 +23,9 @@ install.packages("EventStudy")
 
 ## Example of an Abnormal Returns Calculator (ARC) launch
 
+You can find a **free** API key on our website: [https://www.eventstudytools.com/api-key](https://www.eventstudytools.com/api-key)
 ```
-# Coming Soon
-apiUrl <- "Insert API URL"
+apiUrl <- "http://api.eventstudytools.com"
 apiKey <- "Insert API key"
 
 library(EventStudy)
