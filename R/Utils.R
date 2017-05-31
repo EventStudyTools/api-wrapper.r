@@ -97,3 +97,4 @@ isError <- function(x){
 errorMessage <- function(x) {
   if(isError(x)) attr(x, "condition")$message
 }
+

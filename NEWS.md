@@ -2,6 +2,7 @@
 
 - add vignette
     - Event Study RStudio Addin
+- Check data files in prior of file upload
 
 ## Version 0.30
 
