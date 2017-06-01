@@ -363,11 +363,11 @@ EventStudyAPI <- R6::R6Class(classname = "EventStudyAPI",
                                  # Parse data
                                  estParser <- ResultParser$new()
                                  estParser$parseRequestFile(self$dataFiles[["request_file"]])
-                                 id <- which(stringr::str_detect(self$resultFiles, "^Analysis"))
+                                 id <- which(stringr::str_detect(self$resultFiles, "/analysis"))
                                  estParser$parseReport(self$resultFiles[id])
-                                 id <- which(stringr::str_detect(self$resultFiles, "^AR"))
+                                 id <- which(stringr::str_detect(self$resultFiles, "/ar_"))
                                  estParser$parseAR(self$resultFiles[id])
-                                 id <- which(stringr::str_detect(self$resultFiles, "^AAR"))
+                                 id <- which(stringr::str_detect(self$resultFiles, "/aar_"))
                                  estParser$parseAAR(self$resultFiles[id])
                                    
                                  estParser
