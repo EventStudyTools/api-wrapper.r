@@ -176,26 +176,21 @@ EventStudyAPI <- R6::R6Class(classname = "EventStudyAPI",
                                    print(paste0("Check batch process: ", iter))
                                    Sys.sleep(1)
                                    status <- self$getTaskStatus()
-                                   if (status %in% c(3, 4)) {
+                                   if (status) {
                                      break()
                                    }
                                    iter <- iter + 1
                                  }
                                  
-                                 if (!status %in% c(3, 4)) {
+                                 if (!status) {
                                    myMessage("Calculation is not finished. Please try to get results later.", level = 1)
                                    myMessage("Check status with: .$getTaskStatus()", level = 1)
                                    myMessage("Get results with: .$getTaskResults()", level = 1)
                                    return(T)
                                  }
                                  
-                                 if (status == 4) {
-                                   message("Application Error")
-                                   return(F)
-                                 }
-                                 
                                  # create result path if not exist
-                                 if (!dir.exists(destDir)) {
+                                 if (downloadFiles && !dir.exists(destDir)) {
                                    dir.create(destDir)
                                  }
                                  
@@ -328,20 +323,21 @@ EventStudyAPI <- R6::R6Class(classname = "EventStudyAPI",
                                  if (is.null(private$token))
                                    stop("Error: Configuration validation error")
 
+                                 # check if file exists
+                                 return(!httr::http_error(self$resultFiles[1]))
+                                 
                                  # TODO
-                                 curl::new_handle() %>%
-                                   curl::handle_setheaders("Content-Type" = "application/json",
-                                                           "X-Task-Key"   = private$token) -> handle
+                                 # curl::new_handle() %>%
+                                 #   curl::handle_setheaders("Content-Type" = "application/json",
+                                 #                           "X-Task-Key"   = private$token) -> handle
+                                 # 
+                                 # ch <- curl::curl_fetch_memory(url    = paste0(private$apiServerUrl, "/task/status"),
+                                 #                               handle = handle)
                                  
-                                 ch <- curl::curl_fetch_memory(url    = paste0(private$apiServerUrl, "/task/status"),
-                                                               handle = handle)
-                                 
-                                 rawToChar(ch$content) %>%
-                                   jsonlite::fromJSON() %>%
-                                   private$checkAndNormalizeResponse(httpcode = ch$status_code,
-                                                                     method   = "getTaskStatus") -> result
-                                 
-                                 return(result)
+                                 # rawToChar(ch$content) %>%
+                                 #   jsonlite::fromJSON() %>%
+                                 #   private$checkAndNormalizeResponse(httpcode = ch$status_code,
+                                 #                                     method   = "getTaskStatus") -> result
                                },
                                getTaskResults = function(downloadFiles = T, destDir = getwd()) {
                                  if (is.null(private$token))
@@ -364,12 +360,17 @@ EventStudyAPI <- R6::R6Class(classname = "EventStudyAPI",
                                  estParser <- ResultParser$new()
                                  estParser$parseRequestFile(self$dataFiles[["request_file"]])
                                  id <- which(stringr::str_detect(self$resultFiles, "/analysis"))
-                                 estParser$parseReport(self$resultFiles[id])
+                                 if (length(id)) {
+                                    estParser$parseReport(self$resultFiles[id])
+                                 }
                                  id <- which(stringr::str_detect(self$resultFiles, "/ar_"))
-                                 estParser$parseAR(self$resultFiles[id])
+                                 if (length(id)) {
+                                    estParser$parseAR(self$resultFiles[id])
+                                 }
                                  id <- which(stringr::str_detect(self$resultFiles, "/aar_"))
-                                 estParser$parseAAR(self$resultFiles[id])
-                                   
+                                 if (length(id)) {
+                                   estParser$parseAAR(self$resultFiles[id])
+                                 }
                                  estParser
                                },
                                getApiVersion = function() {

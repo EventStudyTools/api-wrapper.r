@@ -4,10 +4,12 @@
     - Event Study RStudio Addin
 - Check data files in prior of file upload
 
+
 ### Bugfixes
 
--  ResultParser was not correctly called in EventStudyAPI
+- ResultParser was not correctly called in EventStudyAPI
 - ResultParser was not able to download files from url
+- getTaskStatus did not work properly in EventStudyAPI 
 
 
 ## Version 0.30
@@ -26,6 +28,7 @@
 - add abnormal volume Event Study R6 class
 - add abnormal volatility Event Study R6 class
 
+
 ## Version 0.11
 
 - automatic ARC parameter setup
@@ -33,6 +36,7 @@
     - abnormal returns
     - averaged abnormal returns
     - pointwise cumulative abnormal returns
+
 
 ## Version 0.10
 
