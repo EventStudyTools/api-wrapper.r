@@ -4,6 +4,12 @@
     - Event Study RStudio Addin
 - Check data files in prior of file upload
 
+### Bugfixes
+
+-  ResultParser was not correctly called in EventStudyAPI
+- ResultParser was not able to download files from url
+
+
 ## Version 0.30
 
 - add examples

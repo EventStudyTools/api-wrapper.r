@@ -232,7 +232,8 @@ ResultParser <- R6::R6Class(classname = "ResultParser",
                             ),
                             private = list(
                               parseFile = function(path, dataName, header = F) {
-                                if (file.exists(path)) {
+                                # check local and url file
+                                if (file.exists(path) || !httr::http_error(path)) {
                                   self[[dataName]] <- data.table::fread(path, header = header)
                                   TRUE
                                 } else {
