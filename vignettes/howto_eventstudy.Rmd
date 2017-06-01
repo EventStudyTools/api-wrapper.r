@@ -1,0 +1,97 @@
+---
+title: "Howto: An Example"
+author: "Dr. Simon Müller"
+date: "`r Sys.Date()`"
+output:
+  rmdformats::html_clean:
+    self_contained: true
+    thumbnails: true
+    lightbox: true
+    gallery: false
+    highlight: tango
+    css: kable.css
+vignette: >
+  %\VignetteIndexEntry{Prepare Event Study}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# Overview
+
+```{r, message=F, echo=T}
+library(tidyquant)
+library(dplyr)
+library(readr)
+```
+
+# Data Preparation
+
+We use the package `tidyquant` to fetch the automotive stock data from Yahoo Finance. 
+```{r}
+# Firm Data
+firmSymbols <- c("VOW.DE", "NSU.DE", "PAH3.DE", "BMW.DE", "DAI.DE")
+firmNames <- c("VW preferred", "Audi", "Porsche Automobil Hld", "BMW", "Daimler")
+startDate <- "2014-05-14"
+endDate <- "2016-12-31"
+firmSymbols %>% 
+  tidyquant::tq_get(from = startDate, to = endDate) %>% 
+  dplyr::mutate(date = format(date, "%d.%m.%Y")) -> firmData
+names(firmNames) <- firmSymbols
+firmData$symbol <- firmNames[firmData$symbol]
+```
+
+```{r}
+# Index Data
+indexSymbol <- c("^GDAXI")
+indexName <- c("DAX")
+indexSymbol %>% 
+  tidyquant::tq_get(from = startDate, to = endDate) %>% 
+  dplyr::mutate(date = format(date, "%d.%m.%Y")) -> indexData
+indexData$symbol <- "DAX"
+```
+
+Now, after we have fetched all the data, we prepare the data files for the API call.
+```{r}
+# Price files for firms and market
+firmData %>% 
+  dplyr::select(symbol, date, adjusted) %>% 
+  readr::write_delim(path      = "02_firmDataPrice.csv", 
+                     delim     = ";", 
+                     col_names = F)
+
+indexData %>% 
+  dplyr::select(symbol, date, adjusted) %>% 
+  readr::write_delim(path      = "03_marketDataPrice.csv", 
+                     delim     = ";", 
+                     col_names = F)
+
+# Volume files for firms and market
+firmData %>% 
+  dplyr::select(symbol, date, volume) %>% 
+  readr::write_delim(path      = "02_firmDataVolume.csv", 
+                     delim     = ";", 
+                     col_names = F)
+
+indexData %>% 
+  dplyr::select(symbol, date, volume) %>% 
+  readr::write_delim(path      = "03_marketDataVolume.csv", 
+                     delim     = ";", 
+                     col_names = F)
+```
+
+
+```{r}
+request <- cbind(c(1:5), firmSymbols, rep(indexName, 5), rep("18.09.2015", 5), rep(-10, 5), rep(10, 5), rep(-11, 5), rep(250, 5))
+request %>% 
+  as.data.frame() %>% 
+  readr::write_delim("01_requestFile.csv", delim = ";", col_names = F)
+```
+
+
+# Perform Event Studies: Abnromal Return, Volume, and Volatility
+
+
