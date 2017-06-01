@@ -243,15 +243,15 @@ EventStudyAPI <- R6::R6Class(classname = "EventStudyAPI",
                                    stop("Error in configureTask: token is not set")
                                  
                                  json <- estParams$serializeToJson(level = "parameters")
-                                 new_handle() %>%
-                                   handle_setopt(customrequest = "POST") %>%
-                                   handle_setopt(postfields = json) %>%
-                                   handle_setheaders("Content-Type" = "application/json",
-                                                     "X-Task-Key"   = private$token) -> handle
+                                 curl::new_handle() %>%
+                                   curl::handle_setopt(customrequest = "POST") %>%
+                                   curl::handle_setopt(postfields = json) %>%
+                                   curl::handle_setheaders("Content-Type" = "application/json",
+                                                           "X-Task-Key"   = private$token) -> handle
                                  
                                  # fetch result
-                                 ch <- curl_fetch_memory(url    = paste0(private$apiServerUrl, "/task/conf"),
-                                                         handle = handle)
+                                 ch <- curl::curl_fetch_memory(url    = paste0(private$apiServerUrl, "/task/conf"),
+                                                               handle = handle)
                                  
                                  rawToChar(ch$content) %>%
                                    jsonlite::fromJSON() %>%
@@ -303,14 +303,14 @@ EventStudyAPI <- R6::R6Class(classname = "EventStudyAPI",
                                  #                                                  "X-Task-Key"   = private$token))
                                  # )
                                  
-                                 new_handle() %>%
-                                   handle_setopt(customrequest = "POST") %>%
-                                   handle_setopt(postfields = "") %>%
-                                   handle_setheaders("Content-Type" = "application/json",
-                                                     "X-Task-Key"   = private$token) -> handle
+                                 curl::new_handle() %>%
+                                   curl::handle_setopt(customrequest = "POST") %>%
+                                   curl::handle_setopt(postfields = "") %>%
+                                   curl::handle_setheaders("Content-Type" = "application/json",
+                                                           "X-Task-Key"   = private$token) -> handle
                                  
-                                 ch <- curl_fetch_memory(url    = paste0(private$apiServerUrl, "/task/commit"),
-                                                         handle = handle)
+                                 ch <- curl::curl_fetch_memory(url    = paste0(private$apiServerUrl, "/task/commit"),
+                                                               handle = handle)
                                  
                                  rawToChar(ch$content) %>%
                                    jsonlite::fromJSON() %>%
@@ -329,12 +329,12 @@ EventStudyAPI <- R6::R6Class(classname = "EventStudyAPI",
                                    stop("Error: Configuration validation error")
 
                                  # TODO
-                                 new_handle() %>%
-                                   handle_setheaders("Content-Type" = "application/json",
-                                                     "X-Task-Key"   = private$token) -> handle
+                                 curl::new_handle() %>%
+                                   curl::handle_setheaders("Content-Type" = "application/json",
+                                                           "X-Task-Key"   = private$token) -> handle
                                  
-                                 ch <- curl_fetch_memory(url    = paste0(private$apiServerUrl, "/task/status"),
-                                                         handle = handle)
+                                 ch <- curl::curl_fetch_memory(url    = paste0(private$apiServerUrl, "/task/status"),
+                                                               handle = handle)
                                  
                                  rawToChar(ch$content) %>%
                                    jsonlite::fromJSON() %>%
