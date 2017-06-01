@@ -21,7 +21,13 @@ CRAN Version
 install.packages("EventStudy")
 ```
 
-## Example of an Abnormal Returns Calculator (ARC) launch
+## Ask a Question
+
+- [Facebook](https://www.facebook.com/EventStudy/)
+- [Commercial](http://muon-stat.com/dienstleistungen/kapitalmarktanalyse/)
+- [Website](http://eventstudytools.com)
+
+## Simple Example of an Abnormal Returns Calculator (ARC) launch
 
 You can find a **free** API key on our website: [https://www.eventstudytools.com/api-key](https://www.eventstudytools.com/api-key)
 ```
@@ -53,7 +59,7 @@ estSetup$performDefaultEventStudy(estType    = estType,
 ## Details can be found in our vignettes
 
 - [Introduction in EventStudy R Package](https://cran.rstudio.com/web/packages/EventStudy/vignettes/introduction_eventstudy.html)
+- Use Case: Dieselgate
 - [Parameters](https://cran.rstudio.com/web/packages/EventStudy/vignettes/parameters_eventstudy.html)
-- Data Preparation
 - Plotting
 - Reports
