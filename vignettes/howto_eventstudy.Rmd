@@ -35,8 +35,8 @@ We use the package `tidyquant` to fetch the automotive stock data from Yahoo Fin
 # Firm Data
 firmSymbols <- c("VOW.DE", "NSU.DE", "PAH3.DE", "BMW.DE", "DAI.DE")
 firmNames <- c("VW preferred", "Audi", "Porsche Automobil Hld", "BMW", "Daimler")
-startDate <- "2015-05-01"
-endDate <- "2016-12-31"
+startDate <- "2014-05-01"
+endDate <- "2015-12-31"
 firmSymbols %>% 
   tidyquant::tq_get(from = startDate, to = endDate) %>% 
   dplyr::mutate(date = format(date, "%d.%m.%Y")) -> firmData
@@ -116,6 +116,7 @@ dataFiles <- c("request_file" = "01_requestFile.csv",
 # check data files, you can do it also in our R6 class
 EventStudy::checkFiles(dataFiles)
 
+# now let us perform the Event Study
 arEventStudy <- est$performEventStudy(estParams = esaParams, 
                                       dataFiles = dataFiles)
 ```
@@ -123,33 +124,44 @@ arEventStudy <- est$performEventStudy(estParams = esaParams,
 ## Abnormal Volatility Event Study
 
 ```{r}
-est <- EventStudyAPI$new()
-est$authentication(apiKey = key)
-
-# get & set parameters for abnormal return Event Study
-esaParams <- EventStudy::AVyCApplicationInput$new()
-esaParams$setResultFileType("csv")
-
-avycEventStudy <- est$performEventStudy(estParams = esaParams, 
-                                        dataFiles = dataFiles)
+# est <- EventStudyAPI$new()
+# est$authentication(apiKey = key)
+# 
+# # get & set parameters for abnormal return Event Study
+# esaParams <- EventStudy::AVyCApplicationInput$new()
+# esaParams$setResultFileType("csv")
+# 
+# avycEventStudy <- est$performEventStudy(estParams = esaParams, 
+#                                         dataFiles = dataFiles)
 ```
 
 ## Abnormal Volume Event Study
 
 ```{r}
-est <- EventStudyAPI$new()
-est$authentication(apiKey = key)
-
-# get & set parameters for abnormal return Event Study
-esaParams <- EventStudy::AVCApplicationInput$new()
-esaParams$setResultFileType("csv")
-
-avEventStudy <- est$performEventStudy(estParams = esaParams, 
-                      dataFiles = c("request_file" = "01_requestFile.csv",
-                                    "firm_data"    = "02_firmDataVolume.csv",
-                                    "market_data"  = "03_marketDataVolume.csv"))
+# est <- EventStudyAPI$new()
+# est$authentication(apiKey = key)
+# 
+# # get & set parameters for abnormal return Event Study
+# esaParams <- EventStudy::AVCApplicationInput$new()
+# esaParams$setResultFileType("csv")
+# 
+# avEventStudy <- est$performEventStudy(estParams = esaParams, 
+#                       dataFiles = c("request_file" = "01_requestFile.csv",
+#                                     "firm_data"    = "02_firmDataVolume.csv",
+#                                     "market_data"  = "03_marketDataVolume.csv"))
 ```
 
 # Plot and Work with the results
 
-
+```{r}
+EventStudy::aarPlot(arEventStudy)
+```
+```{r}
+EventStudy::aarPlot(arEventStudy, cumSum = T)
+```
+```{r}
+EventStudy::arPlot(arEventStudy, facetVar = "Firm", ncol = 3)
+```
+```{r}
+EventStudy::arPlot(arEventStudy)
+```

@@ -145,8 +145,13 @@ ResultParser <- R6::R6Class(classname = "ResultParser",
                                 if (!is.null(self$groups))
                                   self$groups <- groups
                                 
-                                # parse AAR values
+                                # parse AAR values & check file
                                 aarResults <- data.table::fread(path)
+                                if (nrow(aarResults) < 2) {
+                                  message("No AAR Results")
+                                  return(NULL)
+                                }
+                                
                                 stringr::str_detect(names(aarResults), "AAR") %>%
                                   which() -> id
                                 
@@ -222,7 +227,7 @@ ResultParser <- R6::R6Class(classname = "ResultParser",
                               cumSum = function(df, var = "aar", timeVar = NULL, cumVar = NULL, fun = cumsum) {
                                 # calculate cumulative sum
                                 df <- data.table::as.data.table(df)
-                                setkeyv(df, c(cumVar, timeVar))
+                                data.table::setkeyv(df, c(cumVar, timeVar))
                                 setnames(df, var, "car")
                                 df[, car := fun(car), by = cumVar]
                                 df[[var]] <- NULL
