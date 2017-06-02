@@ -22,6 +22,8 @@ knitr::opts_chunk$set(echo = TRUE)
 
 # Overview
 
+Based on the Dieselgate we want to show you how you are able to fetch data in R, perform an Event Study, and do some basic plots with our R package. 
+
 ```{r, message=F, echo=T}
 library(tidyquant)
 library(dplyr)
@@ -30,17 +32,34 @@ library(readr)
 
 # Data Preparation
 
-We use the package `tidyquant` to fetch the automotive stock data from Yahoo Finance. 
+We use the package (tidyquant)[https://cran.r-project.org/web/packages/tidyquant/index.html] to fetch the automotive stock data from (Yahoo Finance)[https://de.finance.yahoo.com/]. As we cannot get the full volume size from this companies through Yahoo Finance API, we do not perform a volume Event Study in this vignette.
+
+Let's define the window from which we want to fetch the data of the German auto companies.
+```{r}
+startDate <- "2014-05-01"
+endDate <- "2015-12-31"
+```
+
+We focus us on the big five motor manufacturer in Germany, namely
+
+- VW Group
+    - VW
+    - Audi
+    - Porsche
+- Daimler
+- BMW
+
 ```{r}
 # Firm Data
 firmSymbols <- c("VOW.DE", "NSU.DE", "PAH3.DE", "BMW.DE", "DAI.DE")
 firmNames <- c("VW preferred", "Audi", "Porsche Automobil Hld", "BMW", "Daimler")
-startDate <- "2014-05-01"
-endDate <- "2015-12-31"
 firmSymbols %>% 
   tidyquant::tq_get(from = startDate, to = endDate) %>% 
   dplyr::mutate(date = format(date, "%d.%m.%Y")) -> firmData
+knitr::kable(head(firmData), pad=0)
 ```
+
+As reference market we choose the DAX.
 
 ```{r}
 # Index Data
@@ -50,9 +69,10 @@ indexSymbol %>%
   tidyquant::tq_get(from = startDate, to = endDate) %>% 
   dplyr::mutate(date = format(date, "%d.%m.%Y")) -> indexData
 indexData$symbol <- "DAX"
+knitr::kable(head(indexData), pad=0)
 ```
 
-Now, after we have fetched all the data, we prepare the data files for the API call.
+Now, after we have fetched all the data, we prepare the data files for the API call, as described in the introductionary vignette. We prepare in this step already the volume data for later purposes. 
 ```{r}
 # Price files for firms and market
 firmData %>% 
@@ -81,6 +101,13 @@ indexData %>%
                      col_names = F)
 ```
 
+Finally, we have to prepare the request file. The parameters for this Event Study are:
+
+- Estimation window: 250
+- Event window: -10 to 10
+- Event date: 18.09.2015
+
+Details of the format can be found in the introductionary vignette.
 
 ```{r}
 group <- c(rep("VW Group", 3), rep("Other", 2))
@@ -92,6 +119,8 @@ request %>%
 
 
 # Perform Event Studies: Abnromal Return, Volume, and Volatility
+
+After the preparation steps, we are now able to start the calculations. We use in all type of Event Studies the GARCH(1, 1) model. Please consider in your Event Studies that fitting this model is computational expensive and no nearly realtime response from the API can be expected. 
 
 ## Abnormal Return Event Study
 
@@ -117,8 +146,9 @@ dataFiles <- c("request_file" = "01_requestFile.csv",
 EventStudy::checkFiles(dataFiles)
 
 # now let us perform the Event Study
-arEventStudy <- est$performEventStudy(estParams = esaParams, 
-                                      dataFiles = dataFiles)
+arEventStudy <- est$performEventStudy(estParams     = esaParams, 
+                                      dataFiles     = dataFiles, 
+                                      downloadFiles = T)
 ```
 
 ## Abnormal Volatility Event Study
@@ -133,7 +163,7 @@ esaParams$setResultFileType("csv")
  
 avycEventStudy <- est$performEventStudy(estParams    = esaParams, 
                                        dataFiles     = dataFiles,
-                                       downloadFiles = F)
+                                       downloadFiles = T)
 ```
 
 ## Abnormal Volume Event Study
@@ -152,18 +182,3 @@ avycEventStudy <- est$performEventStudy(estParams    = esaParams,
 #                                     "market_data"  = "03_marketDataVolume.csv"))
 ```
 
-# Plot and Work with the results
-
-```{r}
-EventStudy::aarPlot(arEventStudy)
-```
-```{r}
-EventStudy::aarPlot(arEventStudy, cumSum = T)
-```
-```{r}
-EventStudy::arPlot(arEventStudy, facetVar = "Firm", ncol = 3)
-EventStudy::arPlot(avycEventStudy, facetVar = "Firm", ncol = 3)
-```
-```{r}
-EventStudy::arPlot(arEventStudy)
-```

@@ -173,7 +173,7 @@ EventStudyAPI <- R6::R6Class(classname = "EventStudyAPI",
                                  waiting <- T
                                  iter <- 0
                                  while(iter < getOption("EventStudy.tryAttempts")) {
-                                   print(paste0("Check batch process: ", iter))
+                                   print(paste0("Check batch process: Step ", iter))
                                    Sys.sleep(1)
                                    status <- self$getTaskStatus()
                                    if (status) {
