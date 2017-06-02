@@ -359,10 +359,12 @@ EventStudyAPI <- R6::R6Class(classname = "EventStudyAPI",
                                  # Parse data
                                  estParser <- ResultParser$new()
                                  estParser$parseRequestFile(self$dataFiles[["request_file"]])
-                                 id <- which(stringr::str_detect(self$resultFiles, "/analysis"))
+                                 id <- which(stringr::str_detect(self$resultFiles, "/analysis_report"))
                                  if (length(id)) {
                                     estParser$parseReport(self$resultFiles[id])
                                  }
+                                 
+                                 # arc parsing
                                  id <- which(stringr::str_detect(self$resultFiles, "/ar_"))
                                  if (length(id)) {
                                     estParser$parseAR(self$resultFiles[id])
@@ -371,6 +373,20 @@ EventStudyAPI <- R6::R6Class(classname = "EventStudyAPI",
                                  if (length(id)) {
                                    estParser$parseAAR(self$resultFiles[id])
                                  }
+                                 
+                                 # avyc parsing
+                                 id <- which(stringr::str_detect(self$resultFiles, "/avy_"))
+                                 if (length(id)) {
+                                   estParser$parseAR(self$resultFiles[id])
+                                 }
+                                 id <- which(stringr::str_detect(self$resultFiles, "/aavy_"))
+                                 if (length(id)) {
+                                   estParser$parseAAR(self$resultFiles[id])
+                                 }
+                                 
+                                 # av paring
+                                 
+                                 
                                  estParser
                                },
                                getApiVersion = function() {
