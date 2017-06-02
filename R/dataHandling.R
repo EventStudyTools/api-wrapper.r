@@ -132,7 +132,7 @@ checkFiles <- function(dataFiles = c("request_file" = "01_RequestFile.csv",
   firmIndex %>% 
     purrr::map(.f = function(x, y) {
       testthat::expect(x %in% y, paste(x, "not in firm data"))
-    }, y = firmData) -> ret
+    }, y = firmIndexData) -> ret
   
   if (returnData) {
     return(list(
