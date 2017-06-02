@@ -88,13 +88,14 @@ AVyCApplicationInput <- R6::R6Class(classname = "AVyCApplicationInput",
                                   inherit = EventStudyApplicationInput,
                                   public = list(
                                     task             = list(locale = 'en'),
+                                    key              = "avyc",
                                     benchmark_model  = list(benchmark_model = "garch"),
                                     return_type      = list(return_type = "log"),
                                     non_trading_days = list(non_trading_days = "later"),
                                     test_statistics  = list(
                                       "aarcsvyt",
                                       "aarcsvyt",
-                                      "aarlambdaz",
+                                      # "aarlambdaz",
                                       "aarcsart",
                                       "aarcscart"
                                     ),

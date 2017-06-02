@@ -87,6 +87,7 @@ AVCApplicationInput <- R6::R6Class(classname = "AVCApplicationInput",
                                    inherit = EventStudyApplicationInput,
                                    public = list(
                                      task             = list(locale = 'en'),
+                                     key              = "avc",
                                      benchmark_model  = list(benchmark_model = "mm"),
                                      return_type      = list(return_type = "log"),
                                      non_trading_days = list(non_trading_days = "later"),
