@@ -11,6 +11,7 @@
 - ResultParser was not correctly called in EventStudyAPI
 - ResultParser was not able to download files from url
 - getTaskStatus did not work properly in EventStudyAPI 
+- fix av and avyc paring
 
 
 ## Version 0.30
