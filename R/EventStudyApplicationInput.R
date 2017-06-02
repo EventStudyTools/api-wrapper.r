@@ -34,7 +34,7 @@
 EventStudyApplicationInput <- R6::R6Class(classname = "EventStudyApplicationInput",
                                           inherit = ApplicationInputInterface,
                                           public = list(
-                                            setup = function(key = "arc") {
+                                            setup = function() {
                                               self$parameters <- NULL
                                               parameters <- self$serialize()
                                               # Task ----
@@ -50,7 +50,7 @@ EventStudyApplicationInput <- R6::R6Class(classname = "EventStudyApplicationInpu
                                               # Application ----
                                               # set key
                                               if (is.null(parameters[["application"]][["key"]]))
-                                                parameters[["key"]] <- key
+                                                parameters[["key"]] <- self$key
                                               self$setNamedList(parentLevel   = "application",
                                                                 secondLevel   = "key",
                                                                 thirthLevel   = NULL,
