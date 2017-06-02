@@ -2,6 +2,7 @@
 
 - add vignette
     - Event Study RStudio Addin
+    - Howto: Dieselgate as an Example
 - Check data files in prior of file upload
 
 
