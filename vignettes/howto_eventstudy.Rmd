@@ -124,15 +124,16 @@ arEventStudy <- est$performEventStudy(estParams = esaParams,
 ## Abnormal Volatility Event Study
 
 ```{r}
-# est <- EventStudyAPI$new()
-# est$authentication(apiKey = key)
-# 
-# # get & set parameters for abnormal return Event Study
-# esaParams <- EventStudy::AVyCApplicationInput$new()
-# esaParams$setResultFileType("csv")
-# 
-# avycEventStudy <- est$performEventStudy(estParams = esaParams, 
-#                                         dataFiles = dataFiles)
+est <- EventStudyAPI$new()
+est$authentication(apiKey = key)
+
+# get & set parameters for abnormal return Event Study
+esaParams <- EventStudy::AVyCApplicationInput$new()
+esaParams$setResultFileType("csv")
+ 
+avycEventStudy <- est$performEventStudy(estParams    = esaParams, 
+                                       dataFiles     = dataFiles,
+                                       downloadFiles = F)
 ```
 
 ## Abnormal Volume Event Study
@@ -145,7 +146,7 @@ arEventStudy <- est$performEventStudy(estParams = esaParams,
 # esaParams <- EventStudy::AVCApplicationInput$new()
 # esaParams$setResultFileType("csv")
 # 
-# avEventStudy <- est$performEventStudy(estParams = esaParams, 
+# avEventStudy <- est$performEventStudy(estParams = esaParams,
 #                       dataFiles = c("request_file" = "01_requestFile.csv",
 #                                     "firm_data"    = "02_firmDataVolume.csv",
 #                                     "market_data"  = "03_marketDataVolume.csv"))
@@ -161,6 +162,7 @@ EventStudy::aarPlot(arEventStudy, cumSum = T)
 ```
 ```{r}
 EventStudy::arPlot(arEventStudy, facetVar = "Firm", ncol = 3)
+EventStudy::arPlot(avycEventStudy, facetVar = "Firm", ncol = 3)
 ```
 ```{r}
 EventStudy::arPlot(arEventStudy)

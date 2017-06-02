@@ -121,6 +121,9 @@ ResultParser <- R6::R6Class(classname = "ResultParser",
                                 }
                                 
                                 # Add additional Information
+                                idP <- which(names(self$analysisReport) == "p-value")
+                                names(self$analysisReport)[idP] <- paste0("p-value", 1:length(idP))
+                                
                                 id <- which(names(self$analysisReport) %in% c("Event ID", "Firm", "Reference Market", "Estimation Window Length"))
                                 self$analysisReport %>% 
                                   dplyr::select(id) -> arReport
@@ -138,7 +141,7 @@ ResultParser <- R6::R6Class(classname = "ResultParser",
                                     dplyr::left_join(requestData, by = "Event ID") -> self$arResults
                                 }
                               },
-                              parseAAR = function(path = "aar_results.csv", groups = NULL) {
+                              parseAAR = function(path = "aar_results.csv", groups = NULL, analysisType = "AAR") {
                                 if (is.null(self$analysisReport))
                                   self$parseReport()
                                 
@@ -152,12 +155,12 @@ ResultParser <- R6::R6Class(classname = "ResultParser",
                                   return(NULL)
                                 }
                                 
-                                stringr::str_detect(names(aarResults), "AAR") %>%
+                                stringr::str_detect(names(aarResults), analysisType) %>%
                                   which() -> id
                                 
                                 aarResults %>% 
                                   reshape2::melt(id.vars    = 1, 
-                                                 value.name = "aar") %>% 
+                                                 value.name = tolower(analysisType)) %>% 
                                   dplyr::rename(level     = `Grouping Variable/N`,
                                                 eventTime = variable) -> aarResults
                                 self$aarResults <- aarResults

@@ -377,7 +377,7 @@ EventStudyAPI <- R6::R6Class(classname = "EventStudyAPI",
                                  # avyc parsing
                                  id <- which(stringr::str_detect(self$resultFiles, "/avy_"))
                                  if (length(id)) {
-                                   estParser$parseAR(self$resultFiles[id])
+                                   estParser$parseAR(self$resultFiles[id], analysisType = "AVy")
                                  }
                                  id <- which(stringr::str_detect(self$resultFiles, "/aavy_"))
                                  if (length(id)) {
