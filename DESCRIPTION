@@ -20,6 +20,7 @@ Imports:
     jsonlite,
     magrittr (>= 1.5),
     data.table,
+    testthat,
     dplyr,
     purrr,
     scales,

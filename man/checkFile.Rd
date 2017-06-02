@@ -8,6 +8,8 @@ checkFile(path, type = "request_file")
 }
 \arguments{
 \item{path}{path to the input data file}
+
+\item{type}{the type of file to ckeck}
 }
 \value{
 data.frame

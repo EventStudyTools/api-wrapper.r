@@ -4,9 +4,18 @@
 #' data files
 #' 
 #' @param path path to the input data file
+#' @param type the type of file to ckeck
 #'
 #' @return data.frame
-#'  
+#' 
+#' @expamles
+#' \dontrun{
+#' # save example files to current working directory
+#' getSP500ExampleFiles()
+#'                
+#' checkFile("01_RequestFile.csv", "request_file")
+#' }
+#' 
 #' @export
 checkFile <- function(path, type = "request_file") {
   type <- match.arg(type, c("request_file", "firm_data", "market_data"))
