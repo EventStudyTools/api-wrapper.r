@@ -21,6 +21,10 @@ CRAN Version
 install.packages("EventStudy")
 ```
 
+**Attention**
+
+You need the developer verision of `purrr` ([github](https://github.com/tidyverse/purrr)) 
+
 ## Ask a Question
 
 - [Facebook](https://www.facebook.com/EventStudy/)
