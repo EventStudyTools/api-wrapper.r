@@ -1,12 +1,12 @@
 ---
-title: "Howto: An Example"
+title: "Howto: An Example with Data Preparation"
 author: "Dr. Simon Müller"
 date: "`r Sys.Date()`"
 output:
   rmdformats::html_clean:
-    self_contained: true
-    thumbnails: true
-    lightbox: true
+    self_contained: false
+    thumbnails: false
+    lightbox: false
     gallery: false
     highlight: tango
     css: kable.css
@@ -24,7 +24,7 @@ knitr::opts_chunk$set(echo = TRUE)
 
 Based on the Dieselgate we want to show you how you are able to fetch data in R, perform an Event Study, and do some basic plots with our R package. 
 
-```{r, message=F, echo=T}
+```{r, message=F, echo=T, eval=FALSE}
 library(tidyquant)
 library(dplyr)
 library(readr)
@@ -32,10 +32,10 @@ library(readr)
 
 # Data Preparation
 
-We use the package (tidyquant)[https://cran.r-project.org/web/packages/tidyquant/index.html] to fetch the automotive stock data from (Yahoo Finance)[https://de.finance.yahoo.com/]. As we cannot get the full volume size from this companies through Yahoo Finance API, we do not perform a volume Event Study in this vignette.
+We use the package tidyquant to fetch the automotive stock data from Yahoo Finance. As we cannot get the full volume size from this companies through Yahoo Finance API, we do not perform a volume Event Study in this vignette.
 
 Let's define the window from which we want to fetch the data of the German auto companies.
-```{r}
+```{r, eval=FALSE}
 startDate <- "2014-05-01"
 endDate <- "2015-12-31"
 ```
@@ -49,7 +49,7 @@ We focus us on the big five motor manufacturer in Germany, namely
 - Daimler
 - BMW
 
-```{r}
+```{r, eval=FALSE}
 # Firm Data
 firmSymbols <- c("VOW.DE", "NSU.DE", "PAH3.DE", "BMW.DE", "DAI.DE")
 firmNames <- c("VW preferred", "Audi", "Porsche Automobil Hld", "BMW", "Daimler")
@@ -61,7 +61,7 @@ knitr::kable(head(firmData), pad=0)
 
 As reference market we choose the DAX.
 
-```{r}
+```{r, eval=FALSE}
 # Index Data
 indexSymbol <- c("^GDAXI")
 indexName <- c("DAX")
@@ -73,7 +73,7 @@ knitr::kable(head(indexData), pad=0)
 ```
 
 Now, after we have fetched all the data, we prepare the data files for the API call, as described in the introductionary vignette. We prepare in this step already the volume data for later purposes. 
-```{r}
+```{r, eval=FALSE}
 # Price files for firms and market
 firmData %>% 
   dplyr::select(symbol, date, adjusted) %>% 
@@ -109,7 +109,7 @@ Finally, we have to prepare the request file. The parameters for this Event Stud
 
 Details of the format can be found in the introductionary vignette.
 
-```{r}
+```{r, eval=FALSE}
 group <- c(rep("VW Group", 3), rep("Other", 2))
 request <- cbind(c(1:5), firmSymbols, rep(indexName, 5), rep("18.09.2015", 5), group, rep(-10, 5), rep(10, 5), rep(-11, 5), rep(250, 5))
 request %>% 
@@ -124,7 +124,7 @@ After the preparation steps, we are now able to start the calculations. We use i
 
 ## Abnormal Return Event Study
 
-```{r}
+```{r, message=F, eval=F}
 key <- "573e58c665fcc08cc6e5a660beaad0cb"
 
 library(EventStudy)
@@ -151,9 +151,25 @@ arEventStudy <- est$performEventStudy(estParams     = esaParams,
                                       downloadFiles = T)
 ```
 
+Now, you can use the downloaded csv (or your preferred data format) files in your analysis. During the creation of the `arEventStudy` object we merge information from the request file, and the result files.
+
+```{r, eval=F}
+knitr::kable(head(arEventStudy$arResults))
+```
+
+
+The averaged abnormal return (aar) `data.frame` has the following shape:
+
+```{r, eval=F}
+knitr::kable(head(arEventStudy$aarResults))
+```
+
+You can find the statistic naming in `arEventStudy$aarStatistics`.
+
+
 ## Abnormal Volatility Event Study
 
-```{r}
+```{r, message=F, eval=F}
 est <- EventStudyAPI$new()
 est$authentication(apiKey = key)
 
@@ -166,9 +182,13 @@ avycEventStudy <- est$performEventStudy(estParams    = esaParams,
                                        downloadFiles = T)
 ```
 
+The prepared `data.frames` in `avycEventStudy` have a similar shape as for the abnormal return Event Study. 
+
 ## Abnormal Volume Event Study
 
-```{r}
+This will be added in a later stage.
+
+```{r, eval=F}
 # est <- EventStudyAPI$new()
 # est$authentication(apiKey = key)
 # 

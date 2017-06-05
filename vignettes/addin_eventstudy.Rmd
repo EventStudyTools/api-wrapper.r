@@ -4,9 +4,9 @@ author: "Dr. Simon Müller"
 date: "`r Sys.Date()`"
 output:
   rmdformats::html_clean:
-    self_contained: true
-    thumbnails: true
-    lightbox: true
+    self_contained: false
+    thumbnails: false
+    lightbox: false
     gallery: false
     highlight: tango
     css: kable.css
