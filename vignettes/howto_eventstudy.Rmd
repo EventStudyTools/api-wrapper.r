@@ -4,14 +4,14 @@ author: "Dr. Simon Müller"
 date: "`r Sys.Date()`"
 output:
   rmdformats::html_clean:
-    self_contained: false
+    self_contained: true
     thumbnails: false
-    lightbox: false
+    lightbox: true
     gallery: false
     highlight: tango
     css: kable.css
 vignette: >
-  %\VignetteIndexEntry{Prepare Event Study}
+  %\VignetteIndexEntry{Howto: An Example with Data Preparation}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---

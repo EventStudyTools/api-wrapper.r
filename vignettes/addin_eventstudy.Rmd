@@ -4,8 +4,8 @@ author: "Dr. Simon Müller"
 date: "`r Sys.Date()`"
 output:
   rmdformats::html_clean:
-    self_contained: false
-    thumbnails: false
+    self_contained: true
+    thumbnails: true
     lightbox: false
     gallery: false
     highlight: tango
