@@ -1,9 +1,9 @@
 Package: EventStudy
 Type: Package
 Title: Event Study Analysis in R
-Description: Perform Event Studies from through our EventStudyTools.com API interface, parse the results, visualize it, and / or use the results in further analysis.
+Description: Perform Event Studies from through our http://EventStudyTools.com Application Programming Interface, parse the results, visualize it, and / or use the results in further analysis.
 Author: Dr. Simon Mueller
-Date: 2017-03-06
+Date: 2017-06-03
 Version: 0.31
 Encoding: UTF-8
 URL: http://eventstudytools.com
@@ -22,11 +22,11 @@ Imports:
     data.table,
     testthat,
     dplyr,
-    purrr,
     scales,
     tidyquant,
     RColorBrewer,
     stringr,
+    purrr (>= 0.2.2),
     readr
 Suggests: 
     knitr,

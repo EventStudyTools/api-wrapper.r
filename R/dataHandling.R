@@ -54,11 +54,17 @@ checkFile <- function(path, type = "request_file") {
     # check start event window: 
     # - start event window <= 0
     # - start event window <= end event window
-    dtData %>% 
-      purrr::by_row(..f = function(x) {
-        msg <- paste("Event ID:", x[1], "The event window start should be <= 0 and smaller equals event window end.")
-        testthat::expect(x[6] <= 0 && x[6] <= x[7], msg)
-      })
+    # purrr version on CRAN do not contain by_row
+    # dtData %>% 
+    #   purrr::by_row(..f = function(x) {
+    #     msg <- paste("Event ID:", x[1], "The event window start should be <= 0 and smaller equals event window end.")
+    #     testthat::expect(x[6] <= 0 && x[6] <= x[7], msg)
+    #   })
+    
+    for (i in 1:nrow(dtData)) {
+      msg <- paste("Event ID:", dtData[i, 1], "The event window start should be <= 0 and smaller equals event window end.")
+      testthat::expect(dtData[i, 6] <= 0 && dtData[i, 6] <= dtData[i, 7], msg)
+    }
     
     # check date format
     checkDate(dtData[[4]])
