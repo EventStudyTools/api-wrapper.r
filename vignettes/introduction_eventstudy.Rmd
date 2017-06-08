@@ -11,7 +11,7 @@ output:
     highlight: tango
     css: kable.css
 vignette: >
-  %\VignetteIndexEntry{Introduction to Event Study}
+  %\VignetteIndexEntry{Introduction in EventStudy R Package}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
