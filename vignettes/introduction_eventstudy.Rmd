@@ -3,11 +3,10 @@ title: "Introductionary Use Case: Firm Addition to S&P500"
 author: "Dr. Markus Schimmer and Dr. Simon Müller"
 date: "`r Sys.Date()`"
 output:
-  rmdformats::html_clean:
-    self_contained: false
-    thumbnails: false
-    lightbox: false
-    gallery: false
+  html_document:
+    toc: true
+    toc_float: true
+    theme: readable
     highlight: tango
     css: kable.css
 vignette: >
@@ -15,6 +14,15 @@ vignette: >
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
+
+```{r echo=FALSE}
+knitr::opts_chunk$set(
+  comment = "#>",
+  collapse = TRUE,
+  warning = FALSE,
+  message = FALSE
+)
+```
 
 # Motivation
 
