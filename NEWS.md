@@ -1,11 +1,12 @@
 ## Version 0.32
 
+- redesign vignettes
 
 ### Bugfixes 
 
 - file parser bugfix
+- aarPlot bugfix CI interval
 - spelling fixes
-- redesign vignettes
 
 
 ## Version 0.31
