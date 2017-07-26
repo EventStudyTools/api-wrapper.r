@@ -4,7 +4,7 @@ Title: Event Study Analysis in R
 Description: Perform Event Studies from through our <http://EventStudyTools.com> Application Programming Interface, parse the results, visualize it, and / or use the results in further analysis.
 Author: Dr. Simon Mueller
 Date: 2017-06-03
-Version: 0.31
+Version: 0.32
 Encoding: UTF-8
 URL: http://eventstudytools.com
 Maintainer: Dr. Simon Mueller <simon.mueller@muon-stat.com>

@@ -67,7 +67,7 @@ ResultParser <- R6::R6Class(classname = "ResultParser",
                               initialize = function() {
                               },
                               parseRequestFile = function(path = "01_RequestFile.csv") {
-                                parseReturn <- private$parseFile(path, "requestData", T)
+                                parseReturn <- private$parseFile(path, "requestData", header = F)
                                 if (parseReturn) {
                                   # add groups
                                   groups <- unique(self$requestData$V5)
@@ -133,8 +133,7 @@ ResultParser <- R6::R6Class(classname = "ResultParser",
                                 
                                 # if available add grouping
                                 if (!is.null(self$requestData)) {
-                                  self$requestData %>% 
-                                    dplyr::select(1, 5) -> requestData
+                                  requestData <- self$requestData[, c(1, 5)]
                                   names(requestData) <- c("Event ID", "Group")
                                   
                                   self$arResults %>% 

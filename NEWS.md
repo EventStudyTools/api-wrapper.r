@@ -1,3 +1,13 @@
+## Version 0.32
+
+
+### Bugfixes 
+
+- file parser bugfix
+- spelling fixes
+- redesign vignettes
+
+
 ## Version 0.31
 
 - add vignette
