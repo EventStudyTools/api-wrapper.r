@@ -194,7 +194,7 @@ aarPlot <- function(ResultParserObj,
     if (ciType == "band") {
       q <- q +
         geom_line(aes(x = eventTime, y = lower), linetype = 2, color = "gray50", alpha = .5) + 
-        geom_line(aar, aes(x = eventTime, y = upper), linetype = 2, color = "gray50", alpha = .5)
+        geom_line(aes(x = eventTime, y = upper), linetype = 2, color = "gray50", alpha = .5)
     } else if (ciType == "ribbon") {
       q <- q +
         geom_ribbon(aes(x = eventTime, ymin = lower, ymax = upper), fill = "gray50", alpha = .25)
