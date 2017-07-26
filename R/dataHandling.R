@@ -1,4 +1,4 @@
-#' @title Chheck input data files
+#' @title Check input data files
 #' 
 #' @description Check correct column, date, and shape of the input 
 #' data files
@@ -97,11 +97,11 @@ checkFile <- function(path, type = "request_file") {
 
 #' @title Check EventStudy input files
 #' 
-#' @description check each input file plus inter file relations, e.g. is market
-#' index in request file has correct index in market_data and firm index in 
-#' request_file has correct index in firm_data.
+#' @description Check each input file plus inter file relations, whether market
+#' index and firm identifier in request file match market index in market_data and firm identifier in 
+#' in firm_data file.
 #' 
-#' @param dataFiles a named character vector. The names must be request_file, 
+#' @param dataFiles A named character vector. The names must be request_file, 
 #' firm_data, and market_data
 #' @param returnData returns the data as list of data.frames
 #' 

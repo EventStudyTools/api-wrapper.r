@@ -1,5 +1,5 @@
 ---
-title: "Introductionary Use Case: Firm addition to S&P500"
+title: "Introductionary Use Case: Firm Addition to S&P500"
 author: "Dr. Markus Schimmer and Dr. Simon Müller"
 date: "`r Sys.Date()`"
 output:
@@ -20,7 +20,7 @@ vignette: >
 
 The attached sample data and request files were constructed to illustrate the use of the EventStudyTools R-package. 
 
-The files hold data about the addition of several well known firms to the S&P 500 index in the late 1990s. With this data, the R package will investigate for you the question whether a company's stock value increases if the firm is added to the S&P 500 index. This is a common research question and has been adressed, among others, by Anthony W. Lynch and Richard R. Mendenha in a 1997 study: They found a positive effect of about 3.8% over the period starting the day after the announcement and ending the day before the effective date of the change (see: [Mergers & Acquistions](https://www.eventstudytools.com/mergers-acquisitions)).
+The files hold data about the addition of several well known firms to the S&P 500 index in the late 1990s. With this data, the R package will investigate for you the question whether a company's stock value increases if the firm is added to the S&P 500 index. This is a common research question and has been adressed, among others, by Anthony W. Lynch and Richard R. Mendenha in a 1997 study: They found a positive effect of about 3.8% over the period starting the day after the announcement and ending the day before the effective date of the change.
 
 You can use our R-package to easily investigate such and similar questions.
 
@@ -42,7 +42,7 @@ apiUrl <- "http://api.eventstudytools.com"
 apiKey <- "Please insert your key here"
 ```
 
-**Option 1:** You can save API key and url in the `options` object
+**Option 1:** You can save API key and URL in the `options` object
 
 ```{r, eval=FALSE}
 # The URL is already set by default
@@ -54,7 +54,7 @@ estSetup <- EventStudyAPI$new()
 ```
 
 
-**Option 2:** or set them directly during the `EventStudyAPI` `R6-class` initialization
+**Option 2:** Set the API Key and URL directly during the `EventStudyAPI` `R6-class` initialization
 
 ```{r, eval=FALSE}
 # Setup API Connection
@@ -62,16 +62,16 @@ estSetup <- EventStudyAPI$new(apiUrl)
 estSetup$authentication(apiKey)
 ```
 
-This API package is designed to perform all analysises we provide on our website. 
+This API package is designed to perform all analyses we provide on our website. 
 Furthermore, all parameters can be set. You are able to set every parameter 
 in R (we will provide more details later), or you can perform a fast Event Study 
-with the defaults.
+with default parameters.
 
 ### Event Study with Defaults Parameters
 
 There will be soon a separate vignette for setting parameters.
 
-## Type of Event Study
+## Event Study Types
 
 Our API offers different types of Event Studies:
 
@@ -164,15 +164,15 @@ In your analysis, you can name them as you want.
 
 This csv file contains the event definitions. It contains 9 columns. The order must be in the following way, as the columns are not named in the csv. 
 
-- **Event ID** [Integer]: A unique event identifier. 
-- **Firm ID** [String]: The firm name or stock ID. This ID must match the ID in the firm data.
-- **Market ID** [String]: The reference market ID. This ID must match the ID in the market data.
-- **Event Date** [`30.04.1997`]: Date of the event.  
+- **Event ID** [Integer]: A unique event identifier
+- **Firm ID** [String]: The firm name or stock ID. This ID must match the ID in the firm data
+- **Market ID** [String]: The reference market ID. This ID must match the ID in the market data
+- **Event Date** [`30.04.1997`]: Date of the event
 - **Grouping Variable** [String]: This column is used to group events. Most test statistics are based on looking at groups.
 - **Start Event Window** [Integer]: This integer value defines the start of the event window. This value must smaller or equal zero (e.g. trading days before event). 
 - **End Event Window** [Integer]: This integer value defines the end of the event window. This value must greater or equal zero (e.g. trading days after event).
 - **End of Estimation Window** [Integer]: This negative value defines the end of the estimation window (counted from event day). 
-- **Estimation Window Length** [Integer]: Length of the estimation window.
+- **Estimation Window Length** [Integer]: Length of the estimation window
 
 In the following example, we have an event window of `[-2, 2]` (an event window of length `5`), an estimation window of length `120`, and the estimation window ends `11` days before the event.
 

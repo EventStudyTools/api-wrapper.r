@@ -22,7 +22,7 @@ knitr::opts_chunk$set(echo = TRUE)
 
 # Overview
 
-Based on the Dieselgate we want to show you how you are able to fetch data in R, perform an Event Study, and do some basic plots with our R package. 
+Based on the Dieselgate scandal we want to show you how you are able to fetch data in R, perform an Event Study, and do some basic plots with our R package. 
 
 ```{r, message=F, echo=T, eval=FALSE}
 library(tidyquant)
@@ -40,7 +40,7 @@ startDate <- "2014-05-01"
 endDate <- "2015-12-31"
 ```
 
-We focus us on the big five motor manufacturer in Germany, namely
+We focus us on the big five motor manufacturers in Germany, namely
 
 - VW Group
     - VW
@@ -118,9 +118,9 @@ request %>%
 ```
 
 
-# Perform Event Studies: Abnromal Return, Volume, and Volatility
+# Perform Event Studies: Abnormal Return, Volume, and Volatility
 
-After the preparation steps, we are now able to start the calculations. We use in all type of Event Studies the GARCH(1, 1) model. Please consider in your Event Studies that fitting this model is computational expensive and no nearly realtime response from the API can be expected. 
+After the preparation steps, we are now able to start the calculations. We use in all type of Event Studies the GARCH(1, 1) model. Please consider in your Event Studies that fitting this model is computationally expensive and delayed response from the API should be expected. 
 
 ## Abnormal Return Event Study
 
@@ -151,7 +151,7 @@ arEventStudy <- est$performEventStudy(estParams     = esaParams,
                                       downloadFiles = T)
 ```
 
-Now, you can use the downloaded csv (or your preferred data format) files in your analysis. During the creation of the `arEventStudy` object we merge information from the request file, and the result files.
+Now, you can use the downloaded CSV (or your preferred data format) files in your analysis. During the creation of the `arEventStudy` object we merge information from the request file, and the result files.
 
 ```{r, eval=F}
 knitr::kable(head(arEventStudy$arResults))

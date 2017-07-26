@@ -20,14 +20,14 @@
 #' @description 
 #' This R6 class serialzes an Event Study parameter class to a list structure.
 #' This is an abstract class for Event Study applications (Return, Volatility, 
-#' and Volume Event Studies). It is not intendet to use this class directly. 
+#' and Volume Event Studies). It is not intended to use this class directly. 
 #' Please use: \link{ARCApplicationInput}.
 #' 
 #'
 #' @section Methods:
 #' \describe{
 #'   \item{\code{$new()}}{Constructor for EventStudyApplicationInput}
-#'   \item{\code{$setup()}}{Setup the parameter list.}
+#'   \item{\code{$setup()}}{Setup the parameter list}
 #'}
 #' 
 #' @format \code{\link[R6]{R6Class}} object.

@@ -19,8 +19,8 @@
 #' interface.
 #' 
 #' @description 
-#' This result file parser works at the moment just for csv files. Please read
-#' the vignette for further details (Coming soon). We will restructure our 
+#' This result file parser works currently only with csv files. Please read
+#' the vignette for further details (coming soon). We will restructure our 
 #' result reports soon. So, this function may change dramatically. This object 
 #' can be used for plotting your results.
 #' 
