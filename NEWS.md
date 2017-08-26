@@ -1,3 +1,17 @@
+## Roadmap 0.33
+
+- nice Excel reports
+- improve error messages 
+- improved file checking
+
+
+## Version 0.33
+
+### Bugfixes
+
+- fix EventStudy Addin
+
+
 ## Version 0.32
 
 - redesign vignettes
