@@ -9,7 +9,9 @@
 
 ### Bugfixes
 
-- fix EventStudy Addin
+- fix EventStudy Addin 
+    - tradding days options
+    - statistics options
 
 
 ## Version 0.32

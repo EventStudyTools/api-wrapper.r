@@ -300,7 +300,7 @@ EventStudyAddin <- function() {
     
     
     # > Perform Analysis -----
-    observeEvent(input$performAnalysis, {
+    eventReactive(input$performAnalysis, {
       if (is.null(estAPI)) {
         userMsg$output <- "API is not initialized. Please connect to API."
       } else {
@@ -335,10 +335,10 @@ EventStudyAddin <- function() {
         
         statisticsIDVector <- statisticsIDVectorList[[selectedType]]
         statisticsIDVector %>% 
-          purrr::map2(.y = input, .f = .getStatistics) %>% 
-          unlist() %>% 
-          which() -> selectedStatistics
-        if (length(selectedStatistics)) {
+          purrr::map(.f = .getStatistics, y = input) %>% 
+          unlist() -> selectedStatistics
+        if (!is.null(selectedStatistics)) {
+          selectedStatistics <- which(selectedStatistics)
           selectedStatistics <- statisticsIDVector[selectedStatistics]
           returnEstParams$setTestStatistics(selectedStatistics)
         }
@@ -359,9 +359,9 @@ EventStudyAddin <- function() {
           resultPath <- getwd()
         }
         
-        ret <- estAPI$performEventStudy(estParams  = returnEstParams,
-                                        dataFiles  = dataFiles,
-                                        resultPath = resultPath)
+        estAPI$performEventStudy(estParams  = returnEstParams,
+                                 dataFiles  = dataFiles,
+                                 resultPath = resultPath)
       }
     })
   }
