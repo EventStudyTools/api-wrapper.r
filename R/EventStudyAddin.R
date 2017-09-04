@@ -359,9 +359,10 @@ EventStudyAddin <- function() {
           resultPath <- getwd()
         }
         
-        estAPI$performEventStudy(estParams  = returnEstParams,
-                                 dataFiles  = dataFiles,
-                                 resultPath = resultPath)
+        estResult<- estAPI$performEventStudy(estParams  = returnEstParams,
+                                             dataFiles  = dataFiles,
+                                             resultPath = resultPath)
+        rstudioapi::sendToConsole("estResult", F)
         invisible(stopApp())
       }
     })
