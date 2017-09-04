@@ -67,7 +67,7 @@ checkFile <- function(path, type = "request_file") {
     }
     
     # check date format
-    checkDate(dtData[[4]])
+    checkDateFormat(dtData[[4]])
   } else if (type %in% c("firm_data", "market_data")) {
     # check character vectors
     columnLabels <- c("firm", "date", "value")
@@ -88,7 +88,7 @@ checkFile <- function(path, type = "request_file") {
                   .f = checkClass, class = "numeric") -> ret
     
     # check date format
-    checkDate(dtData[[2]])
+    checkDateFormat(dtData[[2]])
   } 
   
   return(dtData)
@@ -217,7 +217,7 @@ checkClass <- function(x, y, class = "integer") {
 #' @param x a character vector
 #' 
 #' @keywords internal
-checkDate <- function(x) {
+checkDateFormat <- function(x) {
   x <- as.Date(x, format = "%d.%m.%Y")
   testthat::expect(!any(is.na(x)), "Incorrect date format. Correct format is: %d.%m.%Y, e.g. 28.10.2011")
 }

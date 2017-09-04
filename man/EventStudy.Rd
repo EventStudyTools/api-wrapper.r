@@ -10,6 +10,6 @@ This package provides functionality for doing Event Studies from R by using Even
 }
 \details{
 To learn more about EventStudy visit project website: \url{www.eventstudytools.com}
-Or start with the vignettes:
+or start with the vignettes:
 \code{browseVignettes(package = "EventStudy")}
 }

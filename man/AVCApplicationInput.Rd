@@ -24,13 +24,13 @@ For more details see the help vignette:
 \describe{
   \item{\code{$new()}}{Constructor for AVCApplicationInput}
   \item{\code{$setEMail(eMail)}}{Set the e-Mail address for reporting. This 
-  functionality is currently not working.}
+  functionality is currently not working}
   \item{\code{$setBenchmarkModel(model = 'mm')}}{Setter for the benchmark
-  model.s}
+  models}
   \item{\code{$setReturnType(returnType)}}{Setter for the return type (log 
   or simple)}
   \item{\code{$setTestStatistics(testStatistics)}}{Setter for the test 
-  statistics.}
+  statistics}
 }
 }
 
@@ -41,7 +41,7 @@ For more details see the help vignette:
  \item{eMail}{An E-Mail address in \code{String} format}
  \item{model}{A benchmark model in \code{String} format}
  \item{returnType}{A return type in \code{String} format}
- \item{testStatistics}{A \code{String} vector with test statistics.}
+ \item{testStatistics}{A \code{String} vector with test statistics}
 }
 }
 

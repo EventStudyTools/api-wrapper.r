@@ -2,7 +2,7 @@
 % Please edit documentation in R/dataHandling.R
 \name{checkFile}
 \alias{checkFile}
-\title{Chheck input data files}
+\title{Check input data files}
 \usage{
 checkFile(path, type = "request_file")
 }

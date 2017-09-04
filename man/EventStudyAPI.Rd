@@ -4,7 +4,7 @@
 \name{EventStudyAPI}
 \alias{EventStudyAPI}
 \title{API for \url{www.eventstudytools.com}}
-\format{\code{\link[R6]{R6Class}} object.}
+\format{\code{\link[R6]{R6Class}} object}
 \usage{
 EventStudyAPI
 }
@@ -24,16 +24,16 @@ For usage details see \bold{Methods, Arguments, and Examples} sections.
 \section{Methods}{
 
 \describe{
-  \item{\code{new(apiServerUrl)}}{This method is used to create 
+  \item{\code{new(apiServerUrl)}}{This method is used to create an
   object of this class with \code{apiServerUrl} as the url to the 
-  EventStudyTools server.}
+  EventStudyTools server}
   \item{\code{authentication(apiKey)}}{This method is used to 
-  authenticate at \code{apiServerUrl}. A valid \code{apiKey} is 
+  authenticate at \code{apiServerUrl}. A valid \code{APIkey} is 
   required. You can download a free key on our website: 
   \url{www.eventstudytools.com}}
   \item{\code{performEventStudy(estParam)}}{This method starts an Event Study. 
-  This method does all work for you.}
-  \item{\code{performDefaultEventStudy()}}{This method starts an default 
+  This method does all the analysis work for you}
+  \item{\code{performDefaultEventStudy()}}{This method starts a default 
   Event Study. It is a wrapper around \code{performEventStudy}}
   \item{\code{processTask()}}{This method starts the Event Study 
   calculation on the server (after files are uploaded.}
@@ -44,26 +44,12 @@ For usage details see \bold{Methods, Arguments, and Examples} sections.
   file to upload. \code{fileKey} is the key of the file. Valid values 
   are: \code{request_file}, \code{firm_data}, and \code{market_data}. 
   \code{fileName} file name to upload.}
-  \item{\code{commitData()}}{This method commit the data to the server.}
-  \item{\code{getTaskStatus()}}{Check if calcualtion is finished.}
+  \item{\code{commitData()}}{This method commits the data to the server}
+  \item{\code{getTaskStatus()}}{Check if calculation is finished}
   \item{\code{getTaskResults(destDir = getwd())}}{Downloads the 
   result files of the Event Study to \code{destDir} (Default: current 
   working directory).}
   }
-}
-
-\section{Arguments}{
-
-\describe{
- \item{eventstudyapi}{An \code{EventStudyAPI} object.}
- \item{apiServerUrl}{URL to the API endpoint.}
- \item{apiKey}{Key for authentication.}
- \item{input}{An \code{ApplicationInputInterface} object.}
- \item{fileKey}{Type of input file: \code{request_file}, \code{firm_data}, 
- and \code{market_data}.}
- \item{fileName}{Data filename.}
- \item{destDir}{Directory for saving result files.}
-}
 }
 
 \examples{

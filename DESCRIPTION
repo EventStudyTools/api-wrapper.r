@@ -31,7 +31,6 @@ Imports:
 Suggests: 
     knitr,
     rmarkdown
-URL: http://eventstudytools.com
 BugReports: https://github.com/EventStudyTools/api-wrapper.r/issues
 LazyData: true
 RoxygenNote: 6.0.1

@@ -2,8 +2,9 @@
 % Please edit documentation in R/SP500Example.R
 \name{getSP500ExampleFiles}
 \alias{getSP500ExampleFiles}
-\title{This function copies the 3 csv files to the actual working directory. This 
-example data is used as motivation for using Event Studies in M&A research.}
+\title{This function copies the three csv files to the actual working directory. This 
+example data is used as motivation for using Event Studies for Additions /
+Deletions to market indices.}
 \usage{
 getSP500ExampleFiles(targetDir = getwd())
 }
