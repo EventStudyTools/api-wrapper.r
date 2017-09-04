@@ -1,17 +1,27 @@
+## Roadmap 0.40
+
+- Intraday Event Study
+
+
 ## Roadmap 0.33
 
 - nice Excel reports
-- improve error messages 
-- improved file checking
 
 
 ## Version 0.33
+
+- add new file ckecks
+    - check event window is in firm and market data
+    - check estimation window is in firm and market data
+    - dates before 01.01.1970 are actually not allowed
+- add function estAPIKey for setting EventStudy API key
 
 ### Bugfixes
 
 - fix EventStudy Addin 
     - tradding days options
     - statistics options
+    - object is now returned to console
 
 
 ## Version 0.32

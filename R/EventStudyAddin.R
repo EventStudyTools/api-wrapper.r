@@ -362,6 +362,7 @@ EventStudyAddin <- function() {
         estAPI$performEventStudy(estParams  = returnEstParams,
                                  dataFiles  = dataFiles,
                                  resultPath = resultPath)
+        invisible(stopApp())
       }
     })
   }

@@ -98,3 +98,13 @@ errorMessage <- function(x) {
   if(isError(x)) attr(x, "condition")$message
 }
 
+
+#' Set eventStudy API Key
+#' 
+#' @param key EventStudy API Key
+#' 
+#' @export
+estAPIKey <- function(key) {
+  options(EventStudy.KEY = apiKey)
+}
+

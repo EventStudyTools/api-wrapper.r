@@ -149,6 +149,39 @@ checkFiles <- function(dataFiles = c("request_file" = "01_RequestFile.csv",
       testthat::expect(x %in% y, paste(x, "not in firm data"))
     }, y = firmIndexData) -> ret
   
+  # parse dates
+  eventDate <- requestData[[4]]
+  eventDate <- as.Date(eventDate, format = "%d.%m.%Y")
+  firmData[[2]] <- as.Date(firmData[[2]], format = "%d.%m.%Y")
+  marketData[[2]] <- as.Date(marketData[[2]], format = "%d.%m.%Y")
+  
+  # check event window range
+  maxEventDate <- eventDate + requestData[[7]]
+  firmIndex %>% 
+    purrr::map2(.y = maxEventDate, .f = function(x, y, firmData, marketData) {
+      firmData %>% 
+        dplyr::filter(X1 == x) -> subFirmData
+      
+      testthat::expect(y <= max(subFirmData[[2]]), paste0("Event window end is after max firm data for firm: ", x))
+      testthat::expect(y <= max(marketData[[2]]), paste0("Event window end is after max market data"))
+    }, firmData = firmData, marketData = marketData)
+
+  # check estimation window range
+  minEstimationDate <- eventDate - requestData[[9]]
+  firmIndex %>% 
+    purrr::map2(.y = minEstimationDate, .f = function(x, y, firmData, marketData) {
+      firmData %>% 
+        dplyr::filter(X1 == x) -> subFirmData
+      
+      testthat::expect(y >= min(subFirmData[[2]]), paste0("Estimation window start is before min firm data for firm: ", x))
+      testthat::expect(y >= min(subMarketData[[2]]), paste0("Estimation window start is before min market data"))
+    }, marketData = marketData)
+  
+  # check date 01.01.1970
+  testthat::expect(all(eventDate >= as.Date("1970-01-01")), "Dates must be after 1970-01-01")
+  testthat::expect(all(firmData[[2]] >= as.Date("1970-01-01")), "Dates must be after 1970-01-01")
+  testthat::expect(all(marketData[[2]] >= as.Date("1970-01-01")), "Dates must be after 1970-01-01")
+  
   if (returnData) {
     return(list(
       request_file = requestData,
