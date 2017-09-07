@@ -63,7 +63,8 @@ estSetup$performDefaultEventStudy(estType    = estType,
 ## Details can be found in our vignettes
 
 - [Introduction in EventStudy R Package](https://cran.rstudio.com/web/packages/EventStudy/vignettes/introduction_eventstudy.html)
-- Use Case: Dieselgate
+- [Use Case: Dieselgate](https://cran.rstudio.com/web/packages/EventStudy/vignettes/howto_eventstudy.html)
 - [Parameters](https://cran.rstudio.com/web/packages/EventStudy/vignettes/parameters_eventstudy.html)
+- [RStudio Addin](https://cran.rstudio.com/web/packages/EventStudy/vignettes/addin_eventstudy.html)
 - Plotting
-- Reports
+- Excel Export
