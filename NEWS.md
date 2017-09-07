@@ -1,20 +1,18 @@
 ## Roadmap 0.40
 
 - Intraday Event Study
-
-
-## Roadmap 0.33
-
-- nice Excel reports
+- Fixing date issue: dates before 01.01.1970 are currently not working
 
 
 ## Version 0.33
 
+- add Excel export functionality to ResultParser
 - add new file ckecks
     - check event window is in firm and market data
     - check estimation window is in firm and market data
     - dates before 01.01.1970 are actually not allowed
 - add function estAPIKey for setting EventStudy API key
+- ResultParser now parses CAR values
 
 ### Bugfixes
 

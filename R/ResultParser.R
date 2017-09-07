@@ -34,8 +34,9 @@
 #'   \item{\code{parseAR(path = "ar_results.csv")}}{This method parses the 
 #'   abnormal return file (ar_results.csv). Furthermore, it triggers 
 #'   \code{parseReport} and join firm and index name.}
-#'   \item{\code{plotAR(id = NULL)}}{This method abnormal returns time series 
-#'   with \code{id} as the firm id.}}
+#'   \item{\code{parseCAR(path = "car_results.csv")}}{This method parses the 
+#'   cumulative abnormal return file (ar_results.csv). Furthermore, it triggers 
+#'   \code{parseReport} and join firm and index name.}
 #'   
 #' @format \code{\link[R6]{R6Class}} object.
 #' 
@@ -61,6 +62,7 @@ ResultParser <- R6::R6Class(classname = "ResultParser",
                               requestData    = NULL,
                               analysisReport = NULL,
                               arResults      = NULL,
+                              carResults     = NULL,
                               aarResults     = NULL,
                               aarStatistics  = NULL,
                               groups         = NULL,
@@ -139,6 +141,23 @@ ResultParser <- R6::R6Class(classname = "ResultParser",
                                   self$arResults %>% 
                                     dplyr::left_join(requestData, by = "Event ID") -> self$arResults
                                 }
+                              },
+                              parseCAR = function(path = "car_results.csv", analysisType = "CAR") {
+                                if (is.null(self$analysisReport))
+                                  self$parseReport()
+                                
+                                # parse CAR values & check file
+                                carResults <- data.table::fread(path)
+                                if (nrow(carResults) == 0) {
+                                  message("No CAR Results")
+                                  return(NULL)
+                                }
+                                
+                                self$analysisReport %>% 
+                                  dplyr::select(`Event ID`, Firm) %>% 
+                                  dplyr::right_join(carResults) -> carResults
+                                
+                                self$carResults <- carResults
                               },
                               parseAAR = function(path = "aar_results.csv", groups = NULL, analysisType = "AAR") {
                                 if (is.null(self$analysisReport))
@@ -235,9 +254,119 @@ ResultParser <- R6::R6Class(classname = "ResultParser",
                                 df[[var]] <- NULL
                                 setnames(df, "car", var)
                                 df
+                              },
+                              createReport = function(file = "EventStudy.xlsx") {
+                                # the report file must have Excel filename extension
+                                if (!stringr::str_detect(file, ".xlsx")) {
+                                  file <- paste0(file, ".xlsx")
+                                }
+                                
+                                wb <- openxlsx::createWorkbook()
+                                
+                                # Styles 
+                                hs1 <- openxlsx::createStyle(fgFill = "#4F81BD", halign = "CENTER", textDecoration = "Bold",
+                                                             border = "Bottom", fontColour = "white")
+                                numStyle <- openxlsx::createStyle(numFmt = "0.00")
+                                centreStyle <- openxlsx::createStyle(halign = "center", valign = "center")
+                                intNumStyle <- openxlsx::createStyle(numFmt = "0")
+                                options("openxlsx.numFmt" = "#,#0.00")
+                                
+                                # Analysis Report
+                                openxlsx::addWorksheet(wb, sheetName = "Analysis Report")
+                                openxlsx::writeData(wb, sheet = "Analysis Report", x = self$analysisReport, headerStyle = hs1)
+                                openxlsx::setColWidths(wb, sheet = "Analysis Report", cols = 1:ncol(self$analysisReport), widths = 15)
+                                
+                                # Abnormal Return Report 
+                                if (!is.null(self$arResults)) {
+                                  self$arResults %>% 
+                                    dplyr::select(-`Estimation Window Length`) -> dtData
+                                  class(dtData$ar) <- "percentage"
+                                  names(dtData)[2:4] <- c("Event Time", "AR", "t-Value")
+                                  
+                                  openxlsx::addWorksheet(wb, sheetName = "AR Report")
+                                  openxlsx::writeData(wb, sheet = "AR Report", x =dtData, headerStyle = hs1)
+                                  openxlsx::setColWidths(wb, sheet = 1, cols = ncol(dtData), widths = 15)
+                                  
+                                  wb <- private$setCenterStyle(wb    = wb, 
+                                                               sheet = "AR Report",
+                                                               rows  =  1:(nrow(dtData) + 1), 
+                                                               cols  = 3:ncol(dtData))
+                                  
+                                  openxlsx::addStyle(wb,  "AR Report", 
+                                                     style      = intNumStyle, 
+                                                     rows       = 2:(nrow(dtData) + 1), 
+                                                     cols       = 2, 
+                                                     stack      = T, 
+                                                     gridExpand = TRUE)
+                                }
+                                
+                                
+                                # CAR Report ----
+                                if (!is.null(self$carResults)) {
+                                  dtData <- self$carResults
+                                  names(dtData)[4] <- "CAR"
+                                  
+                                  class(dtData$CAR) <- "percentage"
+                                  
+                                  openxlsx::addWorksheet(wb, sheetName = "CAR Report")
+                                  openxlsx::writeData(wb, sheet = "CAR Report", x = dtData, headerStyle = hs1)
+                                  
+                                  wb <- private$setCenterStyle(wb    = wb, 
+                                                               sheet = "CAR Report",
+                                                               rows  =  1:(nrow(dtData) + 1), 
+                                                               cols  = 3:ncol(dtData))
+                                  
+                                  openxlsx::addStyle(wb,  "CAR Report", 
+                                                     style      = centreStyle, 
+                                                     rows       = 1:(nrow(dtData) + 1), 
+                                                     cols       = 3:ncol(dtData), 
+                                                     stack      = T, 
+                                                     gridExpand = TRUE)
+                                }
+                                
+                                # Averaged Abnormal Return Report ----
+                                if (!is.null(self$aarResults)) {
+                                  dtData <- self$aarResults
+                                  
+                                  # Adjust column names
+                                  statNames <- as.character(self$aarStatistics[names(self$aarResults)])
+                                  statId <- which(!is.na(statNames))
+                                  names(dtData)[statId] <- statNames[statId]
+                                  names(dtData)[1:5] <- c("Group", "Event Time", "AAR", "N Firms", "N positive AR")
+                                  
+                                  # AAR as percentage
+                                  class(dtData$AAR) <- "percentage"
+                                  
+                                  openxlsx::addWorksheet(wb, sheetName = "AAR Report")
+                                  openxlsx::setColWidths(wb, sheet = "AAR Report", cols = 1:ncol(dtData), widths = 15)
+                                  openxlsx::writeData(wb, sheet = "AAR Report", x = dtData, headerStyle = hs1)
+                                  
+                                  wb <- private$setCenterStyle(wb    = wb, 
+                                                               sheet = "AAR Report",
+                                                               rows  =  1:(nrow(dtData) + 1), 
+                                                               cols  = 3:ncol(dtData))
+                                  openxlsx::addStyle(wb,  "AAR Report", 
+                                                     style      = intNumStyle, 
+                                                     rows       = 2:(nrow(dtData) + 1), 
+                                                     cols       = c(2, 4:5), 
+                                                     stack      = T, 
+                                                     gridExpand = TRUE)
+                                }
+                                
+                                # Write Data ----
+                                openxlsx::saveWorkbook(wb, file, overwrite = T)
                               }
                             ),
                             private = list(
+                              setCenterStyle = function(wb, sheet, rows, cols) {
+                                openxlsx::addStyle(wb,  sheet, 
+                                                   style = centreStyle, 
+                                                   rows = 1:(nrow(dtData) + 1), 
+                                                   cols = 3:ncol(dtData), 
+                                                   stack = T, 
+                                                   gridExpand = TRUE)
+                                wb
+                              },
                               parseFile = function(path, dataName, header = F) {
                                 # check local and url file
                                 if (file.exists(path) || !httr::http_error(path)) {

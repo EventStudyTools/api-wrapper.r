@@ -175,7 +175,7 @@ checkFiles <- function(dataFiles = c("request_file" = "01_RequestFile.csv",
       
       testthat::expect(y >= min(subFirmData[[2]]), paste0("Estimation window start is before min firm data for firm: ", x))
       testthat::expect(y >= min(subMarketData[[2]]), paste0("Estimation window start is before min market data"))
-    }, marketData = marketData)
+    }, firmData = firmData, marketData = marketData)
   
   # check date 01.01.1970
   testthat::expect(all(eventDate >= as.Date("1970-01-01")), "Dates must be after 1970-01-01")

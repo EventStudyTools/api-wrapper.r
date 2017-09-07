@@ -3,7 +3,7 @@ Type: Package
 Title: Event Study Analysis
 Description: Perform Event Studies from through our <http://EventStudyTools.com> Application Programming Interface, parse the results, visualize it, and / or use the results in further analysis.
 Author: Dr. Simon Mueller
-Date: 2017-08-26
+Date: 2017-09-07
 Version: 0.33
 Encoding: UTF-8
 URL: http://eventstudytools.com

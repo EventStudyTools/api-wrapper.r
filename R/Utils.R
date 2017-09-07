@@ -108,3 +108,19 @@ estAPIKey <- function(key) {
   options(EventStudy.KEY = apiKey)
 }
 
+
+#' @title Returns default parameters for an EventStudy type
+#' 
+#' @param type type of event study (default: arc)
+#' 
+#' @keywords internal
+getDefaultApplicationInput <- function(type = "arc") {
+  if (estType == "arc") {
+    defaultParams <- ARCApplicationInput$new()
+  } else if (estType == "avc") {
+    defaultParams <- ARCApplicationInput$new()
+  } else if (estType == "avyc") {
+    defaultParams <- ARCApplicationInput$new()
+  }
+  defaultParams
+}
