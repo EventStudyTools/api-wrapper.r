@@ -37,6 +37,7 @@
 #'   \item{\code{parseCAR(path = "car_results.csv")}}{This method parses the 
 #'   cumulative abnormal return file (ar_results.csv). Furthermore, it triggers 
 #'   \code{parseReport} and join firm and index name.}
+#' }
 #'   
 #' @format \code{\link[R6]{R6Class}} object.
 #' 
@@ -86,6 +87,11 @@ ResultParser <- R6::R6Class(classname = "ResultParser",
                                 }
                                 
                                 parseReturn <- private$parseFile(path, "arResults", T)
+                                if (nrow(aarResults) == 0) {
+                                  message("Analysis performed, but no AR Results. Please look at comments in Analysis report.")
+                                  return(NULL)
+                                }
+                                
                                 if (!parseReturn) {
                                   return(NULL)
                                 } else {
@@ -149,7 +155,7 @@ ResultParser <- R6::R6Class(classname = "ResultParser",
                                 # parse CAR values & check file
                                 carResults <- data.table::fread(path)
                                 if (nrow(carResults) == 0) {
-                                  message("No CAR Results")
+                                  message("Analysis performed, but no CAR Results. Please look at comments in Analysis report.")
                                   return(NULL)
                                 }
                                 
@@ -169,7 +175,7 @@ ResultParser <- R6::R6Class(classname = "ResultParser",
                                 # parse AAR values & check file
                                 aarResults <- data.table::fread(path)
                                 if (nrow(aarResults) < 2) {
-                                  message("No AAR Results")
+                                  message("Analysis performed, but no AAR Results. Please look at comments in Analysis report.")
                                   return(NULL)
                                 }
                                 
@@ -359,10 +365,11 @@ ResultParser <- R6::R6Class(classname = "ResultParser",
                             ),
                             private = list(
                               setCenterStyle = function(wb, sheet, rows, cols) {
+                                centreStyle <- openxlsx::createStyle(halign = "center", valign = "center")
                                 openxlsx::addStyle(wb,  sheet, 
                                                    style = centreStyle, 
-                                                   rows = 1:(nrow(dtData) + 1), 
-                                                   cols = 3:ncol(dtData), 
+                                                   rows = rows, 
+                                                   cols = cols, 
                                                    stack = T, 
                                                    gridExpand = TRUE)
                                 wb

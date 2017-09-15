@@ -52,6 +52,20 @@ For usage details see \bold{Methods, Arguments, and Examples} sections.
   }
 }
 
+\section{Arguments}{
+
+\describe{
+ \item{eventstudyapi}{An \code{EventStudyAPI} object}
+ \item{apiServerUrl}{URL to the API endpoint}
+ \item{apiKey}{Key for authentication}
+ \item{input}{An \code{ApplicationInputInterface} object.}
+ \item{fileKey}{Type of input file: \code{request_file}, \code{firm_data}, 
+ and \code{market_data}}
+ \item{fileName}{Data filename}
+ \item{destDir}{Directory for saving result files}
+}
+}
+
 \examples{
 \dontrun{
 apiKey <- "{Please insert your aPI key here}"

@@ -18,3 +18,12 @@ data.frame
 Check correct column, date, and shape of the input 
 data files
 }
+\examples{
+\dontrun{
+# save example files to current working directory
+getSP500ExampleFiles()
+               
+checkFile("01_RequestFile.csv", "request_file")
+}
+
+}

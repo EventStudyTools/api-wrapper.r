@@ -8,7 +8,7 @@
 #'
 #' @return data.frame
 #' 
-#' @expamles
+#' @examples 
 #' \dontrun{
 #' # save example files to current working directory
 #' getSP500ExampleFiles()
@@ -105,7 +105,7 @@ checkFile <- function(path, type = "request_file") {
 #' firm_data, and market_data
 #' @param returnData returns the data as list of data.frames
 #' 
-#' @expamles
+#' @examples
 #' \dontrun{
 #' # save example files to current working directory
 #' getSP500ExampleFiles()
@@ -122,6 +122,9 @@ checkFiles <- function(dataFiles = c("request_file" = "01_RequestFile.csv",
                                      "firm_data"    = "02_firmData.csv", 
                                      "market_data"  = "03_MarketData.csv"),
                        returnData = F) {
+  # For R checks
+  X1 <- NULL
+  
   # check file names
   fileNames <- names(dataFiles)
   testthat::expect("request_file" %in% fileNames, "checkFiles: filename request_file is not correct")
@@ -174,7 +177,7 @@ checkFiles <- function(dataFiles = c("request_file" = "01_RequestFile.csv",
         dplyr::filter(X1 == x) -> subFirmData
       
       testthat::expect(y >= min(subFirmData[[2]]), paste0("Estimation window start is before min firm data for firm: ", x))
-      testthat::expect(y >= min(subMarketData[[2]]), paste0("Estimation window start is before min market data"))
+      testthat::expect(y >= min(marketData[[2]]), paste0("Estimation window start is before min market data"))
     }, firmData = firmData, marketData = marketData)
   
   # check date 01.01.1970

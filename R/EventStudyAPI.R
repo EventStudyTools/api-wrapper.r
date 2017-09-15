@@ -63,7 +63,7 @@
 #'  \item{eventstudyapi}{An \code{EventStudyAPI} object}
 #'  \item{apiServerUrl}{URL to the API endpoint}
 #'  \item{apiKey}{Key for authentication}
-#'  \item{input}{An \code{ApplicationInputInterface} object.
+#'  \item{input}{An \code{ApplicationInputInterface} object.}
 #'  \item{fileKey}{Type of input file: \code{request_file}, \code{firm_data}, 
 #'  and \code{market_data}}
 #'  \item{fileName}{Data filename}

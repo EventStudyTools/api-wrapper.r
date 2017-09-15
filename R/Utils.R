@@ -105,21 +105,23 @@ errorMessage <- function(x) {
 #' 
 #' @export
 estAPIKey <- function(key) {
-  options(EventStudy.KEY = apiKey)
+  options(EventStudy.KEY = key)
 }
 
 
 #' @title Returns default parameters for an EventStudy type
 #' 
+#' @description Creates a default parameter object for performing an Event Study
+#' 
 #' @param type type of event study (default: arc)
 #' 
 #' @keywords internal
 getDefaultApplicationInput <- function(type = "arc") {
-  if (estType == "arc") {
+  if (type == "arc") {
     defaultParams <- ARCApplicationInput$new()
-  } else if (estType == "avc") {
+  } else if (type == "avc") {
     defaultParams <- ARCApplicationInput$new()
-  } else if (estType == "avyc") {
+  } else if (type == "avyc") {
     defaultParams <- ARCApplicationInput$new()
   }
   defaultParams
