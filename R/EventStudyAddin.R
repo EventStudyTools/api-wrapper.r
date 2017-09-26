@@ -300,7 +300,7 @@ EventStudyAddin <- function() {
     
     
     # > Perform Analysis -----
-    eventReactive(input$performAnalysis, {
+    observeEvent(input$performAnalysis, {
       if (is.null(estAPI)) {
         userMsg$output <- "API is not initialized. Please connect to API."
       } else {
@@ -348,6 +348,7 @@ EventStudyAddin <- function() {
         requestFile <- input$requestFile$dataPath
         firmDataFile <- input$firmDataFile$dataPath
         marketDataFile <- input$marketDataFile$dataPath
+        print("Validate input files.")
         shiny::validate(shiny::need(!is.null(requestFile) && !is.null(firmDataFile) && !is.null(marketDataFile), "Please upload your data!"))
         dataFiles <- c("request_file" = requestFile, 
                        "firm_data"    = firmDataFile, 
@@ -359,9 +360,11 @@ EventStudyAddin <- function() {
           resultPath <- getwd()
         }
         
+        print("Perform Event Study")
         estResult<- estAPI$performEventStudy(estParams  = returnEstParams,
                                              dataFiles  = dataFiles,
                                              resultPath = resultPath)
+        print("Event Study finished")
         rstudioapi::sendToConsole("estResult", F)
         invisible(stopApp())
       }

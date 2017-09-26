@@ -139,7 +139,7 @@ ARCApplicationInput <- R6::R6Class(classname = "ARCApplicationInput",
                                        if (is.null(testStatistics)) {
                                          testStatistics <- private$allowedTestStatistics
                                        }
-                                       testStatistics <- match.arg(testStatistics, private$test_statistics)
+                                       testthat::expect(all(testStatistics %in% private$allowedTestStatistics), "Some non valid test statistics!")
                                        self$test_statistics <- as.list(testStatistics)
                                      },
                                      # set reques, firm, and market data file 
