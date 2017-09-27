@@ -8,8 +8,10 @@
 
 ### Bugfixes
 
-- setTestStatistics did not worked proberly
-- EventStudyAddin had the wrong Event environment
+- EventStudyAddin
+    - setTestStatistics did not worked proberly
+    - added all types of event studies
+    - ResultPraser object is now returned to the console
 
 
 ## Version 0.33
