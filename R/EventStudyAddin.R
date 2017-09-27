@@ -313,7 +313,7 @@ EventStudyAddin <- function() {
         if (selectedType == "return") {
           returnEstParams <- ARCApplicationInput$new()
         } else if (selectedType == "volume") {
-          returnEstParams <- AVApplicationInput$new()
+          returnEstParams <- AVCApplicationInput$new()
         } else if (selectedType == "volatility") {
           returnEstParams <- AVyCApplicationInput$new()
         }
