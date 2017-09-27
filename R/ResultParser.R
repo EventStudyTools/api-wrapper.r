@@ -87,15 +87,15 @@ ResultParser <- R6::R6Class(classname = "ResultParser",
                                 }
                                 
                                 parseReturn <- private$parseFile(path, "arResults", T)
-                                if (nrow(aarResults) == 0) {
-                                  message("Analysis performed, but no AR Results. Please look at comments in Analysis report.")
-                                  return(NULL)
-                                }
-                                
                                 if (!parseReturn) {
                                   return(NULL)
                                 } else {
                                   abnormalReturns <- data.table::copy(self[["arResults"]])
+                                }
+                                
+                                if (nrow(abnormalReturns) == 0) {
+                                  message("Analysis performed, but no AR Results. Please look at comments in Analysis report.")
+                                  return(NULL)
                                 }
                                 
                                 # parse Abnormal Returns

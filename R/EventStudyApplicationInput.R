@@ -77,7 +77,7 @@ EventStudyApplicationInput <- R6::R6Class(classname = "EventStudyApplicationInpu
                                                 parameters[["non_trading_days"]],
                                                 parameters[["benchmark_model"]],
                                                 test_statistics = list(parameters[["test_statistics"]]))
-                                              if (key == "av") {
+                                              if (self$key == "av") {
                                                 # Abnormal Volume
                                                 params <- params[-1]
                                               }

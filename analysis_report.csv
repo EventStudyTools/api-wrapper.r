@@ -1,0 +1,7 @@
+"Event ID";Firm;"Reference Market";"Event Date";"Analysis Report";"Estimation Window Length";"End of Estimation Window";"First Date Estimation Window";"Last Date Estimation Window";"Actual Stock Return";"Actual Market Return";Alpha;Beta;"Residual Standard Deviation";"Expected Market Return";"First-order Autocorellation"
+;"Overarching comments";;;"Analysis performed successfully";;;;;;;;;;;
+1;VOW.DE;DAX;2017-07-24;"Analysis performed successfully";250;-11;2016-07-14;2017-07-07;-0.0251;-0.0025;-0.0003;0.9706;0.0105;-0.0027;-0.0092
+2;NSU.DE;DAX;2017-07-24;"Analysis performed successfully";250;-11;2016-07-14;2017-07-07;-0.0083;-0.0025;0.0006;-0.1022;0.0086;0.0008;-0.2207
+3;PAH3.DE;DAX;2017-07-24;"Analysis performed successfully";250;-11;2016-07-15;2017-07-07;-0.0067;-0.0025;-0.0003;1.1985;0.0109;-0.0034;0.0125
+4;BMW.DE;DAX;2017-07-24;"Analysis performed successfully";250;-11;2016-07-14;2017-07-07;-0.0277;-0.0025;-0.0004;1.1858;0.0077;-0.0034;-0.0016
+5;DAI.DE;DAX;2017-07-24;"Analysis performed successfully";250;-11;2016-07-14;2017-07-07;-0.0265;-0.0025;-0.0003;1.0827;0.006;-0.0031;-0.0155
