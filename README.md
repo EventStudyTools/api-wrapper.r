@@ -1,4 +1,4 @@
-[![cran version](http://www.r-pkg.org/badges/version/EventStudy)](https://cran.rstudio.com/web/packages/zoon) 
+[![cran version](http://www.r-pkg.org/badges/version/EventStudy)](https://cran.rstudio.com/web/packages/EventStudy) 
 [![rstudio mirror downloads](http://cranlogs.r-pkg.org/badges/EventStudy?)](https://cran.r-project.org/web/packages/EventStudy/)
 
 # EventStudyTools (EST) API R Wrapper
