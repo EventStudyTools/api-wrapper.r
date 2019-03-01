@@ -4,6 +4,20 @@
 - Fixing date issue: dates before 01.01.1970 are currently not working
 
 
+## 0.35
+
+- Added some more message to output during the process
+
+### Bugfixes
+
+- Result files loading is fixed
+- Result file parser is fixed
+- Fixed task checks
+- Input file checker is fixed
+
+- Examples
+    - Github example was not working
+
 ## 0.34
 
 ### Bugfixes

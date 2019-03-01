@@ -177,6 +177,7 @@ EventStudyAPI <- R6::R6Class(classname = "EventStudyAPI",
                                    Sys.sleep(1)
                                    status <- self$getTaskStatus()
                                    if (status) {
+                                     message("Calculation successful finished!")
                                      break()
                                    }
                                    iter <- iter + 1
@@ -211,7 +212,6 @@ EventStudyAPI <- R6::R6Class(classname = "EventStudyAPI",
                                processTask = function() {
                                  if (is.null(private$token) || is.null(private$apiServerUrl))
                                    stop("Error in uploadFile: configuration error")
-
                                  ch <- doHttrRequest(url          = httr::modify_url(private$apiServerUrl, path = "/task/process"), 
                                                      request_type = "POST", 
                                                      config       = httr::add_headers(c("Content-Type" = "application/json", 
@@ -219,7 +219,7 @@ EventStudyAPI <- R6::R6Class(classname = "EventStudyAPI",
                                  )
                                  
                                  result <- ch$content
-                                 self$resultFiles <- result$results
+                                 self$resultFiles <- tibble::as_tibble(result$results)
                                  result
                                },
                                configureTask = function(estParams = NULL) {
@@ -260,6 +260,7 @@ EventStudyAPI <- R6::R6Class(classname = "EventStudyAPI",
                                  if (!file.exists(fileName))
                                    stop("Error: file do not exist")
 
+                                 message("Uploading: ", fileName)
                                  ch <- doHttrRequest(url          = httr::modify_url(private$apiServerUrl, path = paste0("/task/content/", fileKey, "/0")), 
                                                      request_type = "POST", 
                                                      the_body     = httr::upload_file(path = fileName),
@@ -318,7 +319,7 @@ EventStudyAPI <- R6::R6Class(classname = "EventStudyAPI",
                                    stop("Error: Configuration validation error")
 
                                  # check if file exists
-                                 return(!httr::http_error(self$resultFiles[1]))
+                                 return(!httr::http_error(self$resultFiles$url[1]))
                                  
                                  # TODO
                                  # curl::new_handle() %>%
@@ -342,45 +343,57 @@ EventStudyAPI <- R6::R6Class(classname = "EventStudyAPI",
 
                                  # fetch data
                                  if (downloadFiles) {
-                                   # destDir <- stringr::str_replace_all(destDir, "[/\\]", "")
-                                   l <- lapply(self$resultFiles, function(x) {
-                                     destFile <- unlist(stringr::str_split(x, "/"))
-                                     destFile <- destFile[length(destFile)]
-                                     curl::curl_download(url = x, destfile = paste0(destDir, "/", destFile))
-                                   })
+                                   self$resultFiles %>% 
+                                     dplyr::mutate(id = row_number()) %>% 
+                                     tidyr::nest(-id) %>% 
+                                     dplyr::mutate(results = purrr::map(data, .f = function(x) {
+                                       message('Downloading: ', x$name)
+                                       url <- x$url
+                                       dest_file <- unlist(stringr::str_split(url, "/"))
+                                       dest_file <- dest_file[length(dest_file)]
+                                       
+                                       curl_download_save <- purrr::safely(curl::curl_download)
+                                       dl_ <- curl_download_save(url = url, destfile = file.path(destDir, dest_file))
+                                       if (is.null(dl_$error)) {
+                                         return('Success')
+                                       } else {
+                                         return('Failure')
+                                       }
+                                     })) -> l
+                                   
                                  } 
                                  
                                  # Parse data
                                  estParser <- ResultParser$new()
                                  estParser$parseRequestFile(self$dataFiles[["request_file"]])
-                                 id <- which(stringr::str_detect(self$resultFiles, "/analysis_report"))
+                                 id <- which(stringr::str_detect(self$resultFiles$basename, "analysis_report"))
                                  if (length(id)) {
-                                    estParser$parseReport(self$resultFiles[id])
+                                    estParser$parseReport(self$resultFiles$url[id])
                                  }
                                  
                                  # arc parsing
-                                 id <- which(stringr::str_detect(self$resultFiles, "/ar_"))
+                                 id <- which(stringr::str_detect(self$resultFiles$basename, "^ar_"))
                                  if (length(id)) {
-                                    estParser$parseAR(self$resultFiles[id])
+                                    estParser$parseAR(self$resultFiles$url[id])
                                  }
-                                 id <- which(stringr::str_detect(self$resultFiles, "/aar_"))
+                                 id <- which(stringr::str_detect(self$resultFiles$basename, "^aar_"))
                                  if (length(id)) {
-                                   estParser$parseAAR(self$resultFiles[id])
+                                   estParser$parseAAR(self$resultFiles$url[id])
                                  }
-                                 id <- which(stringr::str_detect(self$resultFiles, "/car_"))
+                                 id <- which(stringr::str_detect(self$resultFiles$basename, "^car_"))
                                  if (length(id)) {
-                                   estParser$parseCAR(self$resultFiles[id])
+                                   estParser$parseCAR(self$resultFiles$url[id])
                                  }
                                  
                                  
                                  # avyc parsing
-                                 id <- which(stringr::str_detect(self$resultFiles, "/avy_"))
+                                 id <- which(stringr::str_detect(self$resultFiles$basename, "^avy_"))
                                  if (length(id)) {
-                                   estParser$parseAR(self$resultFiles[id], analysisType = "AVy")
+                                   estParser$parseAR(self$resultFiles$url[id], analysisType = "^AVy")
                                  }
-                                 id <- which(stringr::str_detect(self$resultFiles, "/aavy_"))
+                                 id <- which(stringr::str_detect(self$resultFiles$basename, "^aavy_"))
                                  if (length(id)) {
-                                   estParser$parseAAR(self$resultFiles[id])
+                                   estParser$parseAAR(self$resultFiles$url[id])
                                  }
                                  
                                  # TODO: av paring

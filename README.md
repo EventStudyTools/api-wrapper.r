@@ -23,7 +23,11 @@ install.packages("EventStudy")
 
 **Attention**
 
-You need the developer verision of `purrr` ([github](https://github.com/tidyverse/purrr)) 
+You need the developer version of `purrr` ([github](https://github.com/tidyverse/purrr)) 
+
+## Intraday EventStudy
+
+We are working internally with Intraday data and can provide on request code for such studies. 
 
 ## Ask a Question
 
@@ -38,6 +42,9 @@ You can find a **free** API key on our website: [https://www.eventstudytools.com
 apiUrl <- "http://api.eventstudytools.com"
 apiKey <- "Insert API key"
 
+# Generate Example Data
+EventStudy::getSP500ExampleFiles()
+
 library(EventStudy)
 # Setup API Connection
 estSetup <- EventStudyAPI$new(apiUrl)
@@ -48,16 +55,16 @@ estType <- "arc"
 
 # CSV files
 dataFiles <- c("request_file" = "01_RequestFile.csv", 
-               "firm_data"    = "02_firmData.csv", 
+               "firm_data"    = "02_FirmData.csv", 
                "market_data"  = "03_MarketData.csv")
 
 # Path of result files
 resultPath <- "results"
 
 # Perform standard Event Study
-estSetup$performDefaultEventStudy(estType    = estType,
-                                  dataFiles  = dataFiles, 
-                                  resultPath = resultPath)
+estRes <- estSetup$performDefaultEventStudy(estType   = estType,
+                                  dataFiles = dataFiles, 
+                                  destDir   = resultPath)
 ```
 
 ## Details can be found in our vignettes

@@ -30,21 +30,30 @@ checkFile <- function(path, type = "request_file") {
     names(dtData) <- columnLabels
     
     # Check on class Integer
-    idInteger <- c(1, 6:9)
+    int_cols <- c('id', "startEventWindow", "endEventWindow", "endEstimationWindow", "lengthEstimationWindow")
     dtData %>% 
-      dplyr::select(idInteger) %>% 
-      purrr::map2(.y = columnLabels[idInteger], 
-                  .f = checkClass, class = "integer") -> ret
-        
+      dplyr::select(int_cols) %>% 
+      purrr::map2(.y = int_cols, 
+                  .f = checkClass, class = "numeric") -> ret
+    
+    # Check on integer
+    dtData %>% 
+      dplyr::select(int_cols) %>% 
+      purrr::map2(.y = int_cols, 
+                 .f = function(x, y) {
+                    testthat::expect_true(all.equal(x, as.integer(x)), label = y)
+                  }) -> ret
+    
     # Check on class Character
-    idCharacter <- c(2:5)
+    char_class <- c("firm", "market", "eventDate", "grouping")
     dtData %>% 
-      dplyr::select(idCharacter) %>% 
-      purrr::map2(.y = columnLabels[idCharacter], 
+      dplyr::select(char_class) %>% 
+      purrr::map2(.y = char_class, 
                   .f = checkClass, class = "character") -> ret
     
     # check event id (column1)
-    dtData[[1]] %>% 
+    dtData %>% 
+      dplyr::select(id) %>% 
       dplyr::n_distinct() -> n
     m <- nrow(dtData)
     testthat::expect_true(object = n == m, 
@@ -61,13 +70,21 @@ checkFile <- function(path, type = "request_file") {
     #     testthat::expect(x[6] <= 0 && x[6] <= x[7], msg)
     #   })
     
-    for (i in 1:nrow(dtData)) {
-      msg <- paste("Event ID:", dtData[i, 1], "The event window start should be <= 0 and smaller equals event window end.")
-      testthat::expect(dtData[i, 6] <= 0 && dtData[i, 6] <= dtData[i, 7], msg)
-    }
+    dtData %>% 
+      tidyr::nest(-id, -firm) %>% 
+      dplyr::mutate(event_window = purrr::map(data, function(x) {
+        if (x$startEventWindow <= 0 & x$startEventWindow <= x$endEventWindow) {
+          msg <- "All fine"
+        } else {
+          msg <- paste("Event ID:", x$id, "The event window start should be <= 0 and smaller equals event window end.")
+          print(msg)
+        }
+        return(msg)
+      }))
+    
     
     # check date format
-    checkDateFormat(dtData[[4]])
+    checkDateFormat(dtData$eventDate)
   } else if (type %in% c("firm_data", "market_data")) {
     # check character vectors
     columnLabels <- c("firm", "date", "value")
