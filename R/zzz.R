@@ -16,6 +16,6 @@
 
 .onAttach = function(libname, pkgname) {
   if (interactive()) {
-    packageStartupMessage("EventStudy is still in alpha version - APIs can be changed. \nDates before 01.01.1970 are currently not working.")
+    packageStartupMessage("Dates before 01.01.1970 are currently not working.")
   }
 }

@@ -2,7 +2,6 @@
 % Please edit documentation in R/Utils.R, R/requestHandling.R
 \name{retryRequest}
 \alias{retryRequest}
-\alias{retryRequest}
 \title{This functionality is borrowed from: https://github.com/MarkEdmondson1234/googleAuthR
 ReTry API requests for certain errors using exponential backoff.}
 \usage{

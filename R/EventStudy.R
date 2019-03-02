@@ -20,7 +20,11 @@ NULL
 #' @import ggplot2
 #' @importFrom tidyquant theme_tq
 #' @importFrom data.table :=
-
+#' @importFrom utils data
+#' @importFrom rlang .data
 
 #' @export
 magrittr::`%>%`
+
+## quiets concerns of R CMD check re: the .'s that appear in pipelines
+if(getRversion() >= "2.15.1")  utils::globalVariables(c("."))

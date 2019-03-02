@@ -22,6 +22,8 @@ Imports:
     data.table,
     testthat,
     dplyr,
+    tidyr,
+    rlang,
     scales,
     tidyquant,
     RColorBrewer,
@@ -34,5 +36,5 @@ Suggests:
     rmarkdown
 BugReports: https://github.com/EventStudyTools/api-wrapper.r/issues
 LazyData: true
-RoxygenNote: 6.0.1
+RoxygenNote: 6.1.1
 VignetteBuilder: knitr

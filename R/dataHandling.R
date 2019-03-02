@@ -53,7 +53,7 @@ checkFile <- function(path, type = "request_file") {
     
     # check event id (column1)
     dtData %>% 
-      dplyr::select(id) %>% 
+      dplyr::select("id") %>% 
       dplyr::n_distinct() -> n
     m <- nrow(dtData)
     testthat::expect_true(object = n == m, 
@@ -71,7 +71,7 @@ checkFile <- function(path, type = "request_file") {
     #   })
     
     dtData %>% 
-      tidyr::nest(-id, -firm) %>% 
+      tidyr::nest(-"id", -"firm") %>% 
       dplyr::mutate(event_window = purrr::map(data, function(x) {
         if (x$startEventWindow <= 0 & x$startEventWindow <= x$endEventWindow) {
           msg <- "All fine"
