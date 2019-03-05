@@ -71,8 +71,12 @@ estResults <- estSetup$performEventStudy(estParams     = volatilityEstParams,
 ```
 
 When you set your url or api key by *EventStudy.URL* and *EventStudy.KEY* then
-just leave input parameters in *.$new()* and *.$authentication()* empty.
+just leave input parameters in *.$new()* and *.$authentication()* empty. A default
+key and url can be set by:
 
+```{r, eval=FALSE}
+options(EventStudy.KEY = apiKey)
+```
 
 # General Event Study Parameters
 
@@ -96,12 +100,12 @@ returnEstParams <- ARCApplicationInput$new()
 
 The return type defines the type of the result file. Possible options are
 
-- **csv** (default): comma-separated file with `;` as delimiter 
-- **xls**: Excel 2007 
-- **xlsx**: Excel 2010 and newer
-- **ods**: OpenOffice Spreadsheet
+- **csv** (default): comma-separated file with `;` as delimiter,
+- **xls**: Excel 2007,
+- **xlsx**: Excel 2010 and newer, or
+- **ods**: OpenOffice Spreadsheet.
 
-Usage:
+**Usage:**
 ```{r, eval=FALSE}
 returnEstParams$setResultFileType("xlsx")
 ```
@@ -112,7 +116,7 @@ returnEstParams$setResultFileType("xlsx")
 - **log** (default): Return calculation by using log
 - **simple**: Simple return calculation
 
-Usage:
+**Usage:**
 ```{r, eval=FALSE}
 returnEstParams$setReturnType("simple")
 ```
@@ -125,7 +129,7 @@ returnEstParams$setReturnType("simple")
 - **keep**: Keep non-trading day (Keep announcement dates even if they fall on a non-trading day (e.g., a weekend day))
 - **skip**: Skip respective observations (Skip observations with event dates falling on non-trading days (e.g., weekends))
 
-Usage:
+**Usage:**
 ```{r, eval=FALSE}
 returnEstParams$setNonTradingDays("earlier")
 ```
@@ -150,7 +154,7 @@ returnEstParams <- ARCApplicationInput$new()
 - **garch**: GARCH (1, 1) Model
 - **egarch**: EGARCH (1, 1) Model
 
-Usage:
+**Usage:**
 ```{r, eval=FALSE}
 returnEstParams$setBenchmarkModel("mm-sw")
 ```
@@ -209,7 +213,7 @@ found on our [website](https://www.eventstudytools.com/significance-tests).
     - aargsignz
     - caargsignz
 
-Usage:
+**Usage:**
 ```{r, eval=FALSE}
 returnEstParams$setTestStatistics(c("aarptlz", "aarrankz"))
 ```
@@ -232,7 +236,7 @@ volumeEstParams <- AVCApplicationInput$new()
 - **ff3fm**: Fama-French 3 Factor Model
 - **ffm4fm**: Fama-French-Momentum 4 Factor Model
 
-Usage:
+**Usage:**
 ```{r, eval=FALSE}
 volumeEstParams$setBenchmarkModel("mm-sw")
 ```
@@ -291,7 +295,7 @@ found on our [website](https://www.eventstudytools.com/significance-tests).
     - aargsignz
     - caargsignz
 
-Usage:
+**Usage:**
 ```{r, eval=FALSE}
 volumeEstParams$setTestStatistics(c("aarptlz", "aarrankz"))
 ```
@@ -332,7 +336,7 @@ found on our [website](https://www.eventstudytools.com/volatiliy-event-study).
 - Cross-Sectional-Corrected Test for Abnormal Return
     - aarcscart
 
-Usage:
+**Usage:**
 ```{r, eval=FALSE}
 volatilityEstParams$setTestStatistics(c("aarptlz", "aarrankz"))
 ```
