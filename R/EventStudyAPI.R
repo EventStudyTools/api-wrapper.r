@@ -228,8 +228,15 @@ EventStudyAPI <- R6::R6Class(classname = "EventStudyAPI",
                                  if (is.null(estParams) || !inherits(estParams,"ApplicationInputInterface"))
                                    stop("Parameters are not set. Please set parameter object or run .$performDefaultEventStudy")
                                  
-                                 if (is.null(private$token))
-                                   stop("Error in configureTask: token is not set")
+                                 if (is.null(private$token)) {
+                                   message('Token not set. Try to get value from: EventStudy.KEY')
+                                   self$authentication()
+                                   if (is.null(private$token)) {
+                                     stop("Error in configureTask: token is not set")  
+                                   }
+                                   
+                                 }
+                                   
                                  
                                  json <- estParams$serializeToJson(level = "parameters")
                                  curl::new_handle() %>%
@@ -343,17 +350,19 @@ EventStudyAPI <- R6::R6Class(classname = "EventStudyAPI",
 
                                  # fetch data
                                  if (downloadFiles) {
+                                   if (!dir.exists(destDir)) {
+                                     message('Creating directory: ', destDir)
+                                     dir.create(destDir, recursive = T)
+                                   }
+                                   
                                    self$resultFiles %>% 
                                      dplyr::mutate(id = row_number()) %>% 
                                      tidyr::nest(-id) %>% 
                                      dplyr::mutate(results = purrr::map(data, .f = function(x) {
                                        message('Downloading: ', x$name)
-                                       url <- x$url
-                                       dest_file <- unlist(stringr::str_split(url, "/"))
-                                       dest_file <- dest_file[length(dest_file)]
                                        
                                        curl_download_save <- purrr::safely(curl::curl_download)
-                                       dl_ <- curl_download_save(url = url, destfile = file.path(destDir, dest_file))
+                                       dl_ <- curl_download_save(url =  x$url, destfile = file.path(destDir, x$basename), quiet = T)
                                        if (is.null(dl_$error)) {
                                          return('Success')
                                        } else {
