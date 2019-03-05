@@ -32,7 +32,7 @@ We are working internally with Intraday data and can provide on request code for
 ## Ask a Question
 
 - [Facebook](https://www.facebook.com/EventStudy/)
-- [Commercial](http://muon-stat.com/dienstleistungen/kapitalmarktanalyse/)
+- [Commercial](http://muon-stat.com/)
 - [Website](http://eventstudytools.com)
 
 ## Simple Example of an Abnormal Returns Calculator (ARC) launch
