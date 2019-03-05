@@ -1,7 +1,17 @@
-## Roadmap 0.40
+## Notes
 
-- Intraday Event Study
 - Fixing date issue: dates before 01.01.1970 are currently not working
+
+
+## 0.36
+
+- Result files
+  - Downloaded files have meaningful names, e.g. ar_results.csv
+  - Download will be performed quietly
+  - Result folder will be created if it not exists
+
+- API key can be set as a global option
+- Minor updates in Parameters Vignette
 
 
 ## 0.35
@@ -10,12 +20,12 @@
 
 ### Bugfixes
 
-- Result files loading is fixed
-- Result file parser is fixed
-- Fixed task checks
-- Input file checker is fixed
+- result files loading is fixed
+- result file parser is fixed
+- fixed task checks
+- input file checker is fixed
 
-- Examples
+- examples
     - Github example was not working
 
 ## 0.34
@@ -43,7 +53,7 @@
 - fix EventStudy Addin 
     - tradding days options
     - statistics options
-    - object is now returned to console
+    - result object is now returned to console
 
 
 ## Version 0.32
