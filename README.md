@@ -70,6 +70,13 @@ estRes <- estSetup$performDefaultEventStudy(estType   = estType,
                                   destDir   = resultPath)
 ```
 
+
+## Visit Our App on ShinyApps
+
+[Diesel Gate App](https://muon-stat.shinyapps.io/dieselgate/)
+
+![Diesel Gate App](vignettes/DieselGate.png "Diesel Gate App")
+
 ## Details can be found in our vignettes
 
 - [Introduction in EventStudy R Package](https://cran.rstudio.com/web/packages/EventStudy/vignettes/introduction_eventstudy.html)
