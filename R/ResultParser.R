@@ -66,6 +66,7 @@ ResultParser <- R6::R6Class(classname = "ResultParser",
                               carResults     = NULL,
                               aarResults     = NULL,
                               aarStatistics  = NULL,
+                              caarResults    = NULL,
                               groups         = NULL,
                               initialize = function() {
                               },
@@ -224,6 +225,22 @@ ResultParser <- R6::R6Class(classname = "ResultParser",
                                   self$aarStatistics <- statistics
                                 }
                                 self$aarResults <- aarFinal
+                              },
+                              parseCAAR = function(path = "caar_results.csv", groups = NULL, analysisType = "AAR") {
+                                # parse AAR values & check file
+                                caarResults <- data.table::fread(path)
+                                g_names <- c("Grouping Variable", "CAAR Type", "CAAR Value", "Precision Weighted CAAR Value", "ABHAR", "pos:neg CAR", "Number of CARs considered")
+                                caar_values <- caarResults[, g_names, with=F]
+                                s_names <- setdiff(names(caarResults), g_names)
+                                s_names <- c("Grouping Variable", "CAAR Type", s_names)
+                                caarResults[, s_names, with=F] %>% 
+                                  data.table::melt(id.vars = c("Grouping Variable", "CAAR Type"),
+                                                   variable.name = "Test", 
+                                                   value.name    = "Statistics") -> caar_statistics
+                                self$caarResults <- list(
+                                  caar_values     = caar_values,
+                                  caar_statistics = caar_statistics
+                                ) 
                               },
                               calcAARCI = function(statistic = "Patell Z", 
                                                    p         = 0.95, 

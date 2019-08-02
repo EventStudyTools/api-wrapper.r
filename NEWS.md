@@ -2,6 +2,10 @@
 
 - Fixing date issue: dates before 01.01.1970 are currently not working
 
+## 0.37.90
+
+- CAAR result parsing
+
 
 ## 0.36
 

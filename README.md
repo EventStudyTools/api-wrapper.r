@@ -76,3 +76,4 @@ estRes <- estSetup$performDefaultEventStudy(estType   = estType,
 - [Use Case: Dieselgate](https://cran.rstudio.com/web/packages/EventStudy/vignettes/howto_eventstudy.html)
 - [Parameters](https://cran.rstudio.com/web/packages/EventStudy/vignettes/parameters_eventstudy.html)
 - [RStudio Addin](https://cran.rstudio.com/web/packages/EventStudy/vignettes/addin_eventstudy.html)
+- [FAQ](https://cran.rstudio.com/web/packages/EventStudy/vignettes/FAQ.html)

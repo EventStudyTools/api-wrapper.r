@@ -393,7 +393,10 @@ EventStudyAPI <- R6::R6Class(classname = "EventStudyAPI",
                                  if (length(id)) {
                                    estParser$parseCAR(self$resultFiles$url[id])
                                  }
-                                 
+                                 id <- which(stringr::str_detect(self$resultFiles$basename, "^caar_"))
+                                 if (length(id)) {
+                                   estParser$parseCAAR(self$resultFiles$url[id])
+                                 }
                                  
                                  # avyc parsing
                                  id <- which(stringr::str_detect(self$resultFiles$basename, "^avy_"))
@@ -405,7 +408,7 @@ EventStudyAPI <- R6::R6Class(classname = "EventStudyAPI",
                                    estParser$parseAAR(self$resultFiles$url[id])
                                  }
                                  
-                                 # TODO: av paring
+                                 # TODO: av parsing
                                  
                                  estParser
                                },
