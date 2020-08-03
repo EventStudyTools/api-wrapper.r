@@ -183,21 +183,4 @@ avycEventStudy <- est$performEventStudy(estParams    = esaParams,
 
 The prepared `data.frames` in `avycEventStudy` have a similar shape as for the abnormal return Event Study. 
 
-## Abnormal Volume Event Study
-
-This will be added in a later stage.
-
-```{r, eval=F}
-# est <- EventStudyAPI$new()
-# est$authentication(apiKey = key)
-# 
-# # get & set parameters for abnormal return Event Study
-# esaParams <- EventStudy::AVCApplicationInput$new()
-# esaParams$setResultFileType("csv")
-# 
-# avEventStudy <- est$performEventStudy(estParams = esaParams,
-#                       dataFiles = c("request_file" = "01_requestFile.csv",
-#                                     "firm_data"    = "02_firmDataVolume.csv",
-#                                     "market_data"  = "03_marketDataVolume.csv"))
-```
 

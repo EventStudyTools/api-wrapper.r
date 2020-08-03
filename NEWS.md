@@ -2,9 +2,12 @@
 
 - Fixing date issue: dates before 01.01.1970 are currently not working
 
-## 0.37.90
+## 0.36.900
+
+### Bugfixes
 
 - CAAR result parsing
+- aarPlot & arPlot: more userfriendly error messages
 
 
 ## 0.36

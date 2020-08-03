@@ -356,7 +356,7 @@ EventStudyAPI <- R6::R6Class(classname = "EventStudyAPI",
                                    }
                                    
                                    self$resultFiles %>% 
-                                     dplyr::mutate(id = row_number()) %>% 
+                                     dplyr::mutate(id = dplyr::row_number()) %>% 
                                      tidyr::nest(-id) %>% 
                                      dplyr::mutate(results = purrr::map(data, .f = function(x) {
                                        message('Downloading: ', x$name)

@@ -24,10 +24,6 @@ CRAN Version
 install.packages("EventStudy")
 ```
 
-**Attention**
-
-You need the developer version of `purrr` ([github](https://github.com/tidyverse/purrr)) 
-
 ## Intraday EventStudy
 
 We are working internally with Intraday data and can provide on request code for such studies. 

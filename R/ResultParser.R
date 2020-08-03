@@ -246,6 +246,16 @@ ResultParser <- R6::R6Class(classname = "ResultParser",
                                                    p         = 0.95, 
                                                    twosided  = T, 
                                                    type      = "zStatistic") {
+                                statistic <- rlang::arg_match(statistic, c("Patell Z",
+                                                                           "Generalized Sign Z", 
+                                                                           "Csect T", 
+                                                                           "StdCSect Z", 
+                                                                           "Rank Z",
+                                                                           "Generalized Rank T",
+                                                                           "Adjusted Patell Z",
+                                                                           "Adjusted StdCSect Z",
+                                                                           "Generalized Rank Z",
+                                                                           "Skewness Corrected T"))
                                 type <- match.arg(type, c("tStatistic", "zStatistic"))
                                 if (twosided) {
                                   p <- 0.5 + p / 2

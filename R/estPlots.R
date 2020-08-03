@@ -146,6 +146,19 @@ aarPlot <- function(ResultParserObj,
                     ylab         = "Averaged Abnormal Returns", 
                     facet        = T, 
                     ncol         = 4) {
+  ciType <- rlang::arg_match(ciType, c("band", "ribbon"))
+  ciStatistics <- rlang::arg_match(ciStatistics, c("Patell Z",
+                                                   "Generalized Sign Z", 
+                                                   "Csect T", 
+                                                   "StdCSect Z", 
+                                                   "Rank Z",
+                                                   "Generalized Rank T",
+                                                   "Adjusted Patell Z",
+                                                   "Adjusted StdCSect Z",
+                                                   "Generalized Rank Z",
+                                                   "Skewness Corrected T"))
+  testthat::expect_condition(p < 1)
+  testthat::expect_condition(p > .5)
   
   # CRAN check
   level <- eventTime <- lower <- upper <- NULL
@@ -166,12 +179,24 @@ aarPlot <- function(ResultParserObj,
   }
   
   if (!is.null(group)) {
+    # check group levels
+    grp_levels <- unique(aar$level)
+    group <- rlang::missing_arg(group, grp_levels)
+    
     aar %>% 
       dplyr::filter(level == group) -> aar
   }
   
-  if (is.null(window))
-    window <- range(aar$eventTime)
+  
+  window_data <- range(aar$eventTime)
+  if (is.null(window)) {
+    window <- window_data
+  } else {
+    testthat::expect_condition(length(window) == 2, info = "Window must be of size 2.")
+    testthat::expect_condition(window[1] >= window_data[1], info = "Given window is smaller than window in the data sample")
+    testthat::expect_condition(window[2] <= window_data[2], info = "Given window is larger than window in the data sample")
+  }
+    
   selectedWindow <- seq(from = window[1], to = window[2], by = 1)
   
   pal <- RColorBrewer::brewer.pal(3, "Blues")
