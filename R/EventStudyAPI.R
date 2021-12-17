@@ -18,8 +18,7 @@
 #' @title API for \url{www.eventstudytools.com}
 #' 
 #' @description R interface for performing Event Studies on 
-#' \url{www.eventstudytools.com}. Please get a free API key from our website:
-#' \url{https://www.eventstudytools.com/api-key}.
+#' \url{www.eventstudytools.com}. 
 #'
 #' For more details see the help vignette:
 #' \code{vignette("introduction_eventstudy", package = "EventStudy")}

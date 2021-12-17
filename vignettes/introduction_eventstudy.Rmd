@@ -42,7 +42,7 @@ For performing an Event Study with our API you need:
 - **API url** (defaults to `http://api.eventstudytools.com`)
 - **API key**
 
-You get a **free** API key from our website [EventStudyTools](https://eventstudytools.com/api-key). In the first step we need to authenticate to the web API. There are three ways to handle this two parameters:
+You get a **free** API key from our website [EventStudyTools](https://www.eventstudytools.com/api-access). In the first step we need to authenticate to the web API. There are three ways to handle this two parameters:
 
 
 ```{r, eval=FALSE}

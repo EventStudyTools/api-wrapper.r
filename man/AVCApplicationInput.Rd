@@ -71,9 +71,6 @@ estSetup$getTaskResults()
 }
 
 }
-\seealso{
-\url{https://www.eventstudytools.com/axc/upload}
-}
 \section{Super classes}{
 \code{\link[EventStudy:ApplicationInputInterface]{EventStudy::ApplicationInputInterface}} -> \code{\link[EventStudy:EventStudyApplicationInput]{EventStudy::EventStudyApplicationInput}} -> \code{AVCApplicationInput}
 }

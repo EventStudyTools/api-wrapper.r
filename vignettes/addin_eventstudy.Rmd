@@ -29,7 +29,7 @@ With the installation of the EventStudy package, our RStudio Addin (if you use R
 
 ![Starting our Addin](start_addin.png "How to start our Addin")
 
-You can work then in the addin as on our web API interface that is self-explanatory. Beside our web API interface it is mandatory to use a EventStudyTools key that can be copied from our [web page](https://www.eventstudytools.com/api-key) for **free**. 
+You can work then in the addin as on our web API interface that is self-explanatory. Beside our web API interface it is mandatory to use a EventStudyTools key that can be copied from our [web page](https://www.eventstudytools.com/) for **free**. 
 
 One remark: by design we used an upload field for the three data files (request, firm, and market data). Internally, we use just the path to the file.
 

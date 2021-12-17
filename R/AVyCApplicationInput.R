@@ -52,8 +52,6 @@
 #' 
 #' @format \code{\link[R6]{R6Class}} object.
 #' 
-#' @seealso \url{https://www.eventstudytools.com/axc/upload}
-#' 
 #' @return a ESTParameters R6 object
 #' 
 #' @examples 

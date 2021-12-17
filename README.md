@@ -36,8 +36,6 @@ We are working internally with Intraday data and can provide on request code for
 
 ## Simple Example of an Abnormal Returns Calculator (ARC) launch
 
-You can find a **free** API key on our website: [https://www.eventstudytools.com/api-key](https://www.eventstudytools.com/api-key)
-```
 apiUrl <- "http://api.eventstudytools.com"
 apiKey <- "Insert API key"
 

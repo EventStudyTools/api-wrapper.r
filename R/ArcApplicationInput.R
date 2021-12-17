@@ -48,8 +48,6 @@
 #'  \item{testStatistics}{A \code{String} vector with test statistics.}
 #' }
 #' 
-#' @seealso \url{https://www.eventstudytools.com/axc/upload}
-#' 
 #' @return a ESTParameters R6 object
 #' 
 #' @examples 

@@ -1,12 +1,12 @@
 Package: EventStudy
 Type: Package
 Title: Event Study Analysis
-Description: Perform Event Studies from through our <http://EventStudyTools.com> Application Programming Interface, parse the results, visualize it, and / or use the results in further analysis.
+Description: Perform Event Studies from through our <https://EventStudyTools.com> Application Programming Interface, parse the results, visualize it, and / or use the results in further analysis.
 Author: Dr. Simon Mueller
 Date: 2021-12-17
 Version: 0.37
 Encoding: UTF-8
-URL: http://eventstudytools.com
+URL: https://www.linkedin.com/in/simon-m%C3%BCller/
 Maintainer: Dr. Simon Mueller <simon.mueller@muon-stat.com>
 License: GPL (>= 2)
 Depends:
