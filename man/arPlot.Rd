@@ -4,9 +4,19 @@
 \alias{arPlot}
 \title{Abnormal Return Plot}
 \usage{
-arPlot(ResultParserObj, firm = NULL, window = NULL, xlab = "",
-  ylab = "Abnormal Returns", alpha = 0.5, facetVar = NULL,
-  ncol = 4, addAAR = F, xVar = "eventTime", yVar = "ar")
+arPlot(
+  ResultParserObj,
+  firm = NULL,
+  window = NULL,
+  xlab = "",
+  ylab = "Abnormal Returns",
+  alpha = 0.5,
+  facetVar = NULL,
+  ncol = 4,
+  addAAR = F,
+  xVar = "eventTime",
+  yVar = "ar"
+)
 }
 \arguments{
 \item{ResultParserObj}{An object of class \code{ResultParser}}

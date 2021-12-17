@@ -3,7 +3,6 @@
 \docType{package}
 \name{EventStudy}
 \alias{EventStudy}
-\alias{EventStudy-package}
 \title{EventStudy}
 \description{
 This package provides functionality for doing Event Studies from R by using EventStudyTools.com API interface, parsing results, and visualize them.

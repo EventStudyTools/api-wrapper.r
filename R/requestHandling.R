@@ -3,7 +3,7 @@
 #' @param f A function of a http request
 #'
 #' @keywords internal
-retryRequest <- function(f){
+retryRequest <- function(f) {
   
   verbose <- getOption("EventStudy.verbose")
   if(verbose <= 1){
@@ -14,33 +14,33 @@ retryRequest <- function(f){
   
   status_code <- as.character(the_request$status_code)
   
-  if(!(grepl("^20",status_code))){
+  if(!(grepl("^20", status_code))) {
     myMessage("Request Status Code: ", status_code, level = 3)
     
     content <- jsonlite::fromJSON(httr::content(x        = the_request,
-                                                as       = "raw",
+                                                as       = "text",
                                                 type     = "application/json",
                                                 encoding = "UTF-8"))
     
     if (exists("error", where=content)) {
-      error <- content$error$message
-      myMessage("JSON fetch error: ", paste(error), level = 2)
+      error <- content$error
+      myMessage("JSON fetch error: ", paste(error), level = 3)
     } else {
       error <- "Unspecified Error"
     }
     
     if (grepl("^5|429",status_code)) {
-      for (i in 1:getOption("googleAuthR.tryAttempts")) {
+      for (i in 1:getOption("EventStudy.tryAttempts")) {
         myMessage("Trying again: ", i, " of ", 
-                  getOption("googleAuthR.tryAttempts"), 
+                  getOption("EventStudy.tryAttempts"), 
                   level = 3)
         Sys.sleep((2 ^ i) + stats::runif(n = 1, min = 0, max = 1))
         the_request <- try(f)
-        if(grepl("^20",status_code)) break
+        if(grepl("^20", status_code)) break
       }
       myMessage("All attempts failed.", level = 3)
     } else {
-      myMessage("No retry attempted: ", error, level = 2)
+      myMessage("No retry attempted: ", error, level = 3)
     }
   }
   
@@ -71,6 +71,7 @@ doHttrRequest <- function(url,
                           encode         = "json",
                           config         = NULL,
                           simplifyVector = getOption("EventStudy.jsonlite.simplifyVector")){
+  
   
   arg_list <- list(url    = url,
                    body   = the_body,

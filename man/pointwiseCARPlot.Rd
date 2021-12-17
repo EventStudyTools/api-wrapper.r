@@ -4,9 +4,14 @@
 \alias{pointwiseCARPlot}
 \title{Pointwise Cumulative Abnormal Return Plot}
 \usage{
-pointwiseCARPlot(df, firm = NULL, xlab = "",
-  ylab = "pointwise Cumulative Abnormal Returns", facetVar = NULL,
-  ncol = 4)
+pointwiseCARPlot(
+  df,
+  firm = NULL,
+  xlab = "",
+  ylab = "pointwise Cumulative Abnormal Returns",
+  facetVar = NULL,
+  ncol = 4
+)
 }
 \arguments{
 \item{df}{data.frame with abnormal return in long format;}

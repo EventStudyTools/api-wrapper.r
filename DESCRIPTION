@@ -3,8 +3,8 @@ Type: Package
 Title: Event Study Analysis
 Description: Perform Event Studies from through our <http://EventStudyTools.com> Application Programming Interface, parse the results, visualize it, and / or use the results in further analysis.
 Author: Dr. Simon Mueller
-Date: 2020-08-03
-Version: 0.36.900
+Date: 2021-12-17
+Version: 0.37
 Encoding: UTF-8
 URL: http://eventstudytools.com
 Maintainer: Dr. Simon Mueller <simon.mueller@muon-stat.com>
@@ -36,5 +36,5 @@ Suggests:
     rmarkdown
 BugReports: https://github.com/EventStudyTools/api-wrapper.r/issues
 LazyData: true
-RoxygenNote: 6.1.1
+RoxygenNote: 7.1.1
 VignetteBuilder: knitr

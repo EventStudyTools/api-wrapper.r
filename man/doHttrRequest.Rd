@@ -4,9 +4,14 @@
 \alias{doHttrRequest}
 \title{Get URL content based on local}
 \usage{
-doHttrRequest(url, request_type = "GET", the_body = NULL,
-  encode = "json", config = NULL,
-  simplifyVector = getOption("EventStudy.jsonlite.simplifyVector"))
+doHttrRequest(
+  url,
+  request_type = "GET",
+  the_body = NULL,
+  encode = "json",
+  config = NULL,
+  simplifyVector = getOption("EventStudy.jsonlite.simplifyVector")
+)
 }
 \arguments{
 \item{url}{the url of the page to retrieve}

@@ -4,8 +4,11 @@
 \alias{checkFiles}
 \title{Check EventStudy input files}
 \usage{
-checkFiles(dataFiles = c(request_file = "01_RequestFile.csv", firm_data =
-  "02_firmData.csv", market_data = "03_MarketData.csv"), returnData = F)
+checkFiles(
+  dataFiles = c(request_file = "01_RequestFile.csv", firm_data = "02_firmData.csv",
+    market_data = "03_MarketData.csv"),
+  returnData = F
+)
 }
 \arguments{
 \item{dataFiles}{A named character vector. The names must be request_file, 

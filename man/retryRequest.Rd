@@ -11,8 +11,6 @@ retryRequest(f)
 }
 \arguments{
 \item{f}{A function of a http request}
-
-\item{f}{A function of a http request}
 }
 \description{
 This functionality is borrowed from: https://github.com/MarkEdmondson1234/googleAuthR

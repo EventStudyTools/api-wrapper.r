@@ -4,9 +4,11 @@
 \alias{checkESTAPIError}
 \title{Get Google API errors}
 \usage{
-checkESTAPIError(req,
+checkESTAPIError(
+  req,
   ok_content_types = getOption("EventStudy.ok_content_types"),
-  batched = FALSE)
+  batched = FALSE
+)
 }
 \arguments{
 \item{req}{a httr request}

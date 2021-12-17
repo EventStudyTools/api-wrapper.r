@@ -4,9 +4,19 @@
 \alias{aarPlot}
 \title{Averaged Abnormal Return Plot}
 \usage{
-aarPlot(ResultParserObj, cumSum = F, group = NULL, window = NULL,
-  ciStatistics = NULL, p = 0.95, ciType = "band", xlab = "",
-  ylab = "Averaged Abnormal Returns", facet = T, ncol = 4)
+aarPlot(
+  ResultParserObj,
+  cumSum = F,
+  group = NULL,
+  window = NULL,
+  ciStatistics = NULL,
+  p = 0.95,
+  ciType = "band",
+  xlab = "",
+  ylab = "Averaged Abnormal Returns",
+  facet = T,
+  ncol = 4
+)
 }
 \arguments{
 \item{ResultParserObj}{An object of class \code{ResultParser}}

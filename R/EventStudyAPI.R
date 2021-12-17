@@ -129,8 +129,8 @@ EventStudyAPI <- R6::R6Class(classname = "EventStudyAPI",
                                  
                                  ch <- doHttrRequest(url          = httr::modify_url(private$apiServerUrl, path = "/task/create"), 
                                                      request_type = "POST", 
-                                                     config = httr::add_headers(c("Content-Type"   = "application/json", 
-                                                                                             "X-Customer-Key" = apiKey))
+                                                     config       = httr::add_headers(c("Content-Type"   = "application/json", 
+                                                                                        "X-Customer-Key" = apiKey))
                                  )
                                  
                                  # get token & check it
