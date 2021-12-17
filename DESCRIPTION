@@ -6,8 +6,8 @@ Author: Dr. Simon Mueller
 Date: 2021-12-17
 Version: 0.37
 Encoding: UTF-8
-URL: https://www.linkedin.com/in/simon-m%C3%BCller/
-Maintainer: Dr. Simon Mueller <simon.mueller@muon-stat.com>
+URL: https:://data-zoo.de
+Maintainer: Dr. Simon Mueller <sm@data-zoo.de>
 License: GPL (>= 2)
 Depends:
     ggplot2
