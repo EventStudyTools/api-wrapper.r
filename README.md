@@ -4,7 +4,7 @@
 
 # EventStudyTools (EST) API R Wrapper
 
-[Buy us a Coffee](buymeacoff.ee/wZB75JA1Q)
+[Buy us a Coffee](https://www.buymeacoffee.com/wZB75JA1Q)
 
 This software library provides the capability to easily deploy the EST API.
 
