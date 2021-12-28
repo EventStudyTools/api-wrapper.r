@@ -69,7 +69,7 @@ estRes <- estSetup$performDefaultEventStudy(estType   = estType,
 
 [Diesel Gate App](https://muon-stat.shinyapps.io/dieselgate/)
 
-![Diesel Gate App](vignettes/DieselGate.png "Diesel Gate App")
+[Diesel Gate App](vignettes/DieselGate.png "Diesel Gate App")
 
 ## Details can be found in our vignettes
 
