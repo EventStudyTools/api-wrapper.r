@@ -8,7 +8,7 @@ Version: 0.39
 Encoding: UTF-8
 URL: https:://data-zoo.de
 Maintainer: Dr. Simon Mueller <sm@data-zoo.de>
-License: MIT
+License: MIT + file LICENSE
 Depends:
     ggplot2
 Imports:
