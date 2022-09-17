@@ -59,356 +59,223 @@
 #' @export
 ResultParser <- R6::R6Class(classname = "ResultParser",
                             public = list(
+                              #' @field destDir Result dir.
                               destDir        = NULL,
-                              requestData    = NULL,
-                              analysisReport = NULL,
-                              arResults      = NULL,
-                              carResults     = NULL,
-                              aarResults     = NULL,
-                              aarStatistics  = NULL,
-                              caarResults    = NULL,
-                              groups         = NULL,
-                              initialize = function() {
+                              #' @description Parse request file
+                              #' 
+                              #' @param path path to request file.
+                              get_request_file = function(path = "01_RequestFile.csv") {
+                                request_data = private$load_file(path, header = F)
+                                colnames(request_data) = c("Event ID", "Firm", "Reference Market", "Event Date", "Group", "", "", "", "Estimation Window Length")
+                                request_data
                               },
-                              parseRequestFile = function(path = "01_RequestFile.csv") {
-                                parseReturn <- private$parseFile(path, "requestData", header = F)
-                                if (parseReturn) {
-                                  # add groups
-                                  groups <- unique(self$requestData$V5)
-                                }
-                                parseReturn
+                              #' @description Parse request file
+                              #' 
+                              #' @param path path to request file.
+                              get_analysis_report = function(path = "analysis_report.csv") {
+                                analysis_report_tbl = private$load_file(path, T)
+                                analysis_report_tbl %>% 
+                                  dplyr::filter(!is.na(`Event ID`))
                               },
-                              parseReport = function(path = "analysis_report.csv") {
-                                private$parseFile(path, "analysisReport", T)
-                                self$analysisReport <- self$analysisReport[-1, ]
-                              },
-                              parseAR = function(path = "ar_results.csv", analysisType = "AR") {
-                                if (is.null(self$analysisReport)) {
-                                  self$parseReport()
+                              #' @description Parse request file
+                              #' 
+                              #' @param path path to request file.
+                              #' @param analysis_report_tbl PArsed analysis report
+                              #' @param request_tbl parsed request file
+                              get_ar = function(path = "ar_results.csv", analysis_report_tbl=NULL, request_tbl=NULL) {
+                                ar_result_tbl <- private$load_file(path, T)
+                                if (nrow(ar_result_tbl) == 0) {
+                                  stop("Analysis performed, but no AR Results. Please look at comments in Analysis report.")
                                 }
-                                
-                                parseReturn <- private$parseFile(path, "arResults", T)
-                                if (!parseReturn) {
-                                  return(NULL)
-                                } else {
-                                  abnormalReturns <- data.table::copy(self[["arResults"]])
-                                }
-                                
-                                if (nrow(abnormalReturns) == 0) {
-                                  message("Analysis performed, but no AR Results. Please look at comments in Analysis report.")
-                                  return(NULL)
-                                }
-                                
                                 # parse Abnormal Returns
-                                stringr::str_detect(names(abnormalReturns), analysisType) %>%
-                                  which() -> id
-                                
-                                abnormalReturns %>%
-                                  dplyr::select(c(1, id)) %>%
-                                  reshape2::melt(id.vars = 1) %>%
-                                  dplyr::rename(eventTime = variable, ar = value) -> self$arResults
-                                
-                                self$arResults %>%
-                                  dplyr::mutate(eventTime = as.numeric(stringr::str_replace_all(as.character(eventTime), "[a-zA-Z()]", ""))) -> self$arResults
+                                ar_result_tbl %>% 
+                                  dplyr::select("Event ID", dplyr::contains("AR")) %>% 
+                                  tidyr::pivot_longer(cols = -"Event ID", 
+                                                      names_to = "Day Relative to Event",
+                                                      values_to = "AR") %>% 
+                                  dplyr::mutate(`Day Relative to Event` = as.integer(stringr::str_replace_all(as.character(`Day Relative to Event`), "[a-zA-Z()]", ""))) -> ar_tbl
                                 
                                 # parse t-Values 
-                                stringr::str_detect(names(abnormalReturns), "t-value") %>%
-                                  which() -> id
+                                ar_result_tbl %>% 
+                                  dplyr::select("Event ID", dplyr::contains("t-value")) %>% 
+                                  tidyr::pivot_longer(cols      = -"Event ID", 
+                                                      names_to  = "Day Relative to Event",
+                                                      values_to = "t-value") %>% 
+                                  dplyr::mutate(`Day Relative to Event` = stringr::str_replace_all(as.character(`Day Relative to Event`), "t-value", "")) %>% 
+                                  dplyr::mutate(`Day Relative to Event` = as.integer(stringr::str_replace_all(as.character(`Day Relative to Event`), "[()]", ""))) -> t_val_tbl
                                 
-                                if (length(id)) {
-                                  abnormalReturns %>%
-                                    dplyr::select(c(1, id)) %>%
-                                    reshape2::melt(id.vars = 1) %>%
-                                    dplyr::rename(eventTime = variable, tValue = value) -> tValues
-                                  tValues %>%
-                                    dplyr::mutate(eventTime = stringr::str_trim(stringr::str_replace_all(as.character(eventTime), "t-value", ""))) %>% 
-                                    dplyr::mutate(eventTime = as.numeric(stringr::str_replace_all(as.character(eventTime), "[()]", ""))) -> tValues
-                                  
-                                  # Join t-Values
-                                  self$arResults %>% 
-                                    dplyr::left_join(tValues, by = c("Event ID", "eventTime")) -> self$arResults
+                                ar_tbl %>% 
+                                  dplyr::left_join(t_val_tbl, by=c("Event ID", "Day Relative to Event")) -> ar_tbl
+                                
+                                # Add analysis report information
+                                if (!is.null(analysis_report_tbl)) {
+                                  analysis_report_tbl %>% 
+                                    dplyr::select(c("Event ID", "Firm", "Reference Market", "Estimation Window Length")) -> report_tbl
+                                  ar_tbl %>%
+                                    dplyr::left_join(report_tbl, by = "Event ID") -> ar_tbl
                                 }
                                 
-                                # Add additional Information
-                                idP <- which(names(self$analysisReport) == "p-value")
-                                names(self$analysisReport)[idP] <- paste0("p-value", 1:length(idP))
-                                
-                                id <- which(names(self$analysisReport) %in% c("Event ID", "Firm", "Reference Market", "Estimation Window Length"))
-                                self$analysisReport %>% 
-                                  dplyr::select(id) -> arReport
-                                
-                                self$arResults %>%
-                                  dplyr::left_join(arReport, by = "Event ID") -> self$arResults
                                 
                                 # if available add grouping
-                                if (!is.null(self$requestData)) {
-                                  requestData <- self$requestData[, c(1, 5)]
-                                  names(requestData) <- c("Event ID", "Group")
-                                  
-                                  self$arResults %>% 
-                                    dplyr::left_join(requestData, by = "Event ID") -> self$arResults
+                                if (!is.null(request_tbl)) {
+                                  ar_tbl %>% 
+                                    dplyr::left_join(request_tbl %>% dplyr::select("Event ID", "Group"), by = "Event ID") -> ar_tbl
                                 }
+                                ARResults$new(ar_tbl)
                               },
-                              parseCAR = function(path = "car_results.csv", analysisType = "CAR") {
-                                if (is.null(self$analysisReport))
-                                  self$parseReport()
-                                
+                              #' @description Parse Cumulative Abnormal Return
+                              #'
+                              #' @param path The path to the CAR result CSV file.
+                              #' @param analysis_report_tbl The analyis report table. It will be used for extracting the group.
+                              #' 
+                              #' @export
+                              get_car = function(path = "car_results.csv", analysis_report_tbl=NULL) {
                                 # parse CAR values & check file
-                                carResults <- data.table::fread(path)
-                                if (nrow(carResults) == 0) {
-                                  message("Analysis performed, but no CAR Results. Please look at comments in Analysis report.")
-                                  return(NULL)
+                                car_result_tbl = private$load_file(path, T)
+                                if (nrow(car_result_tbl) == 0) {
+                                  stop("Analysis performed, but no CAR Results. Please look at comments in Analysis report.")
                                 }
                                 
-                                self$analysisReport %>% 
-                                  dplyr::select(`Event ID`, Firm) %>% 
-                                  dplyr::right_join(carResults) -> carResults
-                                
-                                self$carResults <- carResults
+                                if (!is.null(analysis_report_tbl)) {
+                                  analysis_report_tbl %>% 
+                                    dplyr::select(c("Event ID", "Firm")) -> report_tbl
+                                  car_result_tbl %>%
+                                    dplyr::left_join(report_tbl, by = "Event ID") -> car_result_tbl
+                                  CAResults$new(car_result_tbl)
+                                } else {
+                                  warning("Please add analysis report!")
+                                }
                               },
-                              parseAAR = function(path = "aar_results.csv", groups = NULL, analysisType = "AAR") {
-                                if (is.null(self$analysisReport))
-                                  self$parseReport()
-                                
-                                if (!is.null(self$groups))
-                                  self$groups <- groups
-                                
+                              #' @description Parse AAR results
+                              #' 
+                              #' @param path path to aar result file.
+                              #' @param analysis_report Extracted analysis report
+                              get_aar = function(path = "aar_results.csv", analysis_report=NULL) {
                                 # parse AAR values & check file
-                                aarResults <- data.table::fread(path)
-                                if (nrow(aarResults) < 2) {
-                                  message("Analysis performed, but no AAR Results. Please look at comments in Analysis report.")
-                                  return(NULL)
+                                aar_tbl = private$load_file(path, F)
+                                if (nrow(aar_tbl) < 2) {
+                                  stop("Analysis performed, but no AAR Results. Please look at comments in Analysis report.")
                                 }
+                                test_statistics <- getOption("EventStudy.test_statistics")
                                 
-                                stringr::str_detect(names(aarResults), analysisType) %>%
-                                  which() -> id
+                                aar_tbl %>% 
+                                  dplyr::filter(V2 == "Day Relative to Event") %>% 
+                                  as.character() -> col_names
                                 
-                                aarResults %>% 
-                                  reshape2::melt(id.vars    = 1, 
-                                                 value.name = tolower(analysisType)) %>% 
-                                  dplyr::rename(level     = `Grouping Variable/N`,
-                                                eventTime = variable) -> aarResults
-                                self$aarResults <- aarResults
                                 
-                                aarResults %>% 
-                                  dplyr::mutate(eventTime = as.numeric(stringr::str_replace_all(as.character(eventTime), "[a-zA-Z()]", ""))) -> aarResults
+                                # Parse Statistics
+                                aar_tbl %>% 
+                                  dplyr::filter(V2 %in% test_statistics) -> test_statistics_tbl
+                                colnames(test_statistics_tbl) = c("Group", "Test Statistic", col_names[3:length(col_names)])
                                 
-                                # get AAR, N, positive N; this information is 
-                                # always in the result file
-                                aarResults$level %>% 
-                                  stringr::str_detect("Pos:Neg") %>% 
-                                  which() -> idPos
-                                idN <- idPos - 1
-                                idAAR <- idN - 1
-                                # AAR
-                                aarFinal <- aarResults[idAAR, ]
-                                aarFinal$aar <- as.numeric(aarFinal$aar)
-                                # get N
-                                aarFinal$N <- as.numeric(aarResults[idN, ]$aar)
-                                # Parse positive
-                                aarResults[idPos, ]$aar %>% 
-                                  stringr::str_split(pattern = ":") %>% 
-                                  purrr::map(.f = function(x) as.numeric(x[[1]])) %>% 
-                                  unlist() -> aarFinal$Pos
+                                test_statistics_tbl %>% 
+                                  tidyr::pivot_longer(col_names[3:length(col_names)],
+                                                      names_to = c("Day Relative to Event"),
+                                                      values_to = "Statistics") -> test_statistics_tbl
                                 
-                                # get statistics
-                                nStat <- idPos[2] - (idPos[1] + 1) - 2
-                                statistics <- c()
-                                if (nStat > 0) {
-                                  for (i in 1:nStat) {
-                                    idStat <- idPos + i
-                                    dfStat <- aarResults[idStat, ]
-                                    statistics <- c(statistics, dfStat$level[1])
-                                    aarFinal[[paste0("stat", i)]] <- as.numeric(dfStat$aar)
-                                  }
-                                  names(statistics) <- paste0("stat", 1:nStat)
-                                  self$aarStatistics <- statistics
-                                }
-                                self$aarResults <- aarFinal
+                                # Parse P Values
+                                aar_tbl %>% 
+                                  dplyr::filter(V2 %in% paste(test_statistics, "P-Values")) -> p_values_tbl
+                                colnames(p_values_tbl) = c("Group", "Test Statistic", col_names[3:length(col_names)])
+                                
+                                p_values_tbl %>% 
+                                  tidyr::pivot_longer(col_names[3:length(col_names)],
+                                                      names_to = c("Day Relative to Event"),
+                                                      values_to = "P Values") -> p_values_tbl
+                                p_values_tbl %>% 
+                                  dplyr::mutate(`Test Statistic` = stringr::str_replace(`Test Statistic`, " P-Values", "")) -> p_values_tbl
+                                
+                                # Merge Statistics & P Values
+                                test_statistics_tbl %>% 
+                                  dplyr::left_join(p_values_tbl, by = c("Group", "Test Statistic", "Day Relative to Event")) -> test_statistics_tbl
+                                
+                                # Parse AAR values
+                                aar_tbl %>% 
+                                  dplyr::filter(V2 %in% c("Average Abnormal Return (AAR)")) -> aar_values_tbl
+                                colnames(aar_values_tbl) = c("Group", "Test Statistic", col_names[3:length(col_names)])
+                                
+                                aar_values_tbl %>% 
+                                  tidyr::pivot_longer(c(col_names[3:length(col_names)]),
+                                                      names_to = c("Day Relative to Event"),
+                                                      values_to = "AAR") %>% 
+                                  dplyr::select(-"Test Statistic") -> aar_values_tbl
+                                
+                                # Parse number stocks
+                                aar_tbl %>% 
+                                  dplyr::filter(V2 %in% "N") -> n_values_tbl
+                                colnames(n_values_tbl) = c("Group", "Test Statistic", col_names[3:length(col_names)])
+                                n_values_tbl %>% 
+                                  tidyr::pivot_longer(c(col_names[3:length(col_names)]),
+                                                      names_to = c("Day Relative to Event"),
+                                                      values_to = "N") %>% 
+                                  dplyr::select(-"Test Statistic") -> n_values_tbl
+                                
+                                # Parse Pos:Neg
+                                aar_tbl %>% 
+                                  dplyr::filter(V2 %in% "Pos:Neg") -> pos_neg_values_tbl
+                                colnames(pos_neg_values_tbl) = c("Group", "Test Statistic", col_names[3:length(col_names)])
+                                pos_neg_values_tbl %>% 
+                                  tidyr::pivot_longer(c(col_names[3:length(col_names)]),
+                                                      names_to = c("Day Relative to Event"),
+                                                      values_to = "Pos:Neg") %>% 
+                                  dplyr::select(-"Test Statistic") -> pos_neg_values_tbl
+                                
+                                aar_values_tbl %>% 
+                                  dplyr::left_join(n_values_tbl, by = c("Group", "Day Relative to Event")) %>% 
+                                  dplyr::left_join(pos_neg_values_tbl, by = c("Group", "Day Relative to Event")) %>% 
+                                  tidyr::separate(`Pos:Neg`, c("Pos", "Neg"), sep=":") -> aar_values_tbl
+                                
+                                aar_values_tbl %>% 
+                                  dplyr::mutate(
+                                    `Day Relative to Event` = as.numeric(`Day Relative to Event`),
+                                    AAR = as.numeric(AAR),
+                                    N = as.numeric(N),
+                                    Pos = as.numeric(Pos),
+                                    Neg = as.numeric(Neg)
+                                  ) -> aar_values_tbl
+                                
+                                test_statistics_tbl %>% 
+                                  dplyr::mutate(
+                                    `Day Relative to Event` = as.numeric(`Day Relative to Event`),
+                                    Statistics = as.numeric(Statistics),
+                                    `P Values` = as.numeric(`P Values`)
+                                  ) -> test_statistics_tbl
+                                
+                                # Return result object
+                                AARResults$new(aar_tbl        = aar_values_tbl, 
+                                               statistics_tbl = test_statistics_tbl)
                               },
-                              parseCAAR = function(path = "caar_results.csv", groups = NULL, analysisType = "AAR") {
+                              #' @description Parse caar results
+                              #' 
+                              #' @param path path to caar result file.
+                              get_caar = function(path = "caar_results.csv") {
                                 # parse AAR values & check file
-                                caarResults <- data.table::fread(path)
+                                caar_result_tbl <- data.table::fread(path)
                                 g_names <- c("Grouping Variable", "CAAR Type", "CAAR Value", "Precision Weighted CAAR Value", "ABHAR", "pos:neg CAR", "Number of CARs considered")
-                                caar_values <- caarResults[, g_names, with=F]
-                                s_names <- setdiff(names(caarResults), g_names)
-                                s_names <- c("Grouping Variable", "CAAR Type", s_names)
-                                caarResults[, s_names, with=F] %>% 
-                                  data.table::melt(id.vars = c("Grouping Variable", "CAAR Type"),
-                                                   variable.name = "Test", 
-                                                   value.name    = "Statistics") -> caar_statistics
-                                self$caarResults <- list(
-                                  caar_values     = caar_values,
-                                  caar_statistics = caar_statistics
-                                ) 
-                              },
-                              calcAARCI = function(statistic = "Patell Z", 
-                                                   p         = 0.95, 
-                                                   twosided  = T, 
-                                                   type      = "zStatistic") {
-                                statistic <- rlang::arg_match(statistic, c("Patell Z",
-                                                                           "Generalized Sign Z", 
-                                                                           "Csect T", 
-                                                                           "StdCSect Z", 
-                                                                           "Rank Z",
-                                                                           "Generalized Rank T",
-                                                                           "Adjusted Patell Z",
-                                                                           "Adjusted StdCSect Z",
-                                                                           "Generalized Rank Z",
-                                                                           "Skewness Corrected T"))
-                                type <- match.arg(type, c("tStatistic", "zStatistic"))
-                                if (twosided) {
-                                  p <- 0.5 + p / 2
-                                  if (type == "zStatistic") {
-                                    zStar <- qnorm(p)
-                                  } else {
-                                    # TODO
-                                  }
-                                }
-                                idStat <- which(self$aarStatistics == statistic)
-                                lower <- NULL
-                                upper <- NULL
-                                if (length(idStat)) {
-                                  statCol <- names(self$aarStatistics)[idStat]
-                                  statValue <- self$aarResults[[statCol]]
-                                  aar <- self$aarResults[["aar"]]
-                                  lower <- aar - abs(aar) * zStar / abs(statValue)
-                                  upper <- aar + abs(aar) * zStar / abs(statValue)
-                                }
-                                return(list(lower = lower,
-                                            upper = upper))
-                              },
-                              cumSum = function(df, var = "aar", timeVar = NULL, cumVar = NULL, fun = cumsum) {
-                                # calculate cumulative sum
-                                df <- data.table::as.data.table(df)
-                                data.table::setkeyv(df, c(cumVar, timeVar))
-                                setnames(df, var, "car")
-                                df[, car := fun(car), by = cumVar]
-                                df[[var]] <- NULL
-                                setnames(df, "car", var)
-                                df
-                              },
-                              createReport = function(file = "EventStudy.xlsx") {
-                                # the report file must have Excel filename extension
-                                if (!stringr::str_detect(file, ".xlsx")) {
-                                  file <- paste0(file, ".xlsx")
-                                }
+                                caar_result_tbl %>% 
+                                  dplyr::select(g_names) -> caar_values_tbl
                                 
-                                wb <- openxlsx::createWorkbook()
+                                var_names <- setdiff(names(caar_result_tbl), g_names)
+                                s_names <- c("Grouping Variable", "CAAR Type", var_names)
                                 
-                                # Styles 
-                                hs1 <- openxlsx::createStyle(fgFill = "#4F81BD", halign = "CENTER", textDecoration = "Bold",
-                                                             border = "Bottom", fontColour = "white")
-                                numStyle <- openxlsx::createStyle(numFmt = "0.00")
-                                centreStyle <- openxlsx::createStyle(halign = "center", valign = "center")
-                                intNumStyle <- openxlsx::createStyle(numFmt = "0")
-                                options("openxlsx.numFmt" = "#,#0.00")
+                                caar_result_tbl %>% 
+                                  dplyr::select(s_names) %>% 
+                                  tidyr::pivot_longer(cols=var_names) %>% 
+                                  dplyr::mutate(type = ifelse(stringr::str_detect(name, "P-Value"), "P-Value", "Statistics")) %>% 
+                                  dplyr::mutate(name = stringr::str_replace(name, " P-Value", "")) %>% 
+                                  tidyr::pivot_wider(id_cols=c("Grouping Variable", "CAAR Type", "name"), 
+                                                     names_from = "type", values_from = "value") -> caar_statistics_tbl
                                 
-                                # Analysis Report
-                                openxlsx::addWorksheet(wb, sheetName = "Analysis Report")
-                                openxlsx::writeData(wb, sheet = "Analysis Report", x = self$analysisReport, headerStyle = hs1)
-                                openxlsx::setColWidths(wb, sheet = "Analysis Report", cols = 1:ncol(self$analysisReport), widths = 15)
-                                
-                                # Abnormal Return Report 
-                                if (!is.null(self$arResults)) {
-                                  self$arResults %>% 
-                                    dplyr::select(-`Estimation Window Length`) -> dtData
-                                  class(dtData$ar) <- "percentage"
-                                  names(dtData)[2:4] <- c("Event Time", "AR", "t-Value")
-                                  
-                                  openxlsx::addWorksheet(wb, sheetName = "AR Report")
-                                  openxlsx::writeData(wb, sheet = "AR Report", x =dtData, headerStyle = hs1)
-                                  openxlsx::setColWidths(wb, sheet = 1, cols = ncol(dtData), widths = 15)
-                                  
-                                  wb <- private$setCenterStyle(wb    = wb, 
-                                                               sheet = "AR Report",
-                                                               rows  =  1:(nrow(dtData) + 1), 
-                                                               cols  = 3:ncol(dtData))
-                                  
-                                  openxlsx::addStyle(wb,  "AR Report", 
-                                                     style      = intNumStyle, 
-                                                     rows       = 2:(nrow(dtData) + 1), 
-                                                     cols       = 2, 
-                                                     stack      = T, 
-                                                     gridExpand = TRUE)
-                                }
-                                
-                                
-                                # CAR Report ----
-                                if (!is.null(self$carResults)) {
-                                  dtData <- self$carResults
-                                  names(dtData)[4] <- "CAR"
-                                  
-                                  class(dtData$CAR) <- "percentage"
-                                  
-                                  openxlsx::addWorksheet(wb, sheetName = "CAR Report")
-                                  openxlsx::writeData(wb, sheet = "CAR Report", x = dtData, headerStyle = hs1)
-                                  
-                                  wb <- private$setCenterStyle(wb    = wb, 
-                                                               sheet = "CAR Report",
-                                                               rows  =  1:(nrow(dtData) + 1), 
-                                                               cols  = 3:ncol(dtData))
-                                  
-                                  openxlsx::addStyle(wb,  "CAR Report", 
-                                                     style      = centreStyle, 
-                                                     rows       = 1:(nrow(dtData) + 1), 
-                                                     cols       = 3:ncol(dtData), 
-                                                     stack      = T, 
-                                                     gridExpand = TRUE)
-                                }
-                                
-                                # Averaged Abnormal Return Report ----
-                                if (!is.null(self$aarResults)) {
-                                  dtData <- self$aarResults
-                                  
-                                  # Adjust column names
-                                  statNames <- as.character(self$aarStatistics[names(self$aarResults)])
-                                  statId <- which(!is.na(statNames))
-                                  names(dtData)[statId] <- statNames[statId]
-                                  names(dtData)[1:5] <- c("Group", "Event Time", "AAR", "N Firms", "N positive AR")
-                                  
-                                  # AAR as percentage
-                                  class(dtData$AAR) <- "percentage"
-                                  
-                                  openxlsx::addWorksheet(wb, sheetName = "AAR Report")
-                                  openxlsx::setColWidths(wb, sheet = "AAR Report", cols = 1:ncol(dtData), widths = 15)
-                                  openxlsx::writeData(wb, sheet = "AAR Report", x = dtData, headerStyle = hs1)
-                                  
-                                  wb <- private$setCenterStyle(wb    = wb, 
-                                                               sheet = "AAR Report",
-                                                               rows  =  1:(nrow(dtData) + 1), 
-                                                               cols  = 3:ncol(dtData))
-                                  openxlsx::addStyle(wb,  "AAR Report", 
-                                                     style      = intNumStyle, 
-                                                     rows       = 2:(nrow(dtData) + 1), 
-                                                     cols       = c(2, 4:5), 
-                                                     stack      = T, 
-                                                     gridExpand = TRUE)
-                                }
-                                
-                                # Write Data ----
-                                openxlsx::saveWorkbook(wb, file, overwrite = T)
+                                CAAResults$new(caar_values_tbl, caar_statistics_tbl)
                               }
                             ),
                             private = list(
-                              setCenterStyle = function(wb, sheet, rows, cols) {
-                                centreStyle <- openxlsx::createStyle(halign = "center", valign = "center")
-                                openxlsx::addStyle(wb,  sheet, 
-                                                   style = centreStyle, 
-                                                   rows = rows, 
-                                                   cols = cols, 
-                                                   stack = T, 
-                                                   gridExpand = TRUE)
-                                wb
-                              },
-                              parseFile = function(path, dataName, header = F) {
+                              load_file = function(path, header = F) {
                                 # check local and url file
                                 if (file.exists(path) || !httr::http_error(path)) {
-                                  self[[dataName]] <- data.table::fread(path, header = header)
-                                  TRUE
+                                  data.table::fread(path, header = header)
                                 } else {
-                                  message(paste0("File ", path, " not found!"))
-                                  FALSE
+                                  stop(paste0("File ", path, " not found!"))
                                 }
                               }
                             ))

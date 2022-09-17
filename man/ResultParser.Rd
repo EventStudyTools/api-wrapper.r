@@ -46,134 +46,142 @@ estParser$parseAAR("AAR results.csv")
 }
 
 }
+\section{Public fields}{
+\if{html}{\out{<div class="r6-fields">}}
+\describe{
+\item{\code{destDir}}{Result dir.}
+}
+\if{html}{\out{</div>}}
+}
 \section{Methods}{
 \subsection{Public methods}{
 \itemize{
-\item \href{#method-new}{\code{ResultParser$new()}}
-\item \href{#method-parseRequestFile}{\code{ResultParser$parseRequestFile()}}
-\item \href{#method-parseReport}{\code{ResultParser$parseReport()}}
-\item \href{#method-parseAR}{\code{ResultParser$parseAR()}}
-\item \href{#method-parseCAR}{\code{ResultParser$parseCAR()}}
-\item \href{#method-parseAAR}{\code{ResultParser$parseAAR()}}
-\item \href{#method-parseCAAR}{\code{ResultParser$parseCAAR()}}
-\item \href{#method-calcAARCI}{\code{ResultParser$calcAARCI()}}
-\item \href{#method-cumSum}{\code{ResultParser$cumSum()}}
-\item \href{#method-createReport}{\code{ResultParser$createReport()}}
-\item \href{#method-clone}{\code{ResultParser$clone()}}
+\item \href{#method-ResultParser-get_request_file}{\code{ResultParser$get_request_file()}}
+\item \href{#method-ResultParser-get_analysis_report}{\code{ResultParser$get_analysis_report()}}
+\item \href{#method-ResultParser-get_ar}{\code{ResultParser$get_ar()}}
+\item \href{#method-ResultParser-get_car}{\code{ResultParser$get_car()}}
+\item \href{#method-ResultParser-get_aar}{\code{ResultParser$get_aar()}}
+\item \href{#method-ResultParser-get_caar}{\code{ResultParser$get_caar()}}
+\item \href{#method-ResultParser-clone}{\code{ResultParser$clone()}}
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-new"></a>}}
-\if{latex}{\out{\hypertarget{method-new}{}}}
-\subsection{Method \code{new()}}{
+\if{html}{\out{<a id="method-ResultParser-get_request_file"></a>}}
+\if{latex}{\out{\hypertarget{method-ResultParser-get_request_file}{}}}
+\subsection{Method \code{get_request_file()}}{
+Parse request file
 \subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{ResultParser$new()}\if{html}{\out{</div>}}
+\if{html}{\out{<div class="r">}}\preformatted{ResultParser$get_request_file(path = "01_RequestFile.csv")}\if{html}{\out{</div>}}
 }
 
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{path}}{path to request file.}
+}
+\if{html}{\out{</div>}}
+}
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-parseRequestFile"></a>}}
-\if{latex}{\out{\hypertarget{method-parseRequestFile}{}}}
-\subsection{Method \code{parseRequestFile()}}{
+\if{html}{\out{<a id="method-ResultParser-get_analysis_report"></a>}}
+\if{latex}{\out{\hypertarget{method-ResultParser-get_analysis_report}{}}}
+\subsection{Method \code{get_analysis_report()}}{
+Parse request file
 \subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{ResultParser$parseRequestFile(path = "01_RequestFile.csv")}\if{html}{\out{</div>}}
+\if{html}{\out{<div class="r">}}\preformatted{ResultParser$get_analysis_report(path = "analysis_report.csv")}\if{html}{\out{</div>}}
 }
 
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{path}}{path to request file.}
+}
+\if{html}{\out{</div>}}
+}
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-parseReport"></a>}}
-\if{latex}{\out{\hypertarget{method-parseReport}{}}}
-\subsection{Method \code{parseReport()}}{
+\if{html}{\out{<a id="method-ResultParser-get_ar"></a>}}
+\if{latex}{\out{\hypertarget{method-ResultParser-get_ar}{}}}
+\subsection{Method \code{get_ar()}}{
+Parse request file
 \subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{ResultParser$parseReport(path = "analysis_report.csv")}\if{html}{\out{</div>}}
-}
-
-}
-\if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-parseAR"></a>}}
-\if{latex}{\out{\hypertarget{method-parseAR}{}}}
-\subsection{Method \code{parseAR()}}{
-\subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{ResultParser$parseAR(path = "ar_results.csv", analysisType = "AR")}\if{html}{\out{</div>}}
-}
-
-}
-\if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-parseCAR"></a>}}
-\if{latex}{\out{\hypertarget{method-parseCAR}{}}}
-\subsection{Method \code{parseCAR()}}{
-\subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{ResultParser$parseCAR(path = "car_results.csv", analysisType = "CAR")}\if{html}{\out{</div>}}
-}
-
-}
-\if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-parseAAR"></a>}}
-\if{latex}{\out{\hypertarget{method-parseAAR}{}}}
-\subsection{Method \code{parseAAR()}}{
-\subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{ResultParser$parseAAR(
-  path = "aar_results.csv",
-  groups = NULL,
-  analysisType = "AAR"
+\if{html}{\out{<div class="r">}}\preformatted{ResultParser$get_ar(
+  path = "ar_results.csv",
+  analysis_report_tbl = NULL,
+  request_tbl = NULL
 )}\if{html}{\out{</div>}}
 }
 
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{path}}{path to request file.}
+
+\item{\code{analysis_report_tbl}}{PArsed analysis report}
+
+\item{\code{request_tbl}}{parsed request file}
+}
+\if{html}{\out{</div>}}
+}
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-parseCAAR"></a>}}
-\if{latex}{\out{\hypertarget{method-parseCAAR}{}}}
-\subsection{Method \code{parseCAAR()}}{
+\if{html}{\out{<a id="method-ResultParser-get_car"></a>}}
+\if{latex}{\out{\hypertarget{method-ResultParser-get_car}{}}}
+\subsection{Method \code{get_car()}}{
+Parse Cumulative Abnormal Return
 \subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{ResultParser$parseCAAR(
-  path = "caar_results.csv",
-  groups = NULL,
-  analysisType = "AAR"
-)}\if{html}{\out{</div>}}
+\if{html}{\out{<div class="r">}}\preformatted{ResultParser$get_car(path = "car_results.csv", analysis_report_tbl = NULL)}\if{html}{\out{</div>}}
 }
 
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{path}}{The path to the CAR result CSV file.}
+
+\item{\code{analysis_report_tbl}}{The analyis report table. It will be used for extracting the group.}
+}
+\if{html}{\out{</div>}}
+}
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-calcAARCI"></a>}}
-\if{latex}{\out{\hypertarget{method-calcAARCI}{}}}
-\subsection{Method \code{calcAARCI()}}{
+\if{html}{\out{<a id="method-ResultParser-get_aar"></a>}}
+\if{latex}{\out{\hypertarget{method-ResultParser-get_aar}{}}}
+\subsection{Method \code{get_aar()}}{
+Parse AAR results
 \subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{ResultParser$calcAARCI(
-  statistic = "Patell Z",
-  p = 0.95,
-  twosided = T,
-  type = "zStatistic"
-)}\if{html}{\out{</div>}}
+\if{html}{\out{<div class="r">}}\preformatted{ResultParser$get_aar(path = "aar_results.csv", analysis_report = NULL)}\if{html}{\out{</div>}}
 }
 
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{path}}{path to aar result file.}
+
+\item{\code{analysis_report}}{Extracted analysis report}
+}
+\if{html}{\out{</div>}}
+}
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-cumSum"></a>}}
-\if{latex}{\out{\hypertarget{method-cumSum}{}}}
-\subsection{Method \code{cumSum()}}{
+\if{html}{\out{<a id="method-ResultParser-get_caar"></a>}}
+\if{latex}{\out{\hypertarget{method-ResultParser-get_caar}{}}}
+\subsection{Method \code{get_caar()}}{
+Parse caar results
 \subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{ResultParser$cumSum(
-  df,
-  var = "aar",
-  timeVar = NULL,
-  cumVar = NULL,
-  fun = cumsum
-)}\if{html}{\out{</div>}}
+\if{html}{\out{<div class="r">}}\preformatted{ResultParser$get_caar(path = "caar_results.csv")}\if{html}{\out{</div>}}
 }
 
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{path}}{path to caar result file.}
+}
+\if{html}{\out{</div>}}
+}
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-createReport"></a>}}
-\if{latex}{\out{\hypertarget{method-createReport}{}}}
-\subsection{Method \code{createReport()}}{
-\subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{ResultParser$createReport(file = "EventStudy.xlsx")}\if{html}{\out{</div>}}
-}
-
-}
-\if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-clone"></a>}}
-\if{latex}{\out{\hypertarget{method-clone}{}}}
+\if{html}{\out{<a id="method-ResultParser-clone"></a>}}
+\if{latex}{\out{\hypertarget{method-ResultParser-clone}{}}}
 \subsection{Method \code{clone()}}{
 The objects of this class are cloneable with this method.
 \subsection{Usage}{

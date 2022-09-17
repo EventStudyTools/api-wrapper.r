@@ -94,12 +94,16 @@
 #'                                                dataFiles  = dataFiles, 
 #'                                                destDir    = resultPath)
 #'}
-#'
 #' @export
 EventStudyAPI <- R6::R6Class(classname = "EventStudyAPI",
                              public = list(
+                               #' @field resultFiles list of result files
                                resultFiles = NULL,
+                               #' @field dataFiles list of data files
                                dataFiles   = NULL,
+                               #' @description Class initialization
+                               #' 
+                               #' @param apiServerUrl url to API server
                                initialize = function(apiServerUrl = NULL) {
                                  # if API key is null try to fetch it from options
                                  if (is.null(apiServerUrl)) {
@@ -113,8 +117,7 @@ EventStudyAPI <- R6::R6Class(classname = "EventStudyAPI",
                                  
                                  private$apiServerUrl <- apiServerUrl
                                },
-                               # @param apiKey
-                               # @return boolean
+                               #' @param apiKey EST API key
                                authentication = function(apiKey = NULL) {
                                  # if API key is null try to fetch it from options
                                  if (is.null(apiKey)) {
@@ -141,6 +144,13 @@ EventStudyAPI <- R6::R6Class(classname = "EventStudyAPI",
                                  private$token <- result$token
                                  TRUE
                                },
+                               #' @description Performs an event study with given parameters and files.
+                               #' 
+                               #' @param estParams A class of type ARCApplicationInput. This class contains the definition of the event study.
+                               #' @param dataFiles A named vector for the input files.
+                               #' @param destDir Destination dir of event study results.
+                               #' @param downloadFiles Boolean parameter for downloading files from server.
+                               #' @param checkFiles Check input files.
                                performEventStudy = function(estParams     = NULL,
                                                             dataFiles     = c("request_file" = "01_RequestFile.csv", 
                                                                            "firm_data"   = "02_firmData.csv", 
@@ -196,6 +206,13 @@ EventStudyAPI <- R6::R6Class(classname = "EventStudyAPI",
                                  
                                  return(self$getTaskResults(downloadFiles, destDir))
                                },
+                               #' @description Performs an event study with default parameters and files.
+                               #' 
+                               #' @param estType A string (arc, avc, or avyc) that is used to initialize the default parameter set.
+                               #' @param dataFiles A named vector for the input files.
+                               #' @param destDir Destination dir of event study results.
+                               #' @param downloadFiles Boolean parameter for downloading files from server.
+                               #' @param checkFiles Check input files.
                                performDefaultEventStudy = function(estType       = "arc", 
                                                                    dataFiles     = c("request_file" = "01_RequestFile.csv", 
                                                                                      "firm_data"    = "02_firmData.csv", 
@@ -208,6 +225,7 @@ EventStudyAPI <- R6::R6Class(classname = "EventStudyAPI",
                                  
                                  self$performEventStudy(defaultParams, dataFiles, destDir)
                                },
+                               #' @description  Process the task. Internal use.
                                processTask = function() {
                                  if (is.null(private$token) || is.null(private$apiServerUrl))
                                    stop("Error in uploadFile: configuration error")
@@ -221,6 +239,8 @@ EventStudyAPI <- R6::R6Class(classname = "EventStudyAPI",
                                  self$resultFiles <- tibble::as_tibble(result$results)
                                  result
                                },
+                               #' @description Configure the task. Internal usasge.
+                               #' @param estParams An object of class EventStudyApplicationInput
                                configureTask = function(estParams = NULL) {
 
                                  # Setup Standard Parameters
@@ -258,6 +278,11 @@ EventStudyAPI <- R6::R6Class(classname = "EventStudyAPI",
                                  
                                  return(TRUE)
                                },
+                               #' @description Upload files to server. Internal usage.
+                               #' 
+                               #' @param fileKey File key
+                               #' @param fileName File name
+                               #' @param partNumber PArt number of the file
                                uploadFile = function(fileKey, fileName, partNumber = 0) {
 
                                  if (is.null(private$token) || is.null(fileKey) || is.null(fileName))
@@ -278,16 +303,24 @@ EventStudyAPI <- R6::R6Class(classname = "EventStudyAPI",
 
                                  return(TRUE)
                                },
+                               #' @description Delete files. Internal usage.
+                               #' 
+                               #' @param parts Parts
                                deleteFileParts = function(parts) {
                                  # TODO
                                },
+                               #' @description Split files Internal usage.
+                               #' 
+                               #' @param fileName File name
+                               #' @param maxChunkSize Max chunk size.
                                splitFile = function(fileName, maxChunkSize) {
                                  # TODO
                                },
-                               # Parameters
+                               #' @description Get token. Internal usage.
                                get_token = function() {
                                  return(private$token)
                                },
+                               #' @description Commit data. Internal usage.
                                commitData = function() {
 
                                  if (is.null(private$token))
@@ -319,6 +352,9 @@ EventStudyAPI <- R6::R6Class(classname = "EventStudyAPI",
                                  return(ch$content)
 
                                },
+                               #' @description Fetch task status. Internal usage.
+                               #' 
+                               #' @param exceptionOnError Throw exception on errpr.
                                getTaskStatus = function(exceptionOnError = FALSE) {
 
                                  if (is.null(private$token))
@@ -340,6 +376,10 @@ EventStudyAPI <- R6::R6Class(classname = "EventStudyAPI",
                                  #   private$checkAndNormalizeResponse(httpcode = ch$status_code,
                                  #                                     method   = "getTaskStatus") -> result
                                },
+                               #' @description Fetch results Internal usage.
+                               #' 
+                               #' @param downloadFiles Download files
+                               #' @param destDir Destination dir
                                getTaskResults = function(downloadFiles = T, destDir = getwd()) {
                                  if (is.null(private$token))
                                    stop("Error: Configuration validation error")
@@ -350,16 +390,17 @@ EventStudyAPI <- R6::R6Class(classname = "EventStudyAPI",
                                  # fetch data
                                  if (downloadFiles) {
                                    if (!dir.exists(destDir)) {
-                                     message('Creating directory: ', destDir)
+                                     cat('Creating directory: ', destDir, "\n")
                                      dir.create(destDir, recursive = T)
                                    }
                                    
+                                   # Download result files
                                    self$resultFiles %>% 
                                      dplyr::mutate(id = dplyr::row_number()) %>% 
-                                     tidyr::nest(-id) %>% 
+                                     dplyr::group_by(id) %>% 
+                                     tidyr::nest() %>% 
                                      dplyr::mutate(results = purrr::map(data, .f = function(x) {
-                                       message('Downloading: ', x$name)
-                                       
+                                       cat('Downloading: ', x$name, "\n")
                                        curl_download_save <- purrr::safely(curl::curl_download)
                                        dl_ <- curl_download_save(url =  x$url, destfile = file.path(destDir, x$basename), quiet = T)
                                        if (is.null(dl_$error)) {
@@ -368,49 +409,9 @@ EventStudyAPI <- R6::R6Class(classname = "EventStudyAPI",
                                          return('Failure')
                                        }
                                      })) -> l
-                                   
                                  } 
-                                 
-                                 # Parse data
-                                 estParser <- ResultParser$new()
-                                 estParser$parseRequestFile(self$dataFiles[["request_file"]])
-                                 id <- which(stringr::str_detect(self$resultFiles$basename, "analysis_report"))
-                                 if (length(id)) {
-                                    estParser$parseReport(self$resultFiles$url[id])
-                                 }
-                                 
-                                 # arc parsing
-                                 id <- which(stringr::str_detect(self$resultFiles$basename, "^ar_"))
-                                 if (length(id)) {
-                                    estParser$parseAR(self$resultFiles$url[id])
-                                 }
-                                 id <- which(stringr::str_detect(self$resultFiles$basename, "^aar_"))
-                                 if (length(id)) {
-                                   estParser$parseAAR(self$resultFiles$url[id])
-                                 }
-                                 id <- which(stringr::str_detect(self$resultFiles$basename, "^car_"))
-                                 if (length(id)) {
-                                   estParser$parseCAR(self$resultFiles$url[id])
-                                 }
-                                 id <- which(stringr::str_detect(self$resultFiles$basename, "^caar_"))
-                                 if (length(id)) {
-                                   estParser$parseCAAR(self$resultFiles$url[id])
-                                 }
-                                 
-                                 # avyc parsing
-                                 id <- which(stringr::str_detect(self$resultFiles$basename, "^avy_"))
-                                 if (length(id)) {
-                                   estParser$parseAR(self$resultFiles$url[id], analysisType = "^AVy")
-                                 }
-                                 id <- which(stringr::str_detect(self$resultFiles$basename, "^aavy_"))
-                                 if (length(id)) {
-                                   estParser$parseAAR(self$resultFiles$url[id])
-                                 }
-                                 
-                                 # TODO: av parsing
-                                 
-                                 estParser
                                },
+                               #' @description Get API version.
                                getApiVersion = function() {
                                  ch <- doHttrRequest(url          = httr::modify_url(private$apiServerUrl, path = "/version"), 
                                                      request_type = "GET"

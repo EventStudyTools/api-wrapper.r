@@ -21,7 +21,7 @@ checkFile <- function(path, type = "request_file") {
   type <- match.arg(type, c("request_file", "firm_data", "market_data"))
   testthat::expect_true(file.exists(path))
 
-  cat(paste("Checking", type))
+  cat(paste("Checking", type, "\n"))
   dtData <- readr::read_delim(file      = path, 
                               delim     = ";", 
                               col_names = F)  
@@ -53,7 +53,7 @@ checkFile <- function(path, type = "request_file") {
     
     # check event id (column1)
     dtData %>% 
-      dplyr::select("id") %>% 
+      dplyr::select(id) %>% 
       dplyr::n_distinct() -> n
     m <- nrow(dtData)
     testthat::expect_true(object = n == m, 
@@ -69,9 +69,10 @@ checkFile <- function(path, type = "request_file") {
     #     msg <- paste("Event ID:", x[1], "The event window start should be <= 0 and smaller equals event window end.")
     #     testthat::expect(x[6] <= 0 && x[6] <= x[7], msg)
     #   })
-    
+    id <- firm <- NULL
     dtData %>% 
-      tidyr::nest(-"id", -"firm") %>% 
+      dplyr::group_by(id, firm) %>% 
+      tidyr::nest() %>% 
       dplyr::mutate(event_window = purrr::map(data, function(x) {
         if (x$startEventWindow <= 0 & x$startEventWindow <= x$endEventWindow) {
           msg <- "All fine"
@@ -241,5 +242,3 @@ checkDateFormat <- function(x) {
   x <- as.Date(x, format = "%d.%m.%Y")
   testthat::expect(!any(is.na(x)), "Incorrect date format. Correct format is: %d.%m.%Y, e.g. 28.10.2011")
 }
-
-

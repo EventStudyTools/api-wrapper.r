@@ -17,7 +17,6 @@ NULL
 #' @import miniUI
 #' @import rstudioapi
 #' @import ggplot2
-#' @importFrom tidyquant theme_tq
 #' @importFrom data.table :=
 #' @importFrom utils data
 #' @importFrom rlang .data

@@ -30,29 +30,48 @@ Abstract class no description.
 }
 
 \keyword{internal}
+\section{Public fields}{
+\if{html}{\out{<div class="r6-fields">}}
+\describe{
+\item{\code{parameters}}{Parameters}
+
+\item{\code{result_file_type}}{Result file type.}
+}
+\if{html}{\out{</div>}}
+}
 \section{Methods}{
 \subsection{Public methods}{
 \itemize{
-\item \href{#method-setResultFileType}{\code{ApplicationInputInterface$setResultFileType()}}
-\item \href{#method-setNamedList}{\code{ApplicationInputInterface$setNamedList()}}
-\item \href{#method-serializeToJson}{\code{ApplicationInputInterface$serializeToJson()}}
-\item \href{#method-serialize}{\code{ApplicationInputInterface$serialize()}}
-\item \href{#method-clone}{\code{ApplicationInputInterface$clone()}}
+\item \href{#method-ApplicationInputInterface-setResultFileType}{\code{ApplicationInputInterface$setResultFileType()}}
+\item \href{#method-ApplicationInputInterface-setNamedList}{\code{ApplicationInputInterface$setNamedList()}}
+\item \href{#method-ApplicationInputInterface-serializeToJson}{\code{ApplicationInputInterface$serializeToJson()}}
+\item \href{#method-ApplicationInputInterface-serialize}{\code{ApplicationInputInterface$serialize()}}
+\item \href{#method-ApplicationInputInterface-clone}{\code{ApplicationInputInterface$clone()}}
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-setResultFileType"></a>}}
-\if{latex}{\out{\hypertarget{method-setResultFileType}{}}}
+\if{html}{\out{<a id="method-ApplicationInputInterface-setResultFileType"></a>}}
+\if{latex}{\out{\hypertarget{method-ApplicationInputInterface-setResultFileType}{}}}
 \subsection{Method \code{setResultFileType()}}{
+Set result file type
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{ApplicationInputInterface$setResultFileType(type = "csv")}\if{html}{\out{</div>}}
 }
 
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{type}}{Possible are csv, xls, xlsx, ods}
+}
+\if{html}{\out{</div>}}
+}
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-setNamedList"></a>}}
-\if{latex}{\out{\hypertarget{method-setNamedList}{}}}
+\if{html}{\out{<a id="method-ApplicationInputInterface-setNamedList"></a>}}
+\if{latex}{\out{\hypertarget{method-ApplicationInputInterface-setNamedList}{}}}
 \subsection{Method \code{setNamedList()}}{
+Function to setup hierarchical \code{lists}.
+For internal usage.
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{ApplicationInputInterface$setNamedList(
   parentLevel,
@@ -62,28 +81,50 @@ Abstract class no description.
 )}\if{html}{\out{</div>}}
 }
 
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{parentLevel}}{parent level}
+
+\item{\code{secondLevel}}{parent level}
+
+\item{\code{thirthLevel}}{parent level}
+
+\item{\code{parameterList}}{parent level}
+}
+\if{html}{\out{</div>}}
+}
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-serializeToJson"></a>}}
-\if{latex}{\out{\hypertarget{method-serializeToJson}{}}}
+\if{html}{\out{<a id="method-ApplicationInputInterface-serializeToJson"></a>}}
+\if{latex}{\out{\hypertarget{method-ApplicationInputInterface-serializeToJson}{}}}
 \subsection{Method \code{serializeToJson()}}{
+Serialize a list to json. For internal use.
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{ApplicationInputInterface$serializeToJson(level = NULL)}\if{html}{\out{</div>}}
 }
 
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{level}}{The level that should be serialized.}
+}
+\if{html}{\out{</div>}}
+}
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-serialize"></a>}}
-\if{latex}{\out{\hypertarget{method-serialize}{}}}
+\if{html}{\out{<a id="method-ApplicationInputInterface-serialize"></a>}}
+\if{latex}{\out{\hypertarget{method-ApplicationInputInterface-serialize}{}}}
 \subsection{Method \code{serialize()}}{
+Serialize. For internal use.
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{ApplicationInputInterface$serialize()}\if{html}{\out{</div>}}
 }
 
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-clone"></a>}}
-\if{latex}{\out{\hypertarget{method-clone}{}}}
+\if{html}{\out{<a id="method-ApplicationInputInterface-clone"></a>}}
+\if{latex}{\out{\hypertarget{method-ApplicationInputInterface-clone}{}}}
 \subsection{Method \code{clone()}}{
 The objects of this class are cloneable with this method.
 \subsection{Usage}{

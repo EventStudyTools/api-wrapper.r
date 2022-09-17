@@ -1,0 +1,240 @@
+---
+title: "Get Started"
+author: "Dr. Markus Schimmer and Dr. Simon Müller"
+date: "`r Sys.Date()`"
+output:
+  html_document:
+    toc: true
+    toc_float: true
+    theme: readable
+    highlight: tango
+    css: kable.css
+vignette: >
+  %\VignetteIndexEntry{Get Started}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r echo=FALSE}
+knitr::opts_chunk$set(
+  comment = "#>",
+  collapse = TRUE,
+  warning = FALSE,
+  message = FALSE
+)
+```
+
+# Motivation
+
+The attached sample data and request files were constructed to illustrate the use of the EventStudyTools R-package.
+
+The files hold data about the addition of several well known firms to the S&P 500 index in the late 1990s. With this data, the R package will investigate for you the question whether a company's stock value increases if the firm is added to the S&P 500 index. This is a common research question and has been addressed, among others, by Anthony W. Lynch and Richard R. Mendenha in a 1997 study: They found a positive effect of about 3.8% over the period starting the day after the announcement and ending the day before the effective date of the change.
+
+You can use our R-package to easily investigate such and similar questions.
+
+# Perform an Event Study from R
+
+## Authentication
+
+For performing an Event Study with our API you need:
+
+-   **API url** (defaults to `http://api.eventstudytools.com`)
+-   **API key**
+
+You get an API key from our website [EventStudyTools](https://www.eventstudytools.com/api-access). In the first step we need to authenticate to the web API. There are three ways to handle this two parameters:
+
+```{r, eval=FALSE}
+apiUrl <- "http://api.eventstudytools.com"
+apiKey <- "Please insert your key here"
+```
+
+**Option 1 and 2:** You can save API key and URL in the `options` object
+
+```{r, eval=FALSE}
+# The URL is already set by default
+# options(EventStudy.URL = apiUrl)
+options(EventStudy.KEY = apiKey)
+
+# use EventStudy estAPIKey function
+estAPIKey(apiKey)
+
+# initialize object
+estSetup <- EventStudyAPI$new()
+```
+
+**Option 2:** Set the API Key and URL directly during the `EventStudyAPI` `R6-class` initialization
+
+```{r, eval=FALSE}
+# Setup API Connection
+estSetup <- EventStudyAPI$new(apiUrl)
+estSetup$authentication(apiKey)
+```
+
+This API package is designed to perform all analyses we provide on our website. Furthermore, all parameters can be set. You are able to set every parameter in R (we will provide more details later), or you can perform a fast Event Study with default parameters.
+
+### Event Study with Defaults Parameters
+
+There will be soon a separate vignette for setting parameters.
+
+## Event Study Types
+
+Our API offers different types of Event Studies:
+
+-   Return Event Study: `arc`
+-   Trading Volume Event Study: `avc`
+-   Abnormal Volatility Event Study: `avyc`
+
+Default parameters for all type of above Event Studies are:
+
+-   Benchmark model: Market Model for `arc` and `avc` and GARCH(1, 1) Model for `avyc`
+-   Statistics: All available test statistics are calculated
+-   Result file type: `csv`
+-   Return type calculation: `log`
+-   Handling non-trading days: `later`
+
+The type of Event Study can be set by parameter:
+
+```{r, eval=FALSE}
+estType <- "arc"
+```
+
+## Data Files
+
+By default all data files must be named as follows. Furthermore, they have to be in the current directory:
+
+-   `01_RequestFile.csv`
+-   `02_firmData.csv`
+-   `03_MarketData.csv`
+
+You are also able to set custom file names and paths by defining it in a named vector:
+
+```{r, eval=FALSE}
+dataFiles <- c("request_file" = "01_RequestFile.csv", 
+               "firm_data"    = "02_firmData.csv", 
+               "market_data"  = "03_MarketData.csv")
+```
+
+## Results
+
+All results will be written by default into the directory `./results`. You can easily change this path by setting it as a parameter:
+
+```{r, eval=FALSE}
+resultPath <- "results"
+```
+
+**Attention**
+
+If the `resultPath` do not exist, the R package will create this directory.
+
+## Performing the Event Study
+
+Finally, the Event Study is performed by:
+
+```{r, eval=FALSE}
+estResult <- estSetup$performDefaultEventStudy(estType    = estType,
+                                               dataFiles  = dataFiles, 
+                                               destDir    = resultPath)
+```
+
+It will write all result files into the result directory. Furthermore, results will be parsed into a R object.
+
+# Data File Description
+
+For performing an Event Study we need three files (file names can be chosen arbitrarily):
+
+1.  A request file where the structure of the Event Study is defined
+2.  A firm data file containing the stock data for each firm defined in the request file
+3.  A market data file containing the reference market data (multiple reference markets per study are possible)
+
+All files must be saved without header, semi-colon separated and dates has to be in following format: `30.04.1997`. In next section we will describe the file structure based on the S&P 500 example Event Study more detailed. You always find more information (if necessary) on our website: [EventStudyTools](https://www.eventstudytools.com/instructions-axc).
+
+We added the S&P 500 example Event Study to this package. The three necessary files can be easily generated by following command:
+
+```{r, message=FALSE, warning=FALSE, results='hide'}
+library(EventStudy)
+getSP500ExampleFiles()
+```
+
+We named the request and data files in following manner:
+
+-   `01_RequestFile.csv`
+-   `02_FirmData.csv`
+-   `03_MarketData.csv`
+
+In your analysis, you can name them as you want.
+
+## Event Definitions: `01_RequestFile.csv`
+
+This csv file contains the event definitions. It contains 9 columns. The order must be in the following way, as the columns are not named in the csv.
+
+-   **Event ID** [Integer]: A unique event identifier
+-   **Firm ID** [String]: The firm name or stock ID. This ID must match the ID in the firm data
+-   **Market ID** [String]: The reference market ID. This ID must match the ID in the market data
+-   **Event Date** [`30.04.1997`]: Date of the event
+-   **Grouping Variable** [String]: This column is used to group events. Most test statistics are based on looking at groups.
+-   **Start Event Window** [Integer]: This integer value defines the start of the event window. This value must smaller or equal zero (e.g. trading days before event).
+-   **End Event Window** [Integer]: This integer value defines the end of the event window. This value must greater or equal zero (e.g. trading days after event).
+-   **End of Estimation Window** [Integer]: This negative value defines the end of the estimation window (counted from event day).
+-   **Estimation Window Length** [Integer]: Length of the estimation window
+
+In the following example, we have an event window of `[-2, 2]` (an event window of length `5`), an estimation window of length `120`, and the estimation window ends `11` days before the event.
+
+```{r, message=FALSE}
+library(readr)
+df <- readr::read_delim("01_RequestFile.csv", col_names = F, delim = ";")
+names(df) <- c("Event ID", "Firm ID", "Market ID", "Event Date", "Grouping Variable", "Start Event Window", "End Event Window", "End of Estimation Window", "Estimation Window Length")
+knitr::kable(head(df), pad=0)
+```
+
+**Attention**
+
+The first column (Event IDs) must be unique and numeric.
+
+## Firm Data: `02_FirmData.csv`
+
+The stock data for each firm defined in the request file. It contains 3 columns.
+
+-   **Firm ID** [String]: The firm or stock ID. This ID must match the ID in the Firm ID in the request file.
+-   **Date** [`30.04.1997`]: Date of the closing price.
+-   **Closing Price** [Double]: Closing price of volume of that day.
+
+The following table shows the first `20` entries of our example firm data.
+
+```{r, message=FALSE}
+library(readr)
+df <- readr::read_delim("02_FirmData.csv", col_names = F, delim = ";")
+names(df) <- c("Firm ID", "Date", "Closing Price")
+knitr::kable(head(df))
+```
+
+## Firm Data: `03_MarketData.csv`
+
+This file is similary structured as `02_FirmData.csv`:
+
+-   **Market ID** [String]: The market ID or stock ID. This ID must match the ID in the Market ID in the request file.
+-   **Date** [`30.04.1997`]: Date of the closing price.
+-   **Closing Price** [Double]: Closing price of volume of that day.
+
+The following table shows the first `20` entries of our example firm data.
+
+```{r, message=FALSE}
+library(readr)
+df <- readr::read_delim("03_MarketData.csv", col_names = F, delim = ";")
+names(df) <- c("Market ID", "Date", "Closing Price")
+knitr::kable(head(df))
+```
+
+You are also able to apply a *Fama-French 3-Factor Model* or a *Fama-French Momentum-4-Factor Model*. This will change the necessary data you need for performing an Event Study (e.g. by adding Fama-French Factors). You find more information at <https://www.eventstudytools.com/instructions-axc>.
+
+# More Vignettes
+
+1.  Event Study: Parameters: In this Vignette we show how you can set parameters and which parameters are allowed.
+2.  Data Preparation: In this Vignette we show you how to get and prepare data for your Event Study from R.
+3.  RStudio Addins: We wrote a RStudio addin for performing different types of Event Studies
+    -   Abnormal Return Event Study
+    -   Abnormal Volume Event Study
+    -   Abnormal Volatility Event Study
+
+# How to Cite
+
+Please cite our work in your [publication](https://www.eventstudytools.com/how-cite-eventstudytoolscom).

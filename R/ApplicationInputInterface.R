@@ -41,12 +41,24 @@
 ApplicationInputInterface <- R6::R6Class(classname = "ApplicationInputInterface",
                                          lock_objects = F,
                                          public = list(
+                                           #' @field parameters Parameters
                                            parameters = NULL,
+                                           #' @field result_file_type Result file type.
                                            result_file_type = list(result_file_type = "csv"),
+                                           #' @description Set result file type
+                                           #' 
+                                           #' @param type Possible are csv, xls, xlsx, ods
                                            setResultFileType = function(type = "csv") {
                                              type <- match.arg(type, choices = private$allowedResultFileType)
                                              self$result_file_type[["result_file_type"]] <- type
                                            },
+                                           #' @description Function to setup hierarchical \code{lists}.
+                                           #' For internal usage.
+                                           #' 
+                                           #' @param parentLevel parent level
+                                           #' @param secondLevel parent level
+                                           #' @param thirthLevel parent level
+                                           #' @param parameterList parent level
                                            setNamedList = function(parentLevel,
                                                                    secondLevel = NULL,
                                                                    thirthLevel = NULL,
@@ -81,6 +93,9 @@ ApplicationInputInterface <- R6::R6Class(classname = "ApplicationInputInterface"
                                                
                                              }
                                            },
+                                           #' @description Serialize a list to json. For internal use.
+                                           #' 
+                                           #' @param level The level that should be serialized.
                                            serializeToJson = function(level = NULL) {
                                              if (is.null(level)) {
                                                self$serialize() %>%
@@ -90,6 +105,7 @@ ApplicationInputInterface <- R6::R6Class(classname = "ApplicationInputInterface"
                                                  jsonlite::toJSON(auto_unbox = T)
                                              }
                                            },
+                                           #' @description Serialize. For internal use.
                                            serialize = function() {
                                              setdiff(x = ls(self),
                                                      y = lsf.str(self)) %>%

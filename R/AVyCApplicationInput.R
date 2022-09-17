@@ -85,64 +85,15 @@
 AVyCApplicationInput <- R6::R6Class(classname = "AVyCApplicationInput",
                                   inherit = EventStudyApplicationInput,
                                   public = list(
-                                    task             = list(locale = 'en'),
+                                    #' @field key Key of the Parameter set.
                                     key              = "avyc",
-                                    benchmark_model  = list(benchmark_model = "garch"),
-                                    return_type      = list(return_type = "log"),
-                                    non_trading_days = list(non_trading_days = "later"),
+                                    #' @field test_statistics Available test statistics.
                                     test_statistics  = list(
                                       "aarcsvyt",
                                       "aarcsvyt",
-                                      # "aarlambdaz",
                                       "aarcsart",
                                       "aarcscart"
-                                    ),
-                                    request_file = list(
-                                      key  = "request_file",
-                                      type = "csv"
-                                    ),
-                                    firm_data    = list(
-                                      key  = "firm_data",
-                                      type = "csv"
-                                    ),
-                                    market_data  = list(
-                                      key  = "market_data",
-                                      type = "csv"
-                                    ),
-                                    # set email
-                                    setEMail = function(eMail) {
-                                      stop("This parameter is currently not working.")
-                                      self$task[["email"]] <- eMail
-                                    },
-                                    # set benchmark model
-                                    setBenchmarkModel = function(model) {
-                                      model <- match.arg(model, unname(private$allowedBenchmarkModel))
-                                      self$benchmark_model[["benchmark_model"]] <- model
-                                    },
-                                    # set return type
-                                    setReturnType = function(returnType) {
-                                      returnType <- match.arg(returnType, c("log", "simple"))
-                                      self$return_type[["return_type"]] <- returnType
-                                    },
-                                    # set non trading days
-                                    setNonTradingDays = function(nonTradingDays = "later") {
-                                      nonTradingDays <- match.arg(nonTradingDays, unname(private$allowedNonTradingDays))
-                                      self$non_trading_days[["non_trading_days"]] <- nonTradingDays
-                                    },
-                                    # set test statistics
-                                    setTestStatistics = function(testStatistics = NULL) {
-                                      if (is.null(testStatistics)) {
-                                        testStatistics <- private$allowedTestStatistics
-                                      }
-                                      testthat::expect(all(testStatistics %in% private$allowedTestStatistics), "Some non valid test statistics!")
-                                      self$test_statistics <- as.list(testStatistics)
-                                    },
-                                    # set reques, firm, and market data file 
-                                    setDataFiles = function(dataFiles  = c("request_file" = "01_RequestFile.csv", 
-                                                                           "firm_data"    = "02_firmData.csv", 
-                                                                           "market_data"  = "03_MarketData.csv")) {
-                                      check <- match.arg(names(dataFiles), c("request_file", "firm_data", "market_data"))
-                                    }
+                                    )
                                   ),
                                   private = list(
                                     allowedTestStatistics = c(
@@ -152,10 +103,6 @@ AVyCApplicationInput <- R6::R6Class(classname = "AVyCApplicationInput",
                                       "aarcsart",
                                       "aarcscart"
                                     ),
-                                    allowedBenchmarkModel = c("Garch(1, 1)" = "garch"),
-                                    allowedNonTradingDays = c("Take earlier trading day"     = "earlier", 
-                                                              "Take later trading day"       = "later", 
-                                                              "Keep non-trading day"         = "keep", 
-                                                              "Skip respective observations" = "skip")
+                                    allowedBenchmarkModel = c("Garch(1, 1)" = "garch")
                                   )
 )

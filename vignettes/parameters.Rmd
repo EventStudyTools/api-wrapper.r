@@ -1,0 +1,347 @@
+---
+title: "Event Study: Parameters"
+author: "Dr. Simon Müller"
+date: "`r Sys.Date()`"
+output:
+  html_document:
+    toc: true
+    toc_float: true
+    theme: readable
+    highlight: tango
+    css: kable.css
+vignette: >
+  %\VignetteIndexEntry{Event Study: Parameters}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# Motivation
+
+You can manually adjust all parameters in your R environment. Save this object 
+and use it in all your Event Studies. This vignette gives you an overview on how
+to set the correct parameters in R.
+
+
+# Options
+
+You are able to set some general options in the R option object. This enables you
+to setup your API credentials for all R sessions. 
+
+- *EventStudy.URL*: The API url (default: see bottom)
+- *EventStudy.KEY*: The API key (default: NULL)
+- *EventStudy.verbose*: Verbose level (range: 1 - 3, default: 3)
+- *EventStudy.tryAttempts*: Attempts to retry http request (default: 3)
+
+The options can be changed by the `options` function in R, e.g.
+
+```{r, eval=FALSE}
+options(EventStudy.URL = "http://api.eventstudytools.com")
+```
+
+The options can be retained by the 
+
+```{r, eval=FALSE}
+getOption("EventStudy.tryAttempts")
+```
+
+# Performing an Event Study (ARC, AVC, or AVyC)
+
+After you have set your parameters, you can easily perform your Event Study:
+
+```{r, eval=FALSE}
+apiUrl <- "http://api.eventstudytools.com"
+apiKey <- "Please insert your key here"
+
+# Setup API Connection
+estSetup <- EventStudyAPI$new(apiUrl)
+estSetup$authentication(apiKey)
+
+# Perform Event Study
+estResults <- estSetup$performEventStudy(estParams     = volatilityEstParams, 
+                                         dataFiles     = c("request_file" = "01_RequestFile.csv",
+                                                           "firm_data"    = "02_firmData.csv",
+                                                           "market_data"  = "03_marketData.csv"),
+                                         downloadFiles = T, # download result files
+                                         checkFiles    = T) # check input files                     
+```
+
+When you set your url or api key by *EventStudy.URL* and *EventStudy.KEY* then
+just leave input parameters in *.$new()* and *.$authentication()* empty. A default
+key and url can be set by:
+
+```{r, eval=FALSE}
+options(EventStudy.KEY = apiKey)
+```
+
+# General Event Study Parameters
+
+There are several parameters that are valid for all type of Event Studies 
+(Return, Volatility, and Volume Event Study). Each type of Event Study has its 
+own `R6` object that has to be initialized before you want to perform an Event
+Study. 
+
+- `ARCApplicationInput`: Return Event Study
+- `AVCApplicationInput`: Volume Event Study
+- `AVyCApplicationInput`: Volatility Event Study
+
+For the rest of this paragraph, we are working with a Return Event Study object.
+All parameters in this section can also applied to the other two objects.
+
+```{r, eval=FALSE}
+returnEstParams <- ARCApplicationInput$new()
+```
+
+## Return File Type
+
+The return type defines the type of the result file. Possible options are
+
+- **csv** (default): comma-separated file with `;` as delimiter,
+- **xls**: Excel 2007,
+- **xlsx**: Excel 2010 and newer, or
+- **ods**: OpenOffice Spreadsheet.
+
+**Usage:**
+```{r, eval=FALSE}
+returnEstParams$setResultFileType("xlsx")
+```
+
+
+## Return Type
+
+- **log** (default): Return calculation by using log
+- **simple**: Simple return calculation
+
+**Usage:**
+```{r, eval=FALSE}
+returnEstParams$setReturnType("simple")
+```
+
+
+## Adjustment of Non-trading Days
+
+- **earlier**: Take earlier trading day (Pick an earlier date if the event day falls on a non-trading day (e.g., a weekend day))
+- **later** (default): Take later trading day (Pick the next trading day if the event day falls on a non-trading day (e.g., a weekend day)).
+- **keep**: Keep non-trading day (Keep announcement dates even if they fall on a non-trading day (e.g., a weekend day))
+- **skip**: Skip respective observations (Skip observations with event dates falling on non-trading days (e.g., weekends))
+
+**Usage:**
+```{r, eval=FALSE}
+returnEstParams$setNonTradingDays("earlier")
+```
+
+
+# Abnormal Return Event Study
+
+For performing Return Event Studies you need to initialize an `ARCApplicationInput`
+ R6 object.
+
+```{r, eval=FALSE}
+returnEstParams <- ARCApplicationInput$new()
+```
+
+## Benchmark Models
+
+- **mm** (default): Market Model
+- **mm-sw**: Scholes/Williams Model
+- **cpmam**: Comparison Period Mean Adjusted
+- **ff3fm**: Fama-French 3 Factor Model
+- **ffm4fm**: Fama-French-Momentum 4 Factor Model
+- **garch**: GARCH (1, 1) Model
+- **egarch**: EGARCH (1, 1) Model
+
+**Usage:**
+```{r, eval=FALSE}
+returnEstParams$setBenchmarkModel("mm-sw")
+```
+
+
+## Test Statistics
+
+Per default all test statistics are activated. A detailed description can be 
+found on our [website](https://www.eventstudytools.com/significance-tests).
+
+*Parametric Test Statistics:*
+
+- t-Test:
+    - art
+    - cart
+    - abhart
+- Cross-Sectional Test (CSect T):
+    - aart
+    - caart
+    - abhart
+- Time-Series Standard Deviation or Crude Dependence Test (CDA T):
+    - aarcdat
+    - caarcdat
+- Patell or Standardized Residual Test (Patell Z):
+    - aarptlz
+    - caarptlz
+- Kolari and Pynnönen adjusted Patell or Standardized Residual Test (Adjusted Patell Z):
+    - aaraptlz
+    - caaraptlz
+- Standardized Cross-Sectional or BMP Test (StdCSect Z):
+    - aarbmpz
+    - caarbmpz
+- Kolari and Pynnönen Adjusted Standardized Cross-Sectional or BMP Test (Adjusted StdCSect Z) 
+    - aarabmpz
+    - caarabmpz
+- Skewness Corrected Test (Skewness Corrected T):
+    - aarskewadjt
+    - caarskewadjt
+    - abharskewadjt
+- Jackknife Test (Abbr.: Jackknife T) 
+    - aarjackknivet
+    - caarjackknivet
+
+**Non-Parametric Test Statistics:**
+
+- Corrado Rank Test (Rank Z):
+    - aarrankz
+    - caarrankz
+- Generalized Rank T Test (Generalized Rank T):
+    - aargrankt
+    - caargrankt
+- Generalized Rank Z Test (Generalized Rank Z):
+    - aargrankz
+    - caargrankz
+-  Cowan Generalized Sign Test (Generalized Sign Z) 
+    - aargsignz
+    - caargsignz
+
+**Usage:**
+```{r, eval=FALSE}
+returnEstParams$setTestStatistics(c("aarptlz", "aarrankz"))
+```
+
+
+# Abnormal Volume Event Study
+
+For performing Return Event Studies you need to initialize an `AVCApplicationInput`
+ R6 object.
+
+```{r, eval=FALSE}
+volumeEstParams <- AVCApplicationInput$new()
+```
+
+## Benchmark Models
+
+- **mm** (default): Market Model
+- **mm-sw**: Scholes/Williams Model
+- **cpmam**: Comparison Period Mean Adjusted
+- **ff3fm**: Fama-French 3 Factor Model
+- **ffm4fm**: Fama-French-Momentum 4 Factor Model
+
+**Usage:**
+```{r, eval=FALSE}
+volumeEstParams$setBenchmarkModel("mm-sw")
+```
+
+
+## Test Statistics
+
+Per default all test statistics are activated. A detailed description can be 
+found on our [website](https://www.eventstudytools.com/significance-tests).
+
+*Parametric Test Statistics:*
+
+- t-Test:
+    - art
+    - cart
+    - abhart
+- Cross-Sectional Test (CSect T):
+    - aart
+    - caart
+    - abhart
+- Time-Series Standard Deviation or Crude Dependence Test (CDA T):
+    - aarcdat
+    - caarcdat
+- Patell or Standardized Residual Test (Patell Z):
+    - aarptlz
+    - caarptlz
+- Kolari and Pynnönen adjusted Patell or Standardized Residual Test (Adjusted Patell Z):
+    - aaraptlz
+    - caaraptlz
+- Standardized Cross-Sectional or BMP Test (StdCSect Z):
+    - aarbmpz
+    - caarbmpz
+- Kolari and Pynnönen Adjusted Standardized Cross-Sectional or BMP Test (Adjusted StdCSect Z) 
+    - aarabmpz
+    - caarabmpz
+- Skewness Corrected Test (Skewness Corrected T):
+    - aarskewadjt
+    - caarskewadjt
+    - abharskewadjt
+- Jackknife Test (Abbr.: Jackknife T) 
+    - aarjackknivet
+    - caarjackknivet
+
+**Non-Parametric Test Statistics:**
+
+- Corrado Rank Test (Rank Z):
+    - aarrankz
+    - caarrankz
+- Generalized Rank T Test (Generalized Rank T):
+    - aargrankt
+    - caargrankt
+- Generalized Rank Z Test (Generalized Rank Z):
+    - aargrankz
+    - caargrankz
+-  Cowan Generalized Sign Test (Generalized Sign Z) 
+    - aargsignz
+    - caargsignz
+
+**Usage:**
+```{r, eval=FALSE}
+volumeEstParams$setTestStatistics(c("aarptlz", "aarrankz"))
+```
+
+
+# Abnormal Volatility Event Study
+
+For performing Return Event Studies you need to initialize an `AVyCApplicationInput`
+ R6 object.
+
+```{r, eval=FALSE}
+volatilityEstParams <- AVyCApplicationInput$new()
+```
+
+## Benchmark Models
+
+- **garch** (default): Garch(1, 1) Model
+
+
+## Test Statistics
+
+Per default all test statistics are activated. A detailed description can be 
+found on our [website](https://www.eventstudytools.com/volatiliy-event-study).
+
+**Volatility Test Statistics:**
+
+- Cross-Sectional Test for Abnormal Volatility
+    - aarcsvyt
+- Corrected Cross-Sectional Test for Abnormal Volatility
+    - aarcscvyt
+- AAR Volatility Ratio-Test
+    - aarlambdaz
+
+**Abnormal Return Test Statistics:**
+
+- Cross-Sectional Test for Abnormal Return
+    - aarcsart
+- Cross-Sectional-Corrected Test for Abnormal Return
+    - aarcscart
+
+**Usage:**
+```{r, eval=FALSE}
+volatilityEstParams$setTestStatistics(c("aarptlz", "aarrankz"))
+```
+
+# How to Cite
+
+Please cite our work in your [publication](https://www.eventstudytools.com/how-cite-eventstudytoolscom).
+

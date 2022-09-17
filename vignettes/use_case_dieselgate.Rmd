@@ -1,0 +1,232 @@
+---
+title: "Use Case: Dieselgate"
+author: "Dr. Simon Müller"
+date: "`r Sys.Date()`"
+output:
+  html_document:
+    toc: true
+    toc_float: true
+    theme: readable
+    highlight: tango
+    css: kable.css
+vignette: >
+  %\VignetteIndexEntry{Use Case: Dieselgate}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+Sys.setenv(event_study_api_key = "0245ed2e1d5011d8b87ba116f06e36ea")
+```
+
+# Overview
+
+Based on the Dieselgate scandal we want to show you how you are able to fetch data in R, perform an Event Study, and do some basic plots with our R package. 
+
+```{r, message=F, echo=T, eval=FALSE}
+library(tidyquant)
+library(dplyr)
+library(readr)
+```
+
+We use the package tidyquant to fetch the automotive stock data from Yahoo Finance. As we cannot get the total volume size from these companies through Yahoo Finance API, we do not perform a Volume Event Study in this vignette.
+
+Let's define the window from which we want to fetch the data of the German auto companies.
+```{r, eval=FALSE}
+startDate <- "2014-05-01"
+endDate <- "2015-12-31"
+```
+
+We focus us on the big five motor manufacturers in Germany, namely
+
+- VW Group
+    - VW
+    - Audi
+    - Porsche
+- Daimler
+- BMW
+
+```{r, eval=FALSE}
+# Firm Data
+firmSymbols <- c("VOW.DE", "AUDVF", "PAH3.DE", "BMW.DE", "MBG.DE")
+firmNames <- c("VW preferred", "Audi", "Porsche Automobil Hld", "BMW", "Daimler")
+firmSymbols %>% 
+  tidyquant::tq_get(from = startDate, to = endDate) %>% 
+  dplyr::mutate(date = format(date, "%d.%m.%Y")) -> firmData
+knitr::kable(head(firmData), pad=0)
+```
+
+As a reference market, we choose the DAX.
+
+```{r, eval=FALSE}
+# Index Data
+indexSymbol <- c("^GDAXI")
+indexName <- c("^GDAXI")
+indexSymbol %>% 
+  tidyquant::tq_get(from = startDate, to = endDate) %>% 
+  dplyr::mutate(date = format(date, "%d.%m.%Y")) -> indexData
+knitr::kable(head(indexData), pad=0)
+```
+
+After we have fetched all the data, we prepare the data files for the API call, as described in the introductory vignette. We design in this step already the volume data for later purposes. 
+
+```{r, eval=FALSE}
+# Price files for firms and market
+firmData %>% 
+  dplyr::select(symbol, date, adjusted) %>% 
+  readr::write_delim(file      = "02_firmDataPrice.csv", 
+                     delim     = ";", 
+                     col_names = F)
+
+indexData %>% 
+  dplyr::select(symbol, date, adjusted) %>% 
+  readr::write_delim(file      = "03_marketDataPrice.csv", 
+                     delim     = ";", 
+                     col_names = F)
+
+# Volume files for firms and market
+firmData %>% 
+  dplyr::select(symbol, date, volume) %>% 
+  readr::write_delim(file      = "02_firmDataVolume.csv", 
+                     delim     = ";", 
+                     col_names = F)
+
+indexData %>% 
+  dplyr::select(symbol, date, volume) %>% 
+  readr::write_delim(file      = "03_marketDataVolume.csv", 
+                     delim     = ";", 
+                     col_names = F)
+```
+
+Finally, we have to prepare the request file. The parameters for this Event Study are:
+
+- Estimation window: 250
+- Event window: -10 to 10
+- Event date: 18.09.2015
+
+You can find details of the request file format in the introductory vignette. 
+
+```{r, eval=FALSE}
+group <- c(rep("VW Group", 3), rep("Other", 2))
+request <- cbind(c(1:5), firmSymbols, rep(indexName, 5), rep("18.09.2015", 5), group, rep(-10, 5), rep(10, 5), rep(-11, 5), rep(250, 5))
+request %>% 
+  as.data.frame() %>% 
+  readr::write_delim("01_requestFile.csv", delim = ";", col_names = F)
+```
+
+
+# Perform Event Studies: Abnormal Return, Volume, and Volatility
+
+After the preparation steps, we are now able to start the calculations. We use the GARCH(1, 1) model in all types of Event Studies. 
+
+## Abnormal Return Event Study
+
+The following lines perform the Event Study using our generated data. Our package places the results per default in the results folder. 
+
+```{r, message=F, eval=F}
+event_study_api_key = Sys.getenv("event_study_api_key")
+
+library(EventStudy)
+est <- EventStudyAPI$new()
+est$authentication(apiKey = event_study_api_key)
+
+# get & set parameters for abnormal return Event Study
+# we use a garch model and csv as return
+# Attention: fitting a GARCH(1, 1) model is compute intensive
+esaParams <- EventStudy::ARCApplicationInput$new()
+esaParams$setResultFileType("csv")
+esaParams$setBenchmarkModel("garch")
+
+dataFiles <- c("request_file" = "01_requestFile.csv",
+               "firm_data"    = "02_firmDataPrice.csv",
+               "market_data"  = "03_marketDataPrice.csv")
+
+# check data files, you can do it also in our R6 class
+checkFiles(dataFiles)
+
+# now let us perform the Event Study
+est$performEventStudy(estParams     = esaParams, 
+                      dataFiles     = dataFiles, 
+                      downloadFiles = T)
+```
+
+After the analysis, you may continue your work in your toolset or parse the result files.
+
+```{r, message=F, eval=F}
+estParser <- ResultParser$new()
+analysis_report = estParser$get_analysis_report("results/analysis_report.csv")
+ar_result = estParser$get_ar("results/ar_results.csv", analysis_report)
+aar_result = estParser$get_aar("results/aar_results.csv")
+```
+
+Now, you can use the downloaded CSV (or your preferred data format) files in your analysis. While creating the `arEventStudy` object, we merge information from the request and result files.
+
+
+```{r, eval=F}
+knitr::kable(head(ar_result$ar_tbl))
+```
+
+
+The averaged abnormal return (aar) `data.frame` has the following shape:
+
+```{r, eval=F}
+knitr::kable(head(aar_result$aar_tbl))
+```
+
+```{r, eval=F}
+knitr::kable(head(aar_result$statistics_tbl))
+```
+```{r, eval=F}
+aar_result$plot_test_statistics()
+```
+```{r, eval=F}
+aar_result$plot(ci_statistics = "Patell Z")
+```
+```{r, eval=F}
+aar_result$plot_cumulative()
+```
+
+
+## Abnormal Volatility Event Study
+
+```{r, message=F, eval=F}
+event_study_api_key = Sys.getenv("event_study_api_key")
+est <- EventStudyAPI$new()
+est$authentication(apiKey = event_study_api_key)
+
+# get & set parameters for abnormal return Event Study
+esaParams <- EventStudy::AVyCApplicationInput$new()
+esaParams$setResultFileType("csv")
+ 
+est$performEventStudy(estParams     = esaParams, 
+                      dataFiles     = dataFiles,
+                      downloadFiles = T)
+```
+```{r, message=F, eval=F}
+estParser <- ResultParser$new()
+analysis_report = estParser$get_analysis_report("results/analysis_report.csv")
+ar_result = estParser$get_ar("results/ar_results.csv", analysis_report)
+aar_result = estParser$get_aar("results/aar_results.csv")
+```
+
+```{r, eval=F}
+aar_result$plot_cumulative()
+```
+
+
+## Abnormal Volatility Event Study
+
+```{r, message=F, eval=F}
+event_study_api_key = Sys.getenv("event_study_api_key")
+est <- EventStudyAPI$new()
+est$authentication(apiKey = event_study_api_key)
+
+# get & set parameters for abnormal return Event Study
+esaParams <- EventStudy::AVyCApplicationInput$new()
+esaParams$setResultFileType("csv")
+ 
+est$performEventStudy(estParams     = esaParams, 
+                      dataFiles     = dataFiles,
+                      downloadFiles = T)
+```

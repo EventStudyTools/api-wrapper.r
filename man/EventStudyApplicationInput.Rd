@@ -26,32 +26,33 @@ Please use: \link{ARCApplicationInput}.
 \section{Methods}{
 \subsection{Public methods}{
 \itemize{
-\item \href{#method-setup}{\code{EventStudyApplicationInput$setup()}}
-\item \href{#method-clone}{\code{EventStudyApplicationInput$clone()}}
+\item \href{#method-EventStudyApplicationInput-setup}{\code{EventStudyApplicationInput$setup()}}
+\item \href{#method-EventStudyApplicationInput-clone}{\code{EventStudyApplicationInput$clone()}}
 }
 }
-\if{html}{
-\out{<details open ><summary>Inherited methods</summary>}
-\itemize{
-\item \out{<span class="pkg-link" data-pkg="EventStudy" data-topic="ApplicationInputInterface" data-id="serialize">}\href{../../EventStudy/html/ApplicationInputInterface.html#method-serialize}{\code{EventStudy::ApplicationInputInterface$serialize()}}\out{</span>}
-\item \out{<span class="pkg-link" data-pkg="EventStudy" data-topic="ApplicationInputInterface" data-id="serializeToJson">}\href{../../EventStudy/html/ApplicationInputInterface.html#method-serializeToJson}{\code{EventStudy::ApplicationInputInterface$serializeToJson()}}\out{</span>}
-\item \out{<span class="pkg-link" data-pkg="EventStudy" data-topic="ApplicationInputInterface" data-id="setNamedList">}\href{../../EventStudy/html/ApplicationInputInterface.html#method-setNamedList}{\code{EventStudy::ApplicationInputInterface$setNamedList()}}\out{</span>}
-\item \out{<span class="pkg-link" data-pkg="EventStudy" data-topic="ApplicationInputInterface" data-id="setResultFileType">}\href{../../EventStudy/html/ApplicationInputInterface.html#method-setResultFileType}{\code{EventStudy::ApplicationInputInterface$setResultFileType()}}\out{</span>}
-}
-\out{</details>}
-}
+\if{html}{\out{
+<details open><summary>Inherited methods</summary>
+<ul>
+<li><span class="pkg-link" data-pkg="EventStudy" data-topic="ApplicationInputInterface" data-id="serialize"><a href='../../EventStudy/html/ApplicationInputInterface.html#method-ApplicationInputInterface-serialize'><code>EventStudy::ApplicationInputInterface$serialize()</code></a></span></li>
+<li><span class="pkg-link" data-pkg="EventStudy" data-topic="ApplicationInputInterface" data-id="serializeToJson"><a href='../../EventStudy/html/ApplicationInputInterface.html#method-ApplicationInputInterface-serializeToJson'><code>EventStudy::ApplicationInputInterface$serializeToJson()</code></a></span></li>
+<li><span class="pkg-link" data-pkg="EventStudy" data-topic="ApplicationInputInterface" data-id="setNamedList"><a href='../../EventStudy/html/ApplicationInputInterface.html#method-ApplicationInputInterface-setNamedList'><code>EventStudy::ApplicationInputInterface$setNamedList()</code></a></span></li>
+<li><span class="pkg-link" data-pkg="EventStudy" data-topic="ApplicationInputInterface" data-id="setResultFileType"><a href='../../EventStudy/html/ApplicationInputInterface.html#method-ApplicationInputInterface-setResultFileType'><code>EventStudy::ApplicationInputInterface$setResultFileType()</code></a></span></li>
+</ul>
+</details>
+}}
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-setup"></a>}}
-\if{latex}{\out{\hypertarget{method-setup}{}}}
+\if{html}{\out{<a id="method-EventStudyApplicationInput-setup"></a>}}
+\if{latex}{\out{\hypertarget{method-EventStudyApplicationInput-setup}{}}}
 \subsection{Method \code{setup()}}{
+Initialize parameters of an event study
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{EventStudyApplicationInput$setup()}\if{html}{\out{</div>}}
 }
 
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-clone"></a>}}
-\if{latex}{\out{\hypertarget{method-clone}{}}}
+\if{html}{\out{<a id="method-EventStudyApplicationInput-clone"></a>}}
+\if{latex}{\out{\hypertarget{method-EventStudyApplicationInput-clone}{}}}
 \subsection{Method \code{clone()}}{
 The objects of this class are cloneable with this method.
 \subsection{Usage}{

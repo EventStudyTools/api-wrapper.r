@@ -34,6 +34,7 @@
 EventStudyApplicationInput <- R6::R6Class(classname = "EventStudyApplicationInput",
                                           inherit = ApplicationInputInterface,
                                           public = list(
+                                            #' @description Initialize parameters of an event study
                                             setup = function() {
                                               self$parameters <- NULL
                                               parameters <- self$serialize()

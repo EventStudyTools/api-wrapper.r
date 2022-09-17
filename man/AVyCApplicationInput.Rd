@@ -76,89 +76,35 @@ estSetup$getTaskResults()
 \section{Super classes}{
 \code{\link[EventStudy:ApplicationInputInterface]{EventStudy::ApplicationInputInterface}} -> \code{\link[EventStudy:EventStudyApplicationInput]{EventStudy::EventStudyApplicationInput}} -> \code{AVyCApplicationInput}
 }
+\section{Public fields}{
+\if{html}{\out{<div class="r6-fields">}}
+\describe{
+\item{\code{key}}{Key of the Parameter set.}
+
+\item{\code{test_statistics}}{Available test statistics.}
+}
+\if{html}{\out{</div>}}
+}
 \section{Methods}{
 \subsection{Public methods}{
 \itemize{
-\item \href{#method-setEMail}{\code{AVyCApplicationInput$setEMail()}}
-\item \href{#method-setBenchmarkModel}{\code{AVyCApplicationInput$setBenchmarkModel()}}
-\item \href{#method-setReturnType}{\code{AVyCApplicationInput$setReturnType()}}
-\item \href{#method-setNonTradingDays}{\code{AVyCApplicationInput$setNonTradingDays()}}
-\item \href{#method-setTestStatistics}{\code{AVyCApplicationInput$setTestStatistics()}}
-\item \href{#method-setDataFiles}{\code{AVyCApplicationInput$setDataFiles()}}
-\item \href{#method-clone}{\code{AVyCApplicationInput$clone()}}
+\item \href{#method-AVyCApplicationInput-clone}{\code{AVyCApplicationInput$clone()}}
 }
 }
-\if{html}{
-\out{<details open ><summary>Inherited methods</summary>}
-\itemize{
-\item \out{<span class="pkg-link" data-pkg="EventStudy" data-topic="ApplicationInputInterface" data-id="serialize">}\href{../../EventStudy/html/ApplicationInputInterface.html#method-serialize}{\code{EventStudy::ApplicationInputInterface$serialize()}}\out{</span>}
-\item \out{<span class="pkg-link" data-pkg="EventStudy" data-topic="ApplicationInputInterface" data-id="serializeToJson">}\href{../../EventStudy/html/ApplicationInputInterface.html#method-serializeToJson}{\code{EventStudy::ApplicationInputInterface$serializeToJson()}}\out{</span>}
-\item \out{<span class="pkg-link" data-pkg="EventStudy" data-topic="ApplicationInputInterface" data-id="setNamedList">}\href{../../EventStudy/html/ApplicationInputInterface.html#method-setNamedList}{\code{EventStudy::ApplicationInputInterface$setNamedList()}}\out{</span>}
-\item \out{<span class="pkg-link" data-pkg="EventStudy" data-topic="ApplicationInputInterface" data-id="setResultFileType">}\href{../../EventStudy/html/ApplicationInputInterface.html#method-setResultFileType}{\code{EventStudy::ApplicationInputInterface$setResultFileType()}}\out{</span>}
-\item \out{<span class="pkg-link" data-pkg="EventStudy" data-topic="EventStudyApplicationInput" data-id="setup">}\href{../../EventStudy/html/EventStudyApplicationInput.html#method-setup}{\code{EventStudy::EventStudyApplicationInput$setup()}}\out{</span>}
-}
-\out{</details>}
-}
+\if{html}{\out{
+<details open><summary>Inherited methods</summary>
+<ul>
+<li><span class="pkg-link" data-pkg="EventStudy" data-topic="ApplicationInputInterface" data-id="serialize"><a href='../../EventStudy/html/ApplicationInputInterface.html#method-ApplicationInputInterface-serialize'><code>EventStudy::ApplicationInputInterface$serialize()</code></a></span></li>
+<li><span class="pkg-link" data-pkg="EventStudy" data-topic="ApplicationInputInterface" data-id="serializeToJson"><a href='../../EventStudy/html/ApplicationInputInterface.html#method-ApplicationInputInterface-serializeToJson'><code>EventStudy::ApplicationInputInterface$serializeToJson()</code></a></span></li>
+<li><span class="pkg-link" data-pkg="EventStudy" data-topic="ApplicationInputInterface" data-id="setNamedList"><a href='../../EventStudy/html/ApplicationInputInterface.html#method-ApplicationInputInterface-setNamedList'><code>EventStudy::ApplicationInputInterface$setNamedList()</code></a></span></li>
+<li><span class="pkg-link" data-pkg="EventStudy" data-topic="ApplicationInputInterface" data-id="setResultFileType"><a href='../../EventStudy/html/ApplicationInputInterface.html#method-ApplicationInputInterface-setResultFileType'><code>EventStudy::ApplicationInputInterface$setResultFileType()</code></a></span></li>
+<li><span class="pkg-link" data-pkg="EventStudy" data-topic="EventStudyApplicationInput" data-id="setup"><a href='../../EventStudy/html/EventStudyApplicationInput.html#method-EventStudyApplicationInput-setup'><code>EventStudy::EventStudyApplicationInput$setup()</code></a></span></li>
+</ul>
+</details>
+}}
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-setEMail"></a>}}
-\if{latex}{\out{\hypertarget{method-setEMail}{}}}
-\subsection{Method \code{setEMail()}}{
-\subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{AVyCApplicationInput$setEMail(eMail)}\if{html}{\out{</div>}}
-}
-
-}
-\if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-setBenchmarkModel"></a>}}
-\if{latex}{\out{\hypertarget{method-setBenchmarkModel}{}}}
-\subsection{Method \code{setBenchmarkModel()}}{
-\subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{AVyCApplicationInput$setBenchmarkModel(model)}\if{html}{\out{</div>}}
-}
-
-}
-\if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-setReturnType"></a>}}
-\if{latex}{\out{\hypertarget{method-setReturnType}{}}}
-\subsection{Method \code{setReturnType()}}{
-\subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{AVyCApplicationInput$setReturnType(returnType)}\if{html}{\out{</div>}}
-}
-
-}
-\if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-setNonTradingDays"></a>}}
-\if{latex}{\out{\hypertarget{method-setNonTradingDays}{}}}
-\subsection{Method \code{setNonTradingDays()}}{
-\subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{AVyCApplicationInput$setNonTradingDays(nonTradingDays = "later")}\if{html}{\out{</div>}}
-}
-
-}
-\if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-setTestStatistics"></a>}}
-\if{latex}{\out{\hypertarget{method-setTestStatistics}{}}}
-\subsection{Method \code{setTestStatistics()}}{
-\subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{AVyCApplicationInput$setTestStatistics(testStatistics = NULL)}\if{html}{\out{</div>}}
-}
-
-}
-\if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-setDataFiles"></a>}}
-\if{latex}{\out{\hypertarget{method-setDataFiles}{}}}
-\subsection{Method \code{setDataFiles()}}{
-\subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{AVyCApplicationInput$setDataFiles(
-  dataFiles = c(request_file = "01_RequestFile.csv", firm_data = "02_firmData.csv",
-    market_data = "03_MarketData.csv")
-)}\if{html}{\out{</div>}}
-}
-
-}
-\if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-clone"></a>}}
-\if{latex}{\out{\hypertarget{method-clone}{}}}
+\if{html}{\out{<a id="method-AVyCApplicationInput-clone"></a>}}
+\if{latex}{\out{\hypertarget{method-AVyCApplicationInput-clone}{}}}
 \subsection{Method \code{clone()}}{
 The objects of this class are cloneable with this method.
 \subsection{Usage}{

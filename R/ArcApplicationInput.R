@@ -81,14 +81,19 @@
 ARCApplicationInput <- R6::R6Class(classname = "ARCApplicationInput",
                                    inherit = EventStudyApplicationInput,
                                    public = list(
+                                     #' @field task Task description
                                      task             = list(locale = 'en'),
+                                     #' @field key Key
                                      key              = "arc",
+                                     #' @field benchmark_model Benchmark model
                                      benchmark_model  = list(benchmark_model = "mm"),
+                                     #' @field return_type Return type
                                      return_type      = list(return_type = "log"),
+                                     #' @field non_trading_days How to handle non-trading days
                                      non_trading_days = list(non_trading_days = "later"),
+                                     #' @field test_statistics Test statistics 
                                      test_statistics  = list("art", "cart", 
                                                              "aart", "caart", "abhart", 
-                                                             #"aarcdat", "caarcdat",
                                                              "aarptlz", "caarptlz", 
                                                              "aaraptlz", "caaraptlz", 
                                                              "aarbmpz", "caarbmpz", 
@@ -98,41 +103,53 @@ ARCApplicationInput <- R6::R6Class(classname = "ARCApplicationInput",
                                                              "aargrankt", "caargrankt",
                                                              "aargrankz", "caargrankz", 
                                                              "aargsignz", "caargsignz"
-                                                             #"aarjackknivet", "caarjackknivet"
                                      ),
+                                     #' @field request_file Request file 
                                      request_file = list(
                                        key  = "request_file",
                                        type = "csv"
                                      ),
+                                     #' @field firm_data Firm data
                                      firm_data    = list(
                                        key  = "firm_data",
                                        type = "csv"
                                      ),
+                                     #' @field market_data Market data
                                      market_data  = list(
                                        key  = "market_data",
                                        type = "csv"
                                      ),
-                                     # set email
+                                     #' @description  set email
+                                     #' 
+                                     #' @param eMail Your E-mail address
                                      setEMail = function(eMail) {
                                        stop("This parameter is currently not working.")
                                        self$task[["email"]] <- eMail
                                      },
-                                     # set benchmark model
+                                     #' @description set benchmark model
+                                     #' 
+                                     #' @param model benchmark model
                                      setBenchmarkModel = function(model) {
                                        model <- match.arg(model, unname(private$allowedBenchmarkModel))
                                        self$benchmark_model[["benchmark_model"]] <- model
                                      },
-                                     # set return type
+                                     #' @description Set return type
+                                     #' 
+                                     #' @param returnType return type
                                      setReturnType = function(returnType) {
                                        returnType <- match.arg(returnType, c("log", "simple"))
                                        self$return_type[["return_type"]] <- returnType
                                      },
-                                     # set non trading days
+                                     #' @description Set non trading days
+                                     #' 
+                                     #' @param nonTradingDays how to handle non traing days
                                      setNonTradingDays = function(nonTradingDays = "later") {
                                        nonTradingDays <- match.arg(nonTradingDays, unname(private$allowedNonTradingDays))
                                        self$non_trading_days[["non_trading_days"]] <- nonTradingDays
                                      },
-                                     # set test statistics
+                                     #' @description Set test statistics
+                                     #' 
+                                     #' @param testStatistics Test statistic
                                      setTestStatistics = function(testStatistics = NULL) {
                                        if (is.null(testStatistics)) {
                                          testStatistics <- private$allowedTestStatistics
@@ -140,7 +157,9 @@ ARCApplicationInput <- R6::R6Class(classname = "ARCApplicationInput",
                                        testthat::expect(all(testStatistics %in% private$allowedTestStatistics), "Some non valid test statistics!")
                                        self$test_statistics <- as.list(testStatistics)
                                      },
-                                     # set reques, firm, and market data file 
+                                     #' @description Set reques, firm, and market data file 
+                                     #' 
+                                     #' @param dataFiles Named vector of data files.
                                      setDataFiles = function(dataFiles  = c("request_file" = "01_RequestFile.csv", 
                                                                             "firm_data"    = "02_firmData.csv", 
                                                                             "market_data"  = "03_MarketData.csv")) {
@@ -151,7 +170,6 @@ ARCApplicationInput <- R6::R6Class(classname = "ARCApplicationInput",
                                      allowedTestStatistics = c(
                                        "art", "cart",
                                        "aart", "caart", "abhart",
-                                       # "aarcdat", "caarcdat",
                                        "aarptlz", "caarptlz", 
                                        "aaraptlz", "caaraptlz",
                                        "aarbmpz", "caarbmpz",
@@ -161,7 +179,6 @@ ARCApplicationInput <- R6::R6Class(classname = "ARCApplicationInput",
                                        "aargrankt", "caargrankt",
                                        "aargrankz", "caargrankz",
                                        "aargsignz", "caargsignz"
-                                       # "aarjackknivet", "caarjackknivet"
                                      ),
                                      allowedBenchmarkModel = c("Market Model"                        = "mm", 
                                                                "Scholes/Williams Model"              = "mm-sw", 
