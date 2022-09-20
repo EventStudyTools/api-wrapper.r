@@ -1,6 +1,8 @@
-[![cran version](http://www.r-pkg.org/badges/version/EventStudy)](https://cran.r-project.org/package=EventStudy) [![Downloads](http://cranlogs.r-pkg.org/badges/grand-total/EventStudy)](https://cran.r-project.org/package=EventStudy) [![rstudio mirror downloads](http://cranlogs.r-pkg.org/badges/EventStudy?)](https://cran.r-project.org/web/packages/EventStudy/)
+[![cran version](http://www.r-pkg.org/badges/version/EventStudy)](https://cran.r-project.org/package=EventStudy) [![Downloads](http://cranlogs.r-pkg.org/badges/grand-total/EventStudy)](https://cran.r-project.org/package=EventStudy) [![rstudio mirror downloads](http://cranlogs.r-pkg.org/badges/EventStudy?)](https://cran.r-project.org/package=EventStudy)
 
 # EventStudyTools (EST) API R Wrapper
+
+![](vignettes/landing_page.png)
 
 ## Purpose of this Package
 
@@ -8,13 +10,13 @@
 
     -   Some pre-tests on the data are applied such that you do not get some strange errors from the API.
 
--   Perform an Event Study using the <https://wwww.eventstudytools.com>API.
+-   Perform an Event Study using the <https://www.eventstudytools.com> API.
 
 -   Parse results to R and do additional analysis and plotting with results.
 
 ## Further Information & Help
 
--   The description of test statistics and available models can be found on [Significance Tests](https://www.eventstudytools.com/significance-tests) and [Expected Return Models](https://www.eventstudytools.com/expected-return-models).
+-   The description of test statistics and available models can be found on [Significance Tests](https://www.eventstudytools.com/significance-tests/) and [Expected Return Models](https://www.eventstudytools.com/expected-return-models/).
 
 -   If another consultancy on event study or panel data analysis is necessary, you may contact me, Dr. Simon Müller (sm@data-zoo.de).
 
@@ -35,7 +37,6 @@ CRAN Version
 
 ## Simple Example of an Abnormal Returns Calculator (ARC) launch
 
-    apiUrl <- "http://api.eventstudytools.com"
     apiKey <- "Insert API key"
 
     # Generate Example Data
@@ -43,7 +44,7 @@ CRAN Version
 
     library(EventStudy)
     # Setup API Connection
-    estSetup <- EventStudyAPI$new(apiUrl)
+    estSetup <- EventStudyAPI$new()
     estSetup$authentication(apiKey)
 
     # Type of Analysis
@@ -91,7 +92,7 @@ CRAN Version
 
 ## Details can be found in our vignettes
 
--   [Get Started](https://cran.rstudio.com/web/packages/EventStudy/vignettes/introduction_eventstudy.html)
--   [Use Case: Dieselgate](https://cran.rstudio.com/web/packages/EventStudy/vignettes/howto_eventstudy.html)
--   [Parameters](https://cran.rstudio.com/web/packages/EventStudy/vignettes/parameters_eventstudy.html)
--   [RStudio Addin](https://cran.rstudio.com/web/packages/EventStudy/vignettes/addin_eventstudy.html)
+-   [Get Started](https://cran.r-project.org/package=EventStudy/vignettes/introduction_eventstudy.html)
+-   [Use Case: Dieselgate](https://cran.r-project.org/package=EventStudy/vignettes/howto_eventstudy.html)
+-   [Parameters](https://cran.r-project.org/package=EventStudy/vignettes/parameters_eventstudy.html)
+-   [RStudio Addin](https://cran.r-project.org/package=EventStudy/vignettes/addin_eventstudy.html)

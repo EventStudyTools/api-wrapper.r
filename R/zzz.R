@@ -1,7 +1,7 @@
 .onLoad <- function(libname, pkgname) {
   op <- options()
   op.EventStudy <- list(
-    EventStudy.URL                     = "http://api.eventstudytools.com",
+    EventStudy.URL                     = "https://api.eventstudytools.com/",
     EventStudy.KEY                     = NULL,
     EventStudy.verbose                 = 3,
     EventStudy.tryAttempts             = 5,
