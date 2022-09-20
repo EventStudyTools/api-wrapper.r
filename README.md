@@ -16,7 +16,7 @@
 
 ## Further Information & Help
 
--   The description of test statistics and available models can be found on [Significance Tests](https://www.eventstudytools.com/significance-tests/) and [Expected Return Models](https://www.eventstudytools.com/expected-return-models/).
+-   The description of test statistics and available models can be found on [Significance Tests](https://www.eventstudytools.com/significance-tests) and [Expected Return Models](https://www.eventstudytools.com/expected-return-models).
 
 -   If another consultancy on event study or panel data analysis is necessary, you may contact me, Dr. Simon Müller (sm@data-zoo.de).
 

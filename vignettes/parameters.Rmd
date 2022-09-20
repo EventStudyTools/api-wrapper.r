@@ -343,5 +343,5 @@ volatilityEstParams$setTestStatistics(c("aarptlz", "aarrankz"))
 
 # How to Cite
 
-Please cite our work in your [publication](https://www.eventstudytools.com/how-cite-eventstudytoolscom).
+Please cite our work in your [publication](https://eventstudytools.com/how-cite-eventstudytoolscom).
 

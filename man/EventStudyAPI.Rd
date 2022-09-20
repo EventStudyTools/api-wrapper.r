@@ -2,13 +2,13 @@
 % Please edit documentation in R/EventStudyAPI.R
 \name{EventStudyAPI}
 \alias{EventStudyAPI}
-\title{API for \url{www.eventstudytools.com}}
+\title{APE Entry Point}
 \format{
 \code{\link[R6]{R6Class}} object
 }
 \description{
 R interface for performing Event Studies on 
-\url{www.eventstudytools.com}. 
+\url{https://www.eventstudytools.com}. 
 
 For more details see the help vignette:
 \code{vignette("introduction_eventstudy", package = "EventStudy")}
@@ -27,7 +27,7 @@ For usage details see \bold{Methods, Arguments, and Examples} sections.
   \item{\code{authentication(apiKey)}}{This method is used to 
   authenticate at \code{apiServerUrl}. A valid \code{APIkey} is 
   required. You can download a free key on our website: 
-  \url{www.eventstudytools.com}}
+  \url{https://www.eventstudytools.com}}
   \item{\code{performEventStudy(estParam)}}{This method starts an Event Study. 
   This method does all the analysis work for you}
   \item{\code{performDefaultEventStudy()}}{This method starts a default 

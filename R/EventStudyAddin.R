@@ -20,7 +20,7 @@
 #' @description 
 #' Call this as an addin to perform an Event Study on an interface in R. The 
 #' interface is similar to our Event Study web interface 
-#' \url{www.eventstudytools.com}.
+#' \url{https://www.eventstudytools.com}.
 #'
 #' @export
 EventStudyAddin <- function() {

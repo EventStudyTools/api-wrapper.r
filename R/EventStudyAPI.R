@@ -15,10 +15,10 @@
 # // along with EventStudy  If not, see <http://www.gnu.org/licenses/>.
 #' @name EventStudyAPI
 #' 
-#' @title API for \url{www.eventstudytools.com}
+#' @title APE Entry Point
 #' 
 #' @description R interface for performing Event Studies on 
-#' \url{www.eventstudytools.com}. 
+#' \url{https://www.eventstudytools.com}. 
 #'
 #' For more details see the help vignette:
 #' \code{vignette("introduction_eventstudy", package = "EventStudy")}
@@ -36,7 +36,7 @@
 #'   \item{\code{authentication(apiKey)}}{This method is used to 
 #'   authenticate at \code{apiServerUrl}. A valid \code{APIkey} is 
 #'   required. You can download a free key on our website: 
-#'   \url{www.eventstudytools.com}}
+#'   \url{https://www.eventstudytools.com}}
 #'   \item{\code{performEventStudy(estParam)}}{This method starts an Event Study. 
 #'   This method does all the analysis work for you}
 #'   \item{\code{performDefaultEventStudy()}}{This method starts a default 
