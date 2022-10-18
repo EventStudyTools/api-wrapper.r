@@ -2,7 +2,12 @@
 
 # EventStudyTools (EST) API R Wrapper
 
-![](vignettes/landing_page.png)
+
+# **[Get Started](https://cran.r-project.org/web/packages/EventStudy/vignettes/get_started.html)**
+
+<p align="center">
+<img src='vignettes/landing_page.png ' width='350' style="display: block; margin: 0 auto">
+</p>
 
 ## Purpose of this Package
 
@@ -92,7 +97,7 @@ CRAN Version
 
 ## Details can be found in our vignettes
 
--   [Get Started](https://cran.r-project.org/package=EventStudy/vignettes/introduction_eventstudy.html)
--   [Use Case: Dieselgate](https://cran.r-project.org/package=EventStudy/vignettes/howto_eventstudy.html)
--   [Parameters](https://cran.r-project.org/package=EventStudy/vignettes/parameters_eventstudy.html)
+-   [Get Started](https://cran.r-project.org/web/packages/EventStudy/vignettes/get_started.html)
+-   [Use Case: Dieselgate](https://cran.r-project.org/web/packages/EventStudy/vignettes/howto_eventstudy.html)
+-   [Parameters](https://cran.r-project.org/web/packages/EventStudy/vignettes/parameters.html)
 -   [RStudio Addin](https://cran.r-project.org/package=EventStudy/vignettes/addin_eventstudy.html)
