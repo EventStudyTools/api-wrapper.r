@@ -3,8 +3,8 @@ Type: Package
 Title: Event Study Analysis
 Description: Perform Event Studies from through our <https://EventStudyTools.com> Application Programming Interface, parse the results, visualize it, and / or use the results in further analysis.
 Author: Dr. Simon Mueller
-Date: 2022-09-17
-Version: 0.39
+Date: 2023-03-16
+Version: 0.39.1
 Encoding: UTF-8
 URL: https:://data-zoo.de
 Maintainer: Dr. Simon Mueller <sm@data-zoo.de>
@@ -33,7 +33,7 @@ Imports:
 Suggests: 
     knitr,
     rmarkdown
-BugReports: https://github.com/sipemu/eventstudy/issues
+BugReports: https://github.com/EventStudyTools/api-wrapper.r/issues
 LazyData: true
 RoxygenNote: 7.2.1
 VignetteBuilder: knitr
