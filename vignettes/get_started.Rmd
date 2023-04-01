@@ -24,17 +24,17 @@ knitr::opts_chunk$set(
 )
 ```
 
-# Motivation
+# Motivation {#motivation}
 
-The attached sample data and request files were constructed to illustrate the use of the EventStudyTools R-package.
+The provided sample data and request files serve as an example to demonstrate the functionality of the EventStudyTools R-package.
 
-The files hold data about the addition of several well known firms to the S&P 500 index in the late 1990s. With this data, the R package will investigate for you the question whether a company's stock value increases if the firm is added to the S&P 500 index. This is a common research question and has been addressed, among others, by Anthony W. Lynch and Richard R. Mendenha in a 1997 study: They found a positive effect of about 3.8% over the period starting the day after the announcement and ending the day before the effective date of the change.
+These files contain data related to the addition of several well-known firms to the S&P 500 index during the late 1990s. Using this data, the R package helps you examine whether a company's stock value increases upon being added to the S&P 500 index. This research question has been previously addressed, such as in a 1997 study by Anthony W. Lynch and Richard R. Mendenhall, which found a positive effect of approximately 3.8% from the day after the announcement to the day before the effective date of the change.
 
-You can use our R-package to easily investigate such and similar questions.
+With our R-package, you can conveniently explore this and similar research questions.
 
-# Perform an Event Study from R
+# Perform an Event Study from R {#perform-an-event-study-from-r}
 
-## Authentication
+## Authentication {#authentication}
 
 For performing an Event Study with our API you need:
 
@@ -44,6 +44,9 @@ For performing an Event Study with our API you need:
 You get an API key from our website [EventStudyTools](https://www.eventstudytools.com/api-access). In the first step we need to authenticate to the web API. There are three ways to handle this two parameters:
 
 ```{r, eval=FALSE}
+library(readr)
+library(EventStudy)
+
 apiUrl <- "http://api.eventstudytools.com"
 apiKey <- "Please insert your key here"
 ```
@@ -70,13 +73,9 @@ estSetup <- EventStudyAPI$new(apiUrl)
 estSetup$authentication(apiKey)
 ```
 
-This API package is designed to perform all analyses we provide on our website. Furthermore, all parameters can be set. You are able to set every parameter in R (we will provide more details later), or you can perform a fast Event Study with default parameters.
+This API package is designed to conduct all analyses available on our website while allowing for the customization of all parameters. You can either set every parameter in R (details provided later) or perform a quick Event Study using default parameters, giving you flexibility and control over your analysis.
 
-### Event Study with Defaults Parameters
-
-There will be soon a separate vignette for setting parameters.
-
-## Event Study Types
+## Event Study Types {#event-study-types}
 
 Our API offers different types of Event Studies:
 
@@ -98,7 +97,7 @@ The type of Event Study can be set by parameter:
 estType <- "arc"
 ```
 
-## Data Files
+## Data Files {#data-files}
 
 By default all data files must be named as follows. Furthermore, they have to be in the current directory:
 
@@ -114,7 +113,7 @@ dataFiles <- c("request_file" = "01_RequestFile.csv",
                "market_data"  = "03_MarketData.csv")
 ```
 
-## Results
+## Results {#results}
 
 All results will be written by default into the directory `./results`. You can easily change this path by setting it as a parameter:
 
@@ -126,7 +125,7 @@ resultPath <- "results"
 
 If the `resultPath` do not exist, the R package will create this directory.
 
-## Performing the Event Study
+## Performing the Event Study {#performing-the-event-study}
 
 Finally, the Event Study is performed by:
 
@@ -138,7 +137,7 @@ estResult <- estSetup$performDefaultEventStudy(estType    = estType,
 
 It will write all result files into the result directory. Furthermore, results will be parsed into a R object.
 
-# Data File Description
+# Data File Description {#data-file-description}
 
 For performing an Event Study we need three files (file names can be chosen arbitrarily):
 
@@ -146,12 +145,11 @@ For performing an Event Study we need three files (file names can be chosen arbi
 2.  A firm data file containing the stock data for each firm defined in the request file
 3.  A market data file containing the reference market data (multiple reference markets per study are possible)
 
-All files must be saved without header, semi-colon separated and dates has to be in following format: `30.04.1997`. In next section we will describe the file structure based on the S&P 500 example Event Study more detailed. You always find more information (if necessary) on our website: [EventStudyTools](https://www.eventstudytools.com/instructions-axc).
+All files must be saved without header, semi-colon separated and dates has to be in following format: 30.04.1997. In next section we will describe the file structure based on the S&P 500 example Event Study more detailed. You always find more information (if necessary) on our website: [EventStudyTools](https://www.eventstudytools.com/instructions-axc)..
 
-We added the S&P 500 example Event Study to this package. The three necessary files can be easily generated by following command:
+We added the S&P 500 example Event Study to this package. The three above mentioned files can be generated by following command:
 
 ```{r, message=FALSE, warning=FALSE, results='hide'}
-library(EventStudy)
 getSP500ExampleFiles()
 ```
 
@@ -161,11 +159,9 @@ We named the request and data files in following manner:
 -   `02_FirmData.csv`
 -   `03_MarketData.csv`
 
-In your analysis, you can name them as you want.
+## Event Definitions: `01_RequestFile.csv` {#event-definitions-01_requestfile.csv}
 
-## Event Definitions: `01_RequestFile.csv`
-
-This csv file contains the event definitions. It contains 9 columns. The order must be in the following way, as the columns are not named in the csv.
+This CSV file contains the event definitions and consists of 9 columns. The order must follow the sequence below, as the columns are unnamed in the CSV.
 
 -   **Event ID** [Integer]: A unique event identifier
 -   **Firm ID** [String]: The firm name or stock ID. This ID must match the ID in the firm data
@@ -177,11 +173,10 @@ This csv file contains the event definitions. It contains 9 columns. The order m
 -   **End of Estimation Window** [Integer]: This negative value defines the end of the estimation window (counted from event day).
 -   **Estimation Window Length** [Integer]: Length of the estimation window
 
-In the following example, we have an event window of `[-2, 2]` (an event window of length `5`), an estimation window of length `120`, and the estimation window ends `11` days before the event.
+In the example below, we have an event window of [-2, 2] (an event window of length 5), an estimation window of length 120, and the estimation window ending 11 days before the event.
 
 ```{r, message=FALSE}
-library(readr)
-df <- readr::read_delim("01_RequestFile.csv", col_names = F, delim = ";")
+df <- read_delim("01_RequestFile.csv", col_names = F, delim = ";")
 names(df) <- c("Event ID", "Firm ID", "Market ID", "Event Date", "Grouping Variable", "Start Event Window", "End Event Window", "End of Estimation Window", "Estimation Window Length")
 knitr::kable(head(df), pad=0)
 ```
@@ -190,7 +185,7 @@ knitr::kable(head(df), pad=0)
 
 The first column (Event IDs) must be unique and numeric.
 
-## Firm Data: `02_FirmData.csv`
+## Firm Data: `02_FirmData.csv` {#firm-data-02_firmdata.csv}
 
 The stock data for each firm defined in the request file. It contains 3 columns.
 
@@ -207,7 +202,7 @@ names(df) <- c("Firm ID", "Date", "Closing Price")
 knitr::kable(head(df))
 ```
 
-## Firm Data: `03_MarketData.csv`
+## Firm Data: `03_MarketData.csv` {#firm-data-03_marketdata.csv}
 
 This file is similary structured as `02_FirmData.csv`:
 
@@ -226,15 +221,15 @@ knitr::kable(head(df))
 
 You are also able to apply a *Fama-French 3-Factor Model* or a *Fama-French Momentum-4-Factor Model*. This will change the necessary data you need for performing an Event Study (e.g. by adding Fama-French Factors). You find more information at <https://www.eventstudytools.com/instructions-axc>.
 
-# More Vignettes
+# More Vignettes {#more-vignettes}
 
 1.  Event Study: Parameters: In this Vignette we show how you can set parameters and which parameters are allowed.
-2.  Data Preparation: In this Vignette we show you how to get and prepare data for your Event Study from R.
+2.  Use case: Dieselgate.
 3.  RStudio Addins: We wrote a RStudio addin for performing different types of Event Studies
     -   Abnormal Return Event Study
     -   Abnormal Volume Event Study
     -   Abnormal Volatility Event Study
 
-# How to Cite
+# How to Cite {#how-to-cite}
 
 Please cite our work in your [publication](https://eventstudytools.com/how-cite-eventstudytoolscom).

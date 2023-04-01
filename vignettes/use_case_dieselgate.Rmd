@@ -20,32 +20,46 @@ knitr::opts_chunk$set(echo = TRUE)
 Sys.setenv(event_study_api_key = "0245ed2e1d5011d8b87ba116f06e36ea")
 ```
 
-# Overview
+# Summary of the Dieselgate {#summary-of-the-dieselgate}
 
-Based on the Dieselgate scandal we want to show you how you are able to fetch data in R, perform an Event Study, and do some basic plots with our R package. 
+Dieselgate refers to the emissions scandal that erupted in September 2015 when the United States Environmental Protection Agency (EPA) revealed that Volkswagen Group (VW) had been using illegal software, known as "defeat devices," in their diesel cars to cheat on emissions tests. The software allowed VW vehicles to meet regulatory standards during testing, while emitting up to 40 times the allowed levels of nitrogen oxides (NOx) during real-world driving. The scandal affected around 11 million vehicles worldwide and implicated several VW brands, including Audi and Porsche.
+
+The revelation severely damaged VW's reputation, leading to the resignation of its CEO, Martin Winterkorn, and a massive loss in market value. The company faced billions of dollars in fines, penalties, and compensation payments, along with the cost of recalling and fixing the affected vehicles. Dieselgate also prompted widespread investigations into other automakers, raising public awareness about the environmental impact of diesel vehicles and accelerating the global shift towards electric vehicles.
+
+## Result Summary
+
+# An Event Study Step-by-Step
+
+### Data Preparation
+
+In this tutorial, we will guide you through an event study by demonstrating how to efficiently retrieve data in R, conduct the event analysis, and create visually appealing plots using our specialized R package.
 
 ```{r, message=F, echo=T, eval=FALSE}
 library(tidyquant)
 library(dplyr)
 library(readr)
+library(plotly)
+
+library(EventStudy)
 ```
 
-We use the package tidyquant to fetch the automotive stock data from Yahoo Finance. As we cannot get the total volume size from these companies through Yahoo Finance API, we do not perform a Volume Event Study in this vignette.
+We utilize the `tidyquant` package to obtain automotive stock data from Yahoo Finance. However, since the Yahoo Finance API does not provide the total volume size for these companies, we will not conduct a Volume Event Study in this tutorial.
 
-Let's define the window from which we want to fetch the data of the German auto companies.
+Now, let's establish the time frame for acquiring data on German automotive companies.
+
 ```{r, eval=FALSE}
 startDate <- "2014-05-01"
 endDate <- "2015-12-31"
 ```
 
-We focus us on the big five motor manufacturers in Germany, namely
+Our analysis concentrates on the top five German automobile manufacturers, specifically:
 
-- VW Group
-    - VW
-    - Audi
-    - Porsche
-- Daimler
-- BMW
+-   VW Group
+    -   VW
+    -   Audi
+    -   Porsche
+-   Daimler
+-   BMW
 
 ```{r, eval=FALSE}
 # Firm Data
@@ -55,9 +69,31 @@ firmSymbols %>%
   tidyquant::tq_get(from = startDate, to = endDate) %>% 
   dplyr::mutate(date = format(date, "%d.%m.%Y")) -> firmData
 knitr::kable(head(firmData), pad=0)
+
+plots_list <- list()
+
+for (symbol in unique(firmData$symbol)) {
+  plot_data <- firmData %>% filter(symbol == !!symbol)
+  plot_data$date <- as.Date(plot_data$date, format="%d.%m.%Y")
+  
+  plot <- plot_ly(data = plot_data) %>%
+    add_trace(x = ~date, y = ~adjusted, type = 'scatter', mode = 'lines', name = symbol) %>%
+    layout(xaxis = list(title = "Date"),
+           yaxis = list(title = "Adjusted Close", rangemode = "tozero")) %>%
+    add_annotations(x = as.Date("2015-09-18"),
+                    y = max(plot_data$adjusted),
+                    text = "Event Date",
+                    showarrow = TRUE,
+                    font = list(size = 12))
+  
+  plots_list[[symbol]] <- plot
+}
+
+# Combine individual plots into a single plot
+subplot(plots_list, nrows = length(plots_list), margin = 0.05)
 ```
 
-As a reference market, we choose the DAX.
+We have selected the DAX as our reference market for comparison.
 
 ```{r, eval=FALSE}
 # Index Data
@@ -66,10 +102,9 @@ indexName <- c("^GDAXI")
 indexSymbol %>% 
   tidyquant::tq_get(from = startDate, to = endDate) %>% 
   dplyr::mutate(date = format(date, "%d.%m.%Y")) -> indexData
-knitr::kable(head(indexData), pad=0)
 ```
 
-After we have fetched all the data, we prepare the data files for the API call, as described in the introductory vignette. We design in this step already the volume data for later purposes. 
+Once we have gathered all the necessary data, we will proceed to prepare the data files for the API call, following the process outlined in the introductory tutorial. During this phase, we will also structure the volume data for future use.
 
 ```{r, eval=FALSE}
 # Price files for firms and market
@@ -99,13 +134,13 @@ indexData %>%
                      col_names = F)
 ```
 
-Finally, we have to prepare the request file. The parameters for this Event Study are:
+Lastly, we need to assemble the request file. For this Event Study, the parameters are as follows:
 
-- Estimation window: 250
-- Event window: -10 to 10
-- Event date: 18.09.2015
+-   Estimation window: 250
+-   Event window: -10 to 10
+-   Event date: September 18, 2015
 
-You can find details of the request file format in the introductory vignette. 
+For more information on the request file format, please refer to the introductory tutorial.
 
 ```{r, eval=FALSE}
 group <- c(rep("VW Group", 3), rep("Other", 2))
@@ -115,25 +150,55 @@ request %>%
   readr::write_delim("01_requestFile.csv", delim = ";", col_names = F)
 ```
 
+### GARCH(1, 1)-Model
 
-# Perform Event Studies: Abnormal Return, Volume, and Volatility
+With the preparatory steps completed, we can now proceed with the calculations. We will employ the `GARCH(1,1)` model for all types of Event Studies. The `GARCH(1,1)` model, which stands for Generalized Autoregressive Conditional Heteroskedasticity, offers several advantages when used in event studies:
 
-After the preparation steps, we are now able to start the calculations. We use the GARCH(1, 1) model in all types of Event Studies. 
+-   **Capturing volatility clustering:** The `GARCH(1,1)` model accounts for the changing volatility patterns commonly observed in financial time series data. It captures periods of high and low volatility, enabling more accurate predictions of security returns during events.
 
-## Abnormal Return Event Study
+-   **Improved estimation:** By modeling conditional volatility, the `GARCH(1,1)` model allows for a better estimation of abnormal returns during an event window. This improvement leads to more accurate statistical inferences about the impact of the event on the stock's returns.
 
-The following lines perform the Event Study using our generated data. Our package places the results per default in the results folder. 
+-   **Flexibility**: The `GARCH(1,1)` model is relatively simple compared to other higher-order GARCH models, making it computationally efficient and easier to implement. Despite its simplicity, it often provides a satisfactory representation of the volatility dynamics in financial time series data.
+
+-   **Robustness**: The `GARCH(1,1)` model has been widely used and tested in various financial settings, making it a well-established and reliable method for estimating volatility in event studies.
+
+In summary, the `GARCH(1,1)` model's ability to capture volatility clustering, its improved estimation of abnormal returns, its flexibility, and its robustness make it an advantageous choice for event studies.
+
+### Execution: Event Study {#abnormal-return-event-study}
+
+This R code is designed to perform an event study using the EventStudy package and the EventStudy API. The following steps are executed:
+
+1.  Retrieve the API key for the EventStudy API from the system environment variables and store it in the **`event_study_api_key`** variable.
+
+2.  Load the EventStudy package and create a new EventStudyAPI object named **`est`**.
+
+3.  Authenticate the **`est`** object with the API key.
+
+4.  Set up the parameters for the abnormal return event study. A `GARCH(1,1)` model is used as the benchmark, and the results will be returned in CSV format. These settings are stored in the **`esaParams`** object.
+
+5.  Define the data files required for the event study: the request file, the firm data file, and the market data file. These are stored in the **`dataFiles`** vector.
+
+6.  Check the validity of the data files using the **`checkFiles()`** function.
+
+7.  Perform the event study using the **`performEventStudy()`** function. The function takes the following inputs:
+
+    -   **`estParams`**: The parameters for the event study (in this case, the GARCH model and CSV file format), as defined in the **`esaParams`** object.
+
+    -   **`dataFiles`**: The data files required for the event study (request file, firm data, and market data), as defined in the **`dataFiles`** vector.
+
+    -   **`downloadFiles`**: If set to **`TRUE`**, the result files will be downloaded.
+
+The code, in summary, sets up the necessary parameters and data files for an event study using the `GARCH(1,1)` model as a benchmark. It then performs the event study and downloads the result files in CSV format. By default, our package stores the results in the results folder.
 
 ```{r, message=F, eval=F}
-event_study_api_key = Sys.getenv("event_study_api_key")
+event_study_api_key = "f332dd4f5ba15e3f09cdd21d45c8476a" # Sys.getenv("event_study_api_key")
 
-library(EventStudy)
 est <- EventStudyAPI$new()
 est$authentication(apiKey = event_study_api_key)
 
 # get & set parameters for abnormal return Event Study
 # we use a garch model and csv as return
-# Attention: fitting a GARCH(1, 1) model is compute intensive
+# Attention: fitting a GARCH(1, 1) model is more compute intensive than the market model
 esaParams <- EventStudy::ARCApplicationInput$new()
 esaParams$setResultFileType("csv")
 esaParams$setBenchmarkModel("garch")
@@ -142,91 +207,125 @@ dataFiles <- c("request_file" = "01_requestFile.csv",
                "firm_data"    = "02_firmDataPrice.csv",
                "market_data"  = "03_marketDataPrice.csv")
 
-# check data files, you can do it also in our R6 class
-checkFiles(dataFiles)
-
 # now let us perform the Event Study
 est$performEventStudy(estParams     = esaParams, 
                       dataFiles     = dataFiles, 
                       downloadFiles = T)
 ```
 
-After the analysis, you may continue your work in your toolset or parse the result files.
+## Result Collection and Interpretation
+
+The code snippet you provided demonstrates how to use the **`ResultParser`** class to parse the results of an event study analysis using the EventStudy package in R. Here's a brief explanation of each line:
+
+1.  **`estParser <- ResultParser$new()`**: Initialize a new instance of the **`ResultParser`** class.
+
+2.  **`analysis_report = estParser$get_analysis_report("results/analysis_report.csv")`**: Read the analysis report file and store the result in the **`analysis_report`** variable.
+
+3.  **`ar_result = estParser$get_ar("results/ar_results.csv", analysis_report)`**: Read the abnormal return (AR) results file and store the parsed result in the **`ar_result`** variable.
+
+4.  **`car_result = estParser$get_car("results/car_results.csv", analysis_report)`**: Read the cumulative abnormal return (CAR) results file and store the parsed result in the **`car_result`** variable.
+
+5.  **`aar_result = estParser$get_aar("results/aar_results.csv")`**: Read the average abnormal return (AAR) results file and store the parsed result in the **`aar_result`** variable.
+
+6.  **`caar_result = estParser$get_caar("results/caar_results.csv")`**: Read the cumulative average abnormal return (CAAR) results file and store the parsed result in the **`caar_result`** variable.
+
+After running this code, you will have parsed the results of the event study analysis into variables **`ar_result`**, **`car_result`**, **`aar_result`**, and **`caar_result`**, which can be used for further analysis and visualization.
 
 ```{r, message=F, eval=F}
 estParser <- ResultParser$new()
 analysis_report = estParser$get_analysis_report("results/analysis_report.csv")
+
 ar_result = estParser$get_ar("results/ar_results.csv", analysis_report)
+car_result = estParser$get_car("results/car_results.csv", analysis_report)
+
 aar_result = estParser$get_aar("results/aar_results.csv")
+caar_result = estParser$get_caar("results/caar_results.csv")
 ```
 
-Now, you can use the downloaded CSV (or your preferred data format) files in your analysis. While creating the `arEventStudy` object, we merge information from the request and result files.
+At this point, you can incorporate the downloaded CSV files (or any other preferred data format) into your analysis. As we create the `arEventStudy` object, we combine information from both the request and result files.
 
+### Abnormal Returns: **`ar_result`**
+
+The **`ar_result$ar_tbl`** output displays the results of the abnormal return (AR) calculations for each event. The table consists of the following columns:
+
+1.  **Event ID**: A unique identifier for the event
+
+2.  **Day Relative to Event**: The day relative to the event date, where negative values represent days before the event and positive values represent days after the event
+
+3.  **AR**: The abnormal return value calculated for the specific day relative to the event
+
+4.  **t-value**: The t-statistic associated with the abnormal return, used to assess the statistical significance of the AR
+
+5.  **Firm**: The name or stock ID of the firm involved in the event
+
+6.  **Reference Market**: The reference market ID used for the analysis (e.g., S&P 500)
+
+7.  **Estimation Window Length**: The length of the estimation window used for the calculations
+
+In this output, you can observe the abnormal returns and their corresponding t-values for each day in the event window, allowing you to analyze the impact of the event on the stock prices of the firms involved.
 
 ```{r, eval=F}
 knitr::kable(head(ar_result$ar_tbl))
 ```
 
+### Cumulative Abnormal Returns: **`car_result`**
 
-The averaged abnormal return (aar) `data.frame` has the following shape:
+```{r, eval=F}
+knitr::kable(head(car_result$ar_tbl))
+```
+
+### Averaged Abnormal Returns: **`aar_result`**
+
+#### AAR: Result Values
+
+This output allows you to analyze the average impact of events on stock prices for different groups, taking into account the number of positive and negative abnormal returns for each day in the event window.
+
+The **`aar_result$aar_tbl`** output presents the results of the average abnormal return (AAR) calculations for each day in the event window, grouped by a specific variable (in this case, "Addition"). The table consists of the following columns:
+
+1.  **Group**: The group variable used to categorize events (e.g., "Addition")
+
+2.  **Day Relative to Event**: The day relative to the event date, where negative values represent days before the event and positive values represent days after the event
+
+3.  **AAR**: The average abnormal return calculated for the specific day relative to the event and the group
+
+4.  **N**: The total number of events in the group
+
+5.  **Pos**: The number of events in the group with positive abnormal returns for the specific day
+
+6.  **Neg**: The number of events in the group with negative abnormal returns for the specific day
 
 ```{r, eval=F}
 knitr::kable(head(aar_result$aar_tbl))
 ```
 
+#### AAR: Test Statistics
+
+The **`aar_result$statistics_tbl`** output presents the results of the test statistics for each day in the event window, grouped by a specific variable (in this case, "Addition"). The table consists of the following columns:
+
+1.  **Group**: The group variable used to categorize events (e.g., "Addition")
+
+2.  **Test Statistic**: The test statistic used to analyze the average abnormal return (AAR) (e.g., Patell Z, Generalized Sign Z)
+
+3.  **Day Relative to Event**: The day relative to the event date, where negative values represent days before the event and positive values represent days after the event
+
+4.  **Statistics**: The calculated test statistic value for the specific day relative to the event and the group
+
+5.  **P Values**: The p-value associated with the test statistic, which indicates the probability of observing the given statistic if the null hypothesis (i.e., no abnormal returns) is true
+
+This output allows you to evaluate the statistical significance of the average abnormal returns for different groups, using various test statistics for each day in the event window. P-values less than a predetermined significance level (e.g., 0.05) indicate that the observed abnormal returns are unlikely to have occurred by chance alone, suggesting the presence of an event-related effect on stock prices.
+
 ```{r, eval=F}
 knitr::kable(head(aar_result$statistics_tbl))
 ```
+
 ```{r, eval=F}
 aar_result$plot_test_statistics()
 ```
+
 ```{r, eval=F}
 aar_result$plot(ci_statistics = "Patell Z")
 ```
-```{r, eval=F}
-aar_result$plot_cumulative()
-```
-
-
-## Abnormal Volatility Event Study
-
-```{r, message=F, eval=F}
-event_study_api_key = Sys.getenv("event_study_api_key")
-est <- EventStudyAPI$new()
-est$authentication(apiKey = event_study_api_key)
-
-# get & set parameters for abnormal return Event Study
-esaParams <- EventStudy::AVyCApplicationInput$new()
-esaParams$setResultFileType("csv")
- 
-est$performEventStudy(estParams     = esaParams, 
-                      dataFiles     = dataFiles,
-                      downloadFiles = T)
-```
-```{r, message=F, eval=F}
-estParser <- ResultParser$new()
-analysis_report = estParser$get_analysis_report("results/analysis_report.csv")
-ar_result = estParser$get_ar("results/ar_results.csv", analysis_report)
-aar_result = estParser$get_aar("results/aar_results.csv")
-```
 
 ```{r, eval=F}
 aar_result$plot_cumulative()
-```
-
-
-## Abnormal Volatility Event Study
-
-```{r, message=F, eval=F}
-event_study_api_key = Sys.getenv("event_study_api_key")
-est <- EventStudyAPI$new()
-est$authentication(apiKey = event_study_api_key)
-
-# get & set parameters for abnormal return Event Study
-esaParams <- EventStudy::AVyCApplicationInput$new()
-esaParams$setResultFileType("csv")
- 
-est$performEventStudy(estParams     = esaParams, 
-                      dataFiles     = dataFiles,
-                      downloadFiles = T)
 ```

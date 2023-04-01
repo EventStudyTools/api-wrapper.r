@@ -19,24 +19,18 @@ vignette: >
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
-# Motivation
+# Motivation {#motivation}
 
-We developed an easy to use and intuitive Event Study addin for the popular R IDE from RStudio. The addin is designed in view to our web frontend, but with the advantage that the user can immediately work with the results from R. Furthermore, as there are many test statistics we hope that this addin helps you to perform your Event Study in a faster. 
+We have developed a user-friendly and intuitive Event Study add-in for the widely-used RStudio IDE. Designed with a similar interface as our web frontend, this add-in offers users the advantage of seamlessly working with the results directly in R. Additionally, the add-in supports numerous test statistics, aiming to expedite your Event Study process and enhance efficiency.
 
-# How to Use
+# How to Use {#how-to-use}
 
-With the installation of the EventStudy package, our RStudio Addin (if you use RStudio as IDE) is automatically installed. The addin can be easily started by clicking *Event Study* in the Addins menu. If you do not find the addin in the menu, then you may find it in the window that is opened in *Browse Addins...*.
+Upon installing the EventStudy package, our RStudio Add-in is automatically installed as well (provided you are using RStudio as your IDE). You can easily launch the add-in by clicking on *Event Study* in the Add-ins menu. If you are unable to locate the add-in in the menu, you can find it by selecting *Browse Add-ins\...*, which opens a window containing the available add-ins.
 
-![Starting our Addin](start_addin.png "How to start our Addin")
+Within the add-in, you can work in a manner similar to our self-explanatory web API interface. However, unlike the web API interface, it is essential to use an EventStudyTools key, which can be obtained from our [website](https://www.eventstudytools.com/).
 
-You can work then in the addin as on our web API interface that is self-explanatory. Beside our web API interface it is mandatory to use a EventStudyTools key that can be copied from our [web page](https://www.eventstudytools.com/). 
+Please note that we have designed the add-in to include an upload field for the three required data files (request, firm, and market data). Although we utilize only the file path internally, the upload field simplifies the process for users.
 
-One remark: by design we used an upload field for the three data files (request, firm, and market data). Internally, we use just the path to the file.
-
-![Event Study Addin](est_addin.png "Event Study Addin")
-
-
-
-# How to Cite
+# How to Cite {#how-to-cite}
 
 Please cite our work in your [publication](https://eventstudytools.com/how-cite-eventstudytoolscom).
