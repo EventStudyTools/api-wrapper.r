@@ -37,7 +37,7 @@ enables you to setup your API credentials for all R sessions.
 -   *EventStudy.KEY*: The API key (default: NULL)
 -   *EventStudy.verbose*: Verbose level (range: 1 - 3, default: 3)
 -   *EventStudy.tryAttempts*: Attempts to retry http request (default:
-    3)
+    3)  
 
 The options can be changed by the `options` function in R, e.g.
 
@@ -111,6 +111,8 @@ are
 -   **xlsx**: Excel 2010 and newer, or
 -   **ods**: OpenOffice Spreadsheet.
 
+The R API just works with CSV files.
+
 **Usage:**
 
 ```{r, eval=FALSE}
@@ -158,7 +160,7 @@ returnEstParams <- ARCApplicationInput$new()
 
 A comparison of our models can be found on our website.
 
--   **mm** (default): *Market Model* \
+-   **mm** (default): *Market Model*\
     The Market Model is a statistical method used to estimate the
     relationship between a stock's returns and overall market returns,
     often represented by a market index, through a linear regression

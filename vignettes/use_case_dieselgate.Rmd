@@ -26,11 +26,11 @@ Dieselgate refers to the emissions scandal that erupted in September 2015 when t
 
 The revelation severely damaged VW's reputation, leading to the resignation of its CEO, Martin Winterkorn, and a massive loss in market value. The company faced billions of dollars in fines, penalties, and compensation payments, along with the cost of recalling and fixing the affected vehicles. Dieselgate also prompted widespread investigations into other automakers, raising public awareness about the environmental impact of diesel vehicles and accelerating the global shift towards electric vehicles.
 
-## Result Summary
+## Result Summary {#result-summary}
 
-# An Event Study Step-by-Step
+# An Event Study Step-by-Step {#an-event-study-step-by-step}
 
-### Data Preparation
+### Data Preparation {#data-preparation}
 
 In this tutorial, we will guide you through an event study by demonstrating how to efficiently retrieve data in R, conduct the event analysis, and create visually appealing plots using our specialized R package.
 
@@ -56,35 +56,34 @@ Our analysis concentrates on the top five German automobile manufacturers, speci
 
 -   VW Group
     -   VW
-    -   Audi
     -   Porsche
 -   Daimler
 -   BMW
 
 ```{r, eval=FALSE}
 # Firm Data
-firmSymbols <- c("VOW.DE", "AUDVF", "PAH3.DE", "BMW.DE", "MBG.DE")
-firmNames <- c("VW preferred", "Audi", "Porsche Automobil Hld", "BMW", "Daimler")
+firmSymbols <- c("VOW.DE", "PAH3.DE", "BMW.DE", "MBG.DE")
+firmNames <- c("VW preferred", "Porsche Automobil Hld", "BMW", "Daimler")
 firmSymbols %>% 
   tidyquant::tq_get(from = startDate, to = endDate) %>% 
   dplyr::mutate(date = format(date, "%d.%m.%Y")) -> firmData
 knitr::kable(head(firmData), pad=0)
+```
 
+```{r}
 plots_list <- list()
+symbols = unique(firmData$symbol)
+col <- RColorBrewer::brewer.pal(length(symbols), "Blues")
+names(col) = symbols
 
-for (symbol in unique(firmData$symbol)) {
+for (symbol in symbols) {
   plot_data <- firmData %>% filter(symbol == !!symbol)
   plot_data$date <- as.Date(plot_data$date, format="%d.%m.%Y")
   
   plot <- plot_ly(data = plot_data) %>%
     add_trace(x = ~date, y = ~adjusted, type = 'scatter', mode = 'lines', name = symbol) %>%
     layout(xaxis = list(title = "Date"),
-           yaxis = list(title = "Adjusted Close", rangemode = "tozero")) %>%
-    add_annotations(x = as.Date("2015-09-18"),
-                    y = max(plot_data$adjusted),
-                    text = "Event Date",
-                    showarrow = TRUE,
-                    font = list(size = 12))
+           yaxis = list(title = "Adjusted Close", rangemode = "tozero"))
   
   plots_list[[symbol]] <- plot
 }
@@ -150,7 +149,7 @@ request %>%
   readr::write_delim("01_requestFile.csv", delim = ";", col_names = F)
 ```
 
-### GARCH(1, 1)-Model
+### GARCH(1, 1)-Model {#garch1-1-model}
 
 With the preparatory steps completed, we can now proceed with the calculations. We will employ the `GARCH(1,1)` model for all types of Event Studies. The `GARCH(1,1)` model, which stands for Generalized Autoregressive Conditional Heteroskedasticity, offers several advantages when used in event studies:
 
@@ -213,7 +212,7 @@ est$performEventStudy(estParams     = esaParams,
                       downloadFiles = T)
 ```
 
-## Result Collection and Interpretation
+## Result Collection and Interpretation {#result-collection-and-interpretation}
 
 The code snippet you provided demonstrates how to use the **`ResultParser`** class to parse the results of an event study analysis using the EventStudy package in R. Here's a brief explanation of each line:
 
@@ -244,7 +243,7 @@ caar_result = estParser$get_caar("results/caar_results.csv")
 
 At this point, you can incorporate the downloaded CSV files (or any other preferred data format) into your analysis. As we create the `arEventStudy` object, we combine information from both the request and result files.
 
-### Abnormal Returns: **`ar_result`**
+### Abnormal Returns: **`ar_result`** {#abnormal-returns-ar_result}
 
 The **`ar_result$ar_tbl`** output displays the results of the abnormal return (AR) calculations for each event. The table consists of the following columns:
 
@@ -268,15 +267,15 @@ In this output, you can observe the abnormal returns and their corresponding t-v
 knitr::kable(head(ar_result$ar_tbl))
 ```
 
-### Cumulative Abnormal Returns: **`car_result`**
+### Cumulative Abnormal Returns: **`car_result`** {#cumulative-abnormal-returns-car_result}
 
 ```{r, eval=F}
 knitr::kable(head(car_result$ar_tbl))
 ```
 
-### Averaged Abnormal Returns: **`aar_result`**
+### Averaged Abnormal Returns: **`aar_result`** {#averaged-abnormal-returns-aar_result}
 
-#### AAR: Result Values
+#### AAR: Result Values {#aar-result-values}
 
 This output allows you to analyze the average impact of events on stock prices for different groups, taking into account the number of positive and negative abnormal returns for each day in the event window.
 
@@ -298,7 +297,7 @@ The **`aar_result$aar_tbl`** output presents the results of the average abnormal
 knitr::kable(head(aar_result$aar_tbl))
 ```
 
-#### AAR: Test Statistics
+#### AAR: Test Statistics {#aar-test-statistics}
 
 The **`aar_result$statistics_tbl`** output presents the results of the test statistics for each day in the event window, grouped by a specific variable (in this case, "Addition"). The table consists of the following columns:
 
@@ -321,6 +320,8 @@ knitr::kable(head(aar_result$statistics_tbl))
 ```{r, eval=F}
 aar_result$plot_test_statistics()
 ```
+
+#### AAR: Plots
 
 ```{r, eval=F}
 aar_result$plot(ci_statistics = "Patell Z")
