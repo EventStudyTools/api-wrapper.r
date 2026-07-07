@@ -1,4 +1,4 @@
-# // Copyright (C) 2017 Simon Müller
+# // Copyright (C) 2017 EST Team
 # // This file is part of EventStudy
 # //
 # // EventStudy is free software: you can redistribute it and/or modify it
@@ -73,7 +73,7 @@
 #' \dontrun{
 #' apiKey <- "{Please insert your aPI key here}"
 #' 
-#' The URL is already set by default
+#' # The URL is already set by default
 #' options(EventStudy.KEY = apiKey)
 #'
 #' # initialize object
@@ -139,10 +139,10 @@ EventStudyAPI <- R6::R6Class(classname = "EventStudyAPI",
                                  result <- ch$content
                                  if (!is(result, "list") || is.null(result$token)) {
                                    myMessage("Error: authentication failed", level = 1)
-                                   FALSE
+                                   return(FALSE)
                                  }
                                  private$token <- result$token
-                                 TRUE
+                                 return(TRUE)
                                },
                                #' @description Performs an event study with given parameters and files.
                                #' 
@@ -179,7 +179,7 @@ EventStudyAPI <- R6::R6Class(classname = "EventStudyAPI",
                                  
                                  self$processTask()
                                  
-                                 waiting <- T
+                                 status <- FALSE
                                  iter <- 0
                                  while(iter < getOption("EventStudy.tryAttempts")) {
                                    print(paste0("Check batch process: Step ", iter))
@@ -292,14 +292,23 @@ EventStudyAPI <- R6::R6Class(classname = "EventStudyAPI",
                                    stop("Error: file do not exist")
 
                                  message("Uploading: ", fileName)
-                                 ch <- doHttrRequest(url          = httr::modify_url(private$apiServerUrl, path = paste0("/task/content/", fileKey, "/0")), 
-                                                     request_type = "POST", 
-                                                     the_body     = httr::upload_file(path = fileName),
-                                                     config       = httr::add_headers(c("Content-Type" = "application/octet-stream", 
-                                                                                        "X-Task-Key"   = private$token))
-                                 )
-                                 if (!ch$content)
-                                   stop(paste0("Error in uploadFile: configuration error"))
+                                 # The API expects the raw file bytes as the request body
+                                 # (application/octet-stream), not a multipart form. Since curl >= 5
+                                 # httr::upload_file() fails here ("unsupported seekfunction"), so post
+                                 # the raw body through curl directly, as configureTask()/commitData() do.
+                                 raw_body <- readBin(fileName, what = "raw", n = file.info(fileName)$size)
+                                 curl::new_handle() %>%
+                                   curl::handle_setopt(customrequest = "POST") %>%
+                                   curl::handle_setopt(postfields = raw_body) %>%
+                                   curl::handle_setheaders("Content-Type" = "application/octet-stream",
+                                                           "X-Task-Key"   = private$token) -> handle
+
+                                 ch <- curl::curl_fetch_memory(url    = paste0(private$apiServerUrl, "/task/content/", fileKey, "/0"),
+                                                               handle = handle)
+
+                                 response <- rawToChar(ch$content)
+                                 if (ch$status_code != 200 || !grepl("true", response, ignore.case = TRUE))
+                                   stop(paste0("Error in uploadFile: upload of ", fileKey, " failed: ", response))
 
                                  return(TRUE)
                                },
@@ -346,10 +355,10 @@ EventStudyAPI <- R6::R6Class(classname = "EventStudyAPI",
                                    private$checkAndNormalizeResponse(httpcode = ch$status_code,
                                                                      method   = "commitData") -> result  
                                  
-                                 if (!inherits(ch$content, "list") || is.null(ch$content$log))
-                                   myMessage("Error in commitData: response is invalid")
+                                 if (isFALSE(result))
+                                   myMessage("Error in commitData: response is invalid", level = 1)
 
-                                 return(ch$content)
+                                 return(result)
 
                                },
                                #' @description Fetch task status. Internal usage.
@@ -360,7 +369,16 @@ EventStudyAPI <- R6::R6Class(classname = "EventStudyAPI",
                                  if (is.null(private$token))
                                    stop("Error: Configuration validation error")
 
-                                 # check if file exists
+                                 # Completion is inferred from result-file availability. Use a
+                                 # lightweight existence probe (HEAD via http_error), NOT a full GET:
+                                 # the temp result URLs are single-use, so downloading the body here
+                                 # would consume it and break the actual download step.
+                                 if (is.null(self$resultFiles) ||
+                                     nrow(self$resultFiles) == 0 ||
+                                     length(self$resultFiles$url) == 0 ||
+                                     is.na(self$resultFiles$url[1]))
+                                   return(FALSE)
+
                                  return(!httr::http_error(self$resultFiles$url[1]))
                                  
                                  # TODO
@@ -434,7 +452,7 @@ EventStudyAPI <- R6::R6Class(classname = "EventStudyAPI",
                                  }
                                  if (httpcode != 200) {
                                    if (exceptionOnError) {
-                                     if (!is(result, "list") && !is.null(response$error)) {
+                                     if (!is(response, "list") && !is.null(response$error)) {
                                        stop(paste0("Error in ", method, ': ', response$error))
                                      } else {
                                        stop(paste0("Error in ", method, ': Application error'))

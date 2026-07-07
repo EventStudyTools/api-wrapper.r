@@ -1,4 +1,4 @@
-# // Copyright (C) 2017 Simon Müller
+# // Copyright (C) 2017 EST Team
 # // This file is part of EventStudy
 # //
 # // EventStudy is free software: you can redistribute it and/or modify it
@@ -67,8 +67,6 @@ AARResults <- R6::R6Class(classname="AARResults",
                                             ylab          = "Averaged Abnormal Returns", 
                                             facet         = T, 
                                             ncol          = 4) {
-                              library(RColorBrewer)
-                              
                               ci_type <- rlang::arg_match(ci_type, c("two-sided", "lower", "upper"))
                               if (is.null(ci_statistics)) {
                                 ci_statistics = self$statistics_tbl['Test Statistic'][[1]][1]
@@ -146,15 +144,15 @@ AARResults <- R6::R6Class(classname="AARResults",
                                                            ci_type   = "two-sided") {
                               if (ci_type == 'two-sided') {
                                 p <- 0.5 + p / 2
-                                if (stringr::str_ends(statistic, "Z")) {
-                                  zStar <- qnorm(p)
-                                } else if(stringr::str_ends(statistic, "T")) {
-                                  zStar <- qt(p, unique(aar_result$aar_tbl$N))
-                                }
                               }
-                              self$statistics_tbl %>% 
+                              zStar <- if (stringr::str_ends(statistic, "T")) {
+                                qt(p, unique(self$aar_tbl$N))
+                              } else {
+                                qnorm(p)
+                              }
+                              self$statistics_tbl %>%
                                 dplyr::filter(`Test Statistic` == statistic) -> statistics_tbl
-                              if (length(statistics_tbl)) {
+                              if (nrow(statistics_tbl) > 0) {
                                 aar <- as.numeric(self$aar_tbl[["AAR"]])
                                 statistics_tbl[['lower']] <- aar - abs(aar) * zStar / abs(as.numeric(statistics_tbl$Statistics))
                                 statistics_tbl[['upper']] <- aar + abs(aar) * zStar / abs(as.numeric(statistics_tbl$Statistics))
@@ -299,10 +297,10 @@ CAResults <- R6::R6Class(classname="CAResults",
                            print = function() {
                              cat("CAR Results\n")
                              cat("-----------\n")
-                             cat(paste0("N Groups: ", length(unique(self$aar_tbl$Group)), "\n"))
-                             cat(paste0("Groups: ", paste0(unique(self$aar_tbl$Group), collapse = ", "), "\n"))
-                             cat(paste0("Length Event Window: ", length(unique(self$aar_tbl$`Day Relative to Event`)), "\n"))
-                             cat(paste0("Event Window: ", paste0(unique(self$aar_tbl$`Day Relative to Event`), collapse = ", "), "\n"))
+                             cat(paste0("N Groups: ", length(unique(self$car_tbl$Group)), "\n"))
+                             cat(paste0("Groups: ", paste0(unique(self$car_tbl$Group), collapse = ", "), "\n"))
+                             cat(paste0("Length Event Window: ", length(unique(self$car_tbl$`Day Relative to Event`)), "\n"))
+                             cat(paste0("Event Window: ", paste0(unique(self$car_tbl$`Day Relative to Event`), collapse = ", "), "\n"))
                            }
                          )
 )

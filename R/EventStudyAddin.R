@@ -1,4 +1,4 @@
-# // Copyright (C) 2017 Simon Müller
+# // Copyright (C) 2017 EST Team
 # // This file is part of EventStudy
 # //
 # // EventStudy is free software: you can redistribute it and/or modify it

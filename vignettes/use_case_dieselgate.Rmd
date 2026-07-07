@@ -1,6 +1,6 @@
 ---
 title: "Use Case: Dieselgate"
-author: "Dr. Simon Müller"
+author: "EST Team"
 date: "`r Sys.Date()`"
 output:
   html_document:
@@ -17,7 +17,7 @@ vignette: >
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
-Sys.setenv(event_study_api_key = "0245ed2e1d5011d8b87ba116f06e36ea")
+Sys.setenv(event_study_api_key = "<your-api-key>")
 ```
 
 # Summary of the Dieselgate {#summary-of-the-dieselgate}
@@ -190,7 +190,7 @@ This R code is designed to perform an event study using the EventStudy package a
 The code, in summary, sets up the necessary parameters and data files for an event study using the `GARCH(1,1)` model as a benchmark. It then performs the event study and downloads the result files in CSV format. By default, our package stores the results in the results folder.
 
 ```{r, message=F, eval=F}
-event_study_api_key = "f332dd4f5ba15e3f09cdd21d45c8476a" # Sys.getenv("event_study_api_key")
+event_study_api_key = Sys.getenv("event_study_api_key")
 
 est <- EventStudyAPI$new()
 est$authentication(apiKey = event_study_api_key)

@@ -1,6 +1,6 @@
 ---
 title: "Get Started"
-author: "Dr. Markus Schimmer and Dr. Simon Müller"
+author: "Dr. Markus Schimmer and EST Team"
 date: "`r Sys.Date()`"
 output:
   html_document:

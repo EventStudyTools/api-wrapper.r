@@ -6,7 +6,7 @@
 # **[Get Started](https://CRAN.R-project.org/package=EventStudy/vignettes/get_started.html)**
 
 <p align="center">
-<img src='vignettes/landing_page.png ' width='350' style="display: block; margin: 0 auto">
+<img src='vignettes/landing_page.png' width='350' style="display: block; margin: 0 auto">
 </p>
 
 ## Purpose of this Package
@@ -23,11 +23,10 @@
 
 -   The description of test statistics and available models can be found on [Significance Tests](https://www.eventstudytools.com/significance-tests) and [Expected Return Models](https://www.eventstudytools.com/expected-return-models).
 
--   If another consultancy on event study or panel data analysis is necessary, you may contact me, Dr. Simon Müller (sm@data-zoo.de).
+-   If another consultancy on event study or panel data analysis is necessary, you may contact the EST Team (no-reply@eventstudytools.com).
 
--   Don't hesitate to contact Dr. Simon Müller if you want to perform Event Studies On-Premise, with low latency or large scale.
+-   Don't hesitate to contact EST Team if you want to perform Event Studies On-Premise, with low latency or large scale.
 
--   If you like the package: [Buy us a Coffee](https://www.buymeacoffee.com/wZB75JA1Q)
 
 ## Installation
 
@@ -89,11 +88,8 @@ CRAN Version
     caar_result$caar_tbl
     caar_result$statistics_tbl
 
-## Visit Our App on ShinyApp
 
-[Diesel Gate App](https://muon-stat.shinyapps.io/dieselgate/)
 
-![](vignettes/DieselGate.png "Diesel Gate App")
 
 ## Details can be found in our vignettes
 

@@ -12,8 +12,8 @@ retryRequest <- function(f) {
     the_request <- try(f)
   }
   
-  status_code <- as.character(the_request$status_code)
-  
+  status_code <- if (isError(the_request)) "500" else as.character(the_request$status_code)
+
   if(!(grepl("^20", status_code))) {
     myMessage("Request Status Code: ", status_code, level = 3)
     
@@ -36,6 +36,7 @@ retryRequest <- function(f) {
                   level = 3)
         Sys.sleep((2 ^ i) + stats::runif(n = 1, min = 0, max = 1))
         the_request <- try(f)
+        status_code <- if (isError(the_request)) "500" else as.character(the_request$status_code)
         if(grepl("^20", status_code)) break
       }
       myMessage("All attempts failed.", level = 3)

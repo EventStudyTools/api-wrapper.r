@@ -1,4 +1,4 @@
-# // Copyright (C) 2017 Simon Müller
+# // Copyright (C) 2017 EST Team
 # // This file is part of EventStudy
 # //
 # // EventStudy is free software: you can redistribute it and/or modify it
@@ -186,8 +186,10 @@ ARCApplicationInput <- R6::R6Class(classname = "ARCApplicationInput",
                                                                "Comparison Period Mean Adjusted"     = "cpmam",
                                                                "Fama-French 3 Factor Model"          = "ff3fm",
                                                                "Fama-French-Momentum 4 Factor Model" = "ffm4fm",
-                                                               "GARCH(1,1)"                          = "garch", 
-                                                               "EGARCH(1, 1)"                        = "egarch"),
+                                                               "Fama-French 5 Factor Model"          = "ff5fm",
+                                                               "GARCH(1,1)"                          = "garch",
+                                                               "EGARCH(1, 1)"                        = "egarch",
+                                                               "CAPM"                                = "capm"),
                                      allowedNonTradingDays = c("Take earlier trading day"     = "earlier", 
                                                                "Take later trading day"       = "later", 
                                                                "Keep non-trading day"         = "keep", 

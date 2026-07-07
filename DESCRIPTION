@@ -2,16 +2,18 @@ Package: EventStudy
 Type: Package
 Title: Event Study Analysis
 Description: Perform Event Studies from through our <https://EventStudyTools.com> Application Programming Interface, parse the results, visualize it, and / or use the results in further analysis.
-Author: Dr. Simon Mueller
+Author: EST Team
 Date: 2023-03-28
 Version: 0.39.2
 Encoding: UTF-8
-URL: https:://data-zoo.de
-Maintainer: Dr. Simon Mueller <sm@data-zoo.de>
+URL: https://www.eventstudytools.com
+Maintainer: EST Team <no-reply@eventstudytools.com>
 License: MIT + file LICENSE
 Depends:
     ggplot2
 Imports:
+    R6,
+    tibble,
     httr,
     curl,
     jsonlite,
