@@ -12,7 +12,7 @@ to use the \code{set} functionality to setup your Event Study, as we check
 input parameters.
 
 For more details see the help vignette:
-\code{vignette("parameters_eventstudy", package = "EventStudy")}
+\code{vignette("parameters", package = "EventStudy")}
 }
 \section{Methods}{
 
@@ -60,8 +60,8 @@ estSetup$authentication(apiKey)
 # Perform Event Study
 estSetup$performEventStudy(estParams = arcParams, 
                            dataFiles = c("request_file" = "01_RequestFile.csv",
-                                         "firm_data"    = "02_firmData.csv",
-                                         "market_data"  = "03_marketData.csv"))
+                                         "firm_data"    = "02_FirmData.csv",
+                                         "market_data"  = "03_MarketData.csv"))
 
 # Download task results and save them in the actiual working directory
 estSetup$getTaskResults()
@@ -97,29 +97,29 @@ estSetup$getTaskResults()
 \section{Methods}{
 \subsection{Public methods}{
 \itemize{
-\item \href{#method-ARCApplicationInput-setEMail}{\code{ARCApplicationInput$setEMail()}}
-\item \href{#method-ARCApplicationInput-setBenchmarkModel}{\code{ARCApplicationInput$setBenchmarkModel()}}
-\item \href{#method-ARCApplicationInput-setReturnType}{\code{ARCApplicationInput$setReturnType()}}
-\item \href{#method-ARCApplicationInput-setNonTradingDays}{\code{ARCApplicationInput$setNonTradingDays()}}
-\item \href{#method-ARCApplicationInput-setTestStatistics}{\code{ARCApplicationInput$setTestStatistics()}}
-\item \href{#method-ARCApplicationInput-setDataFiles}{\code{ARCApplicationInput$setDataFiles()}}
-\item \href{#method-ARCApplicationInput-clone}{\code{ARCApplicationInput$clone()}}
+\item \href{#method-setEMail}{\code{ARCApplicationInput$setEMail()}}
+\item \href{#method-setBenchmarkModel}{\code{ARCApplicationInput$setBenchmarkModel()}}
+\item \href{#method-setReturnType}{\code{ARCApplicationInput$setReturnType()}}
+\item \href{#method-setNonTradingDays}{\code{ARCApplicationInput$setNonTradingDays()}}
+\item \href{#method-setTestStatistics}{\code{ARCApplicationInput$setTestStatistics()}}
+\item \href{#method-setDataFiles}{\code{ARCApplicationInput$setDataFiles()}}
+\item \href{#method-clone}{\code{ARCApplicationInput$clone()}}
 }
 }
-\if{html}{\out{
-<details open><summary>Inherited methods</summary>
-<ul>
-<li><span class="pkg-link" data-pkg="EventStudy" data-topic="ApplicationInputInterface" data-id="serialize"><a href='../../EventStudy/html/ApplicationInputInterface.html#method-ApplicationInputInterface-serialize'><code>EventStudy::ApplicationInputInterface$serialize()</code></a></span></li>
-<li><span class="pkg-link" data-pkg="EventStudy" data-topic="ApplicationInputInterface" data-id="serializeToJson"><a href='../../EventStudy/html/ApplicationInputInterface.html#method-ApplicationInputInterface-serializeToJson'><code>EventStudy::ApplicationInputInterface$serializeToJson()</code></a></span></li>
-<li><span class="pkg-link" data-pkg="EventStudy" data-topic="ApplicationInputInterface" data-id="setNamedList"><a href='../../EventStudy/html/ApplicationInputInterface.html#method-ApplicationInputInterface-setNamedList'><code>EventStudy::ApplicationInputInterface$setNamedList()</code></a></span></li>
-<li><span class="pkg-link" data-pkg="EventStudy" data-topic="ApplicationInputInterface" data-id="setResultFileType"><a href='../../EventStudy/html/ApplicationInputInterface.html#method-ApplicationInputInterface-setResultFileType'><code>EventStudy::ApplicationInputInterface$setResultFileType()</code></a></span></li>
-<li><span class="pkg-link" data-pkg="EventStudy" data-topic="EventStudyApplicationInput" data-id="setup"><a href='../../EventStudy/html/EventStudyApplicationInput.html#method-EventStudyApplicationInput-setup'><code>EventStudy::EventStudyApplicationInput$setup()</code></a></span></li>
-</ul>
-</details>
-}}
+\if{html}{
+\out{<details open ><summary>Inherited methods</summary>}
+\itemize{
+\item \out{<span class="pkg-link" data-pkg="EventStudy" data-topic="ApplicationInputInterface" data-id="serialize">}\href{../../EventStudy/html/ApplicationInputInterface.html#method-serialize}{\code{EventStudy::ApplicationInputInterface$serialize()}}\out{</span>}
+\item \out{<span class="pkg-link" data-pkg="EventStudy" data-topic="ApplicationInputInterface" data-id="serializeToJson">}\href{../../EventStudy/html/ApplicationInputInterface.html#method-serializeToJson}{\code{EventStudy::ApplicationInputInterface$serializeToJson()}}\out{</span>}
+\item \out{<span class="pkg-link" data-pkg="EventStudy" data-topic="ApplicationInputInterface" data-id="setNamedList">}\href{../../EventStudy/html/ApplicationInputInterface.html#method-setNamedList}{\code{EventStudy::ApplicationInputInterface$setNamedList()}}\out{</span>}
+\item \out{<span class="pkg-link" data-pkg="EventStudy" data-topic="ApplicationInputInterface" data-id="setResultFileType">}\href{../../EventStudy/html/ApplicationInputInterface.html#method-setResultFileType}{\code{EventStudy::ApplicationInputInterface$setResultFileType()}}\out{</span>}
+\item \out{<span class="pkg-link" data-pkg="EventStudy" data-topic="EventStudyApplicationInput" data-id="setup">}\href{../../EventStudy/html/EventStudyApplicationInput.html#method-setup}{\code{EventStudy::EventStudyApplicationInput$setup()}}\out{</span>}
+}
+\out{</details>}
+}
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-ARCApplicationInput-setEMail"></a>}}
-\if{latex}{\out{\hypertarget{method-ARCApplicationInput-setEMail}{}}}
+\if{html}{\out{<a id="method-setEMail"></a>}}
+\if{latex}{\out{\hypertarget{method-setEMail}{}}}
 \subsection{Method \code{setEMail()}}{
 set email
 \subsection{Usage}{
@@ -135,8 +135,8 @@ set email
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-ARCApplicationInput-setBenchmarkModel"></a>}}
-\if{latex}{\out{\hypertarget{method-ARCApplicationInput-setBenchmarkModel}{}}}
+\if{html}{\out{<a id="method-setBenchmarkModel"></a>}}
+\if{latex}{\out{\hypertarget{method-setBenchmarkModel}{}}}
 \subsection{Method \code{setBenchmarkModel()}}{
 set benchmark model
 \subsection{Usage}{
@@ -152,8 +152,8 @@ set benchmark model
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-ARCApplicationInput-setReturnType"></a>}}
-\if{latex}{\out{\hypertarget{method-ARCApplicationInput-setReturnType}{}}}
+\if{html}{\out{<a id="method-setReturnType"></a>}}
+\if{latex}{\out{\hypertarget{method-setReturnType}{}}}
 \subsection{Method \code{setReturnType()}}{
 Set return type
 \subsection{Usage}{
@@ -169,8 +169,8 @@ Set return type
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-ARCApplicationInput-setNonTradingDays"></a>}}
-\if{latex}{\out{\hypertarget{method-ARCApplicationInput-setNonTradingDays}{}}}
+\if{html}{\out{<a id="method-setNonTradingDays"></a>}}
+\if{latex}{\out{\hypertarget{method-setNonTradingDays}{}}}
 \subsection{Method \code{setNonTradingDays()}}{
 Set non trading days
 \subsection{Usage}{
@@ -186,8 +186,8 @@ Set non trading days
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-ARCApplicationInput-setTestStatistics"></a>}}
-\if{latex}{\out{\hypertarget{method-ARCApplicationInput-setTestStatistics}{}}}
+\if{html}{\out{<a id="method-setTestStatistics"></a>}}
+\if{latex}{\out{\hypertarget{method-setTestStatistics}{}}}
 \subsection{Method \code{setTestStatistics()}}{
 Set test statistics
 \subsection{Usage}{
@@ -203,13 +203,13 @@ Set test statistics
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-ARCApplicationInput-setDataFiles"></a>}}
-\if{latex}{\out{\hypertarget{method-ARCApplicationInput-setDataFiles}{}}}
+\if{html}{\out{<a id="method-setDataFiles"></a>}}
+\if{latex}{\out{\hypertarget{method-setDataFiles}{}}}
 \subsection{Method \code{setDataFiles()}}{
 Set reques, firm, and market data file
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{ARCApplicationInput$setDataFiles(
-  dataFiles = c(request_file = "01_RequestFile.csv", firm_data = "02_firmData.csv",
+  dataFiles = c(request_file = "01_RequestFile.csv", firm_data = "02_FirmData.csv",
     market_data = "03_MarketData.csv")
 )}\if{html}{\out{</div>}}
 }
@@ -223,8 +223,8 @@ Set reques, firm, and market data file
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-ARCApplicationInput-clone"></a>}}
-\if{latex}{\out{\hypertarget{method-ARCApplicationInput-clone}{}}}
+\if{html}{\out{<a id="method-clone"></a>}}
+\if{latex}{\out{\hypertarget{method-clone}{}}}
 \subsection{Method \code{clone()}}{
 The objects of this class are cloneable with this method.
 \subsection{Usage}{

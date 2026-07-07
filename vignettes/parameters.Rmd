@@ -67,15 +67,15 @@ estSetup$authentication(apiKey)
 # Perform Event Study
 estResults <- estSetup$performEventStudy(estParams     = volatilityEstParams, 
                                          dataFiles     = c("request_file" = "01_RequestFile.csv",
-                                                           "firm_data"    = "02_firmData.csv",
-                                                           "market_data"  = "03_marketData.csv"),
+                                                           "firm_data"    = "02_FirmData.csv",
+                                                           "market_data"  = "03_MarketData.csv"),
                                          downloadFiles = T, # download result files
                                          checkFiles    = T) # check input files                     
 ```
 
-When you set your url or api key by *EventStudy.URL* and
-*EventStudy.KEY* then just leave input parameters in
-*.*$new()* and *.$authentication() empty. A default key and url can be
+When you set your url or api key via `EventStudy.URL` and
+`EventStudy.KEY`, then just leave the arguments to `EventStudyAPI$new()`
+and `$authentication()` empty. A default key and url can be
 set by:
 
 ```{r, eval=FALSE}
@@ -371,7 +371,7 @@ volatilityEstParams <- AVyCApplicationInput$new()
 
 Per default all test statistics are activated. A detailed description
 can be found on our
-[website](https://www.eventstudytools.com/volatiliy-event-study).
+[website](https://www.eventstudytools.com/other-event-study-types).
 
 **Volatility Test Statistics:**
 
@@ -398,4 +398,4 @@ volatilityEstParams$setTestStatistics(c("aarptlz", "aarrankz"))
 # How to Cite {#how-to-cite}
 
 Please cite our work in your
-[publication](https://eventstudytools.com/how-cite-eventstudytoolscom).
+[publication](https://www.eventstudytools.com/how-cite-eventstudytoolscom).

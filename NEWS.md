@@ -1,3 +1,21 @@
+## 0.40.0
+
+- Fix: file upload now works with curl >= 5. `httr::upload_file()` failed with
+  "unsupported seekfunction"; the raw request body is posted through curl instead.
+- Fix: `authentication()` now returns `FALSE` on failure instead of reporting success.
+- Fix: default AVC / AVyC studies now use the correct application key (they were
+  silently running an ARC analysis).
+- Fix: `commitData()` no longer emits a spurious "response is invalid" message.
+- Fix: `getTaskStatus()` guards against empty result sets; `retryRequest()` now
+  re-checks the status inside its backoff loop and guards against request errors.
+- Fix: several parser/plotting bugs (`confidence_interval()`, `CAResults$print()`,
+  `get_car()` without an analysis report).
+- Add the Fama-French 5-factor (`ff5fm`) and CAPM (`capm`) benchmark models.
+- Declare `R6` and `tibble` in Imports; remove committed API keys from the vignette.
+- Docs: update deprecated links (archived-CRAN and moved eventstudytools.com URLs),
+  remove the dead ShinyApp reference, and align example file names with the data
+  written by `getSP500ExampleFiles()`.
+
 ## Notes
 
 - Fixing date issue: dates before 01.01.1970 are currently not working

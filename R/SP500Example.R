@@ -3,7 +3,7 @@
 #' Deletions to market indices.
 #' 
 #' For more details see the help vignette:
-#' \code{vignette("introduction_eventstudy", package = "EventStudy")}
+#' \code{vignette("get_started", package = "EventStudy")}
 #' 
 #' or on our website:
 #' \url{https://www.eventstudytools.com/mergers-acquisitions}

@@ -25,14 +25,14 @@ Class initialization}
 \section{Methods}{
 \subsection{Public methods}{
 \itemize{
-\item \href{#method-CAAResults-new}{\code{CAAResults$new()}}
-\item \href{#method-CAAResults-print}{\code{CAAResults$print()}}
-\item \href{#method-CAAResults-clone}{\code{CAAResults$clone()}}
+\item \href{#method-new}{\code{CAAResults$new()}}
+\item \href{#method-print}{\code{CAAResults$print()}}
+\item \href{#method-clone}{\code{CAAResults$clone()}}
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-CAAResults-new"></a>}}
-\if{latex}{\out{\hypertarget{method-CAAResults-new}{}}}
+\if{html}{\out{<a id="method-new"></a>}}
+\if{latex}{\out{\hypertarget{method-new}{}}}
 \subsection{Method \code{new()}}{
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{CAAResults$new(caar_tbl, statistics_tbl)}\if{html}{\out{</div>}}
@@ -49,8 +49,8 @@ Class initialization}
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-CAAResults-print"></a>}}
-\if{latex}{\out{\hypertarget{method-CAAResults-print}{}}}
+\if{html}{\out{<a id="method-print"></a>}}
+\if{latex}{\out{\hypertarget{method-print}{}}}
 \subsection{Method \code{print()}}{
 Print key characteristics.
 \subsection{Usage}{
@@ -59,8 +59,8 @@ Print key characteristics.
 
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-CAAResults-clone"></a>}}
-\if{latex}{\out{\hypertarget{method-CAAResults-clone}{}}}
+\if{html}{\out{<a id="method-clone"></a>}}
+\if{latex}{\out{\hypertarget{method-clone}{}}}
 \subsection{Method \code{clone()}}{
 The objects of this class are cloneable with this method.
 \subsection{Usage}{

@@ -23,7 +23,7 @@
 #' as we check input parameters.
 #' 
 #' For more details see the help vignette:
-#' \code{vignette("parameters_eventstudy", package = "EventStudy")}
+#' \code{vignette("parameters", package = "EventStudy")}
 #' 
 #' @section Methods:
 #' \describe{
@@ -73,8 +73,8 @@
 #' # Perform Event Study
 #' estSetup$performEventStudy(estParams = avcParams, 
 #'                            dataFiles = c("request_file" = "01_RequestFile.csv",
-#'                                          "firm_data"    = "02_firmData.csv",
-#'                                          "market_data"  = "03_marketData.csv"))
+#'                                          "firm_data"    = "02_FirmData.csv",
+#'                                          "market_data"  = "03_MarketData.csv"))
 #'
 #' # Download task results and save them in the actiual working directory
 #' estSetup$getTaskResults()

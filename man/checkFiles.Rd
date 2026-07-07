@@ -5,7 +5,7 @@
 \title{Check EventStudy input files}
 \usage{
 checkFiles(
-  dataFiles = c(request_file = "01_RequestFile.csv", firm_data = "02_firmData.csv",
+  dataFiles = c(request_file = "01_RequestFile.csv", firm_data = "02_FirmData.csv",
     market_data = "03_MarketData.csv"),
   returnData = F
 )
@@ -27,7 +27,7 @@ in firm_data file.
 getSP500ExampleFiles()
 
 dataFiles <- c("request_file" = "01_RequestFile.csv", 
-               "firm_data"    = "02_firmData.csv", 
+               "firm_data"    = "02_FirmData.csv", 
                "market_data"  = "03_MarketData.csv")
                
 checkFiles(dataFiles)

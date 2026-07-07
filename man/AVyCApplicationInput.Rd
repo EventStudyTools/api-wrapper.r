@@ -15,7 +15,7 @@ Study. We recommend to use the \code{set} functionality to setup your Event
 Study, as we check input parameters.
 
 For more details see the help vignette:
-\code{vignette("parameters_eventstudy", package = "EventStudy")}
+\code{vignette("parameters", package = "EventStudy")}
 }
 \section{Methods}{
 
@@ -65,8 +65,8 @@ estSetup$authentication(apiKey)
 # Perform Event Study
 estSetup$performEventStudy(estParams = avycParams, 
                            dataFiles = c("request_file" = "01_RequestFile.csv",
-                                         "firm_data"    = "02_firmData.csv",
-                                         "market_data"  = "03_marketData.csv"))
+                                         "firm_data"    = "02_FirmData.csv",
+                                         "market_data"  = "03_MarketData.csv"))
 
 # Download task results and save them in the actiual working directory
 estSetup$getTaskResults()
@@ -88,23 +88,23 @@ estSetup$getTaskResults()
 \section{Methods}{
 \subsection{Public methods}{
 \itemize{
-\item \href{#method-AVyCApplicationInput-clone}{\code{AVyCApplicationInput$clone()}}
+\item \href{#method-clone}{\code{AVyCApplicationInput$clone()}}
 }
 }
-\if{html}{\out{
-<details open><summary>Inherited methods</summary>
-<ul>
-<li><span class="pkg-link" data-pkg="EventStudy" data-topic="ApplicationInputInterface" data-id="serialize"><a href='../../EventStudy/html/ApplicationInputInterface.html#method-ApplicationInputInterface-serialize'><code>EventStudy::ApplicationInputInterface$serialize()</code></a></span></li>
-<li><span class="pkg-link" data-pkg="EventStudy" data-topic="ApplicationInputInterface" data-id="serializeToJson"><a href='../../EventStudy/html/ApplicationInputInterface.html#method-ApplicationInputInterface-serializeToJson'><code>EventStudy::ApplicationInputInterface$serializeToJson()</code></a></span></li>
-<li><span class="pkg-link" data-pkg="EventStudy" data-topic="ApplicationInputInterface" data-id="setNamedList"><a href='../../EventStudy/html/ApplicationInputInterface.html#method-ApplicationInputInterface-setNamedList'><code>EventStudy::ApplicationInputInterface$setNamedList()</code></a></span></li>
-<li><span class="pkg-link" data-pkg="EventStudy" data-topic="ApplicationInputInterface" data-id="setResultFileType"><a href='../../EventStudy/html/ApplicationInputInterface.html#method-ApplicationInputInterface-setResultFileType'><code>EventStudy::ApplicationInputInterface$setResultFileType()</code></a></span></li>
-<li><span class="pkg-link" data-pkg="EventStudy" data-topic="EventStudyApplicationInput" data-id="setup"><a href='../../EventStudy/html/EventStudyApplicationInput.html#method-EventStudyApplicationInput-setup'><code>EventStudy::EventStudyApplicationInput$setup()</code></a></span></li>
-</ul>
-</details>
-}}
+\if{html}{
+\out{<details open ><summary>Inherited methods</summary>}
+\itemize{
+\item \out{<span class="pkg-link" data-pkg="EventStudy" data-topic="ApplicationInputInterface" data-id="serialize">}\href{../../EventStudy/html/ApplicationInputInterface.html#method-serialize}{\code{EventStudy::ApplicationInputInterface$serialize()}}\out{</span>}
+\item \out{<span class="pkg-link" data-pkg="EventStudy" data-topic="ApplicationInputInterface" data-id="serializeToJson">}\href{../../EventStudy/html/ApplicationInputInterface.html#method-serializeToJson}{\code{EventStudy::ApplicationInputInterface$serializeToJson()}}\out{</span>}
+\item \out{<span class="pkg-link" data-pkg="EventStudy" data-topic="ApplicationInputInterface" data-id="setNamedList">}\href{../../EventStudy/html/ApplicationInputInterface.html#method-setNamedList}{\code{EventStudy::ApplicationInputInterface$setNamedList()}}\out{</span>}
+\item \out{<span class="pkg-link" data-pkg="EventStudy" data-topic="ApplicationInputInterface" data-id="setResultFileType">}\href{../../EventStudy/html/ApplicationInputInterface.html#method-setResultFileType}{\code{EventStudy::ApplicationInputInterface$setResultFileType()}}\out{</span>}
+\item \out{<span class="pkg-link" data-pkg="EventStudy" data-topic="EventStudyApplicationInput" data-id="setup">}\href{../../EventStudy/html/EventStudyApplicationInput.html#method-setup}{\code{EventStudy::EventStudyApplicationInput$setup()}}\out{</span>}
+}
+\out{</details>}
+}
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-AVyCApplicationInput-clone"></a>}}
-\if{latex}{\out{\hypertarget{method-AVyCApplicationInput-clone}{}}}
+\if{html}{\out{<a id="method-clone"></a>}}
+\if{latex}{\out{\hypertarget{method-clone}{}}}
 \subsection{Method \code{clone()}}{
 The objects of this class are cloneable with this method.
 \subsection{Usage}{

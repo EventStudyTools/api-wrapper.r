@@ -17,32 +17,32 @@ can be used for plotting your results.
 
 
 \describe{
-  \item{\code{new(dir)}}{This method is used to create object of this class 
-  with \code{dir} as the directory of result files.}
-  \item{\code{parseReport(path = "analysis_report.csv")}}{This method 
-  parses the analysis report file (analysis_report.csv).}
-  \item{\code{parseAR(path = "ar_results.csv")}}{This method parses the 
-  abnormal return file (ar_results.csv). Furthermore, it triggers 
-  \code{parseReport} and join firm and index name.}
-  \item{\code{parseCAR(path = "car_results.csv")}}{This method parses the 
-  cumulative abnormal return file (ar_results.csv). Furthermore, it triggers 
-  \code{parseReport} and join firm and index name.}
+  \item{\code{new()}}{Constructor for the result parser.}
+  \item{\code{get_request_file(path)}}{Parse the request file.}
+  \item{\code{get_analysis_report(path)}}{Parse the analysis report file.}
+  \item{\code{get_ar(path, analysis_report_tbl, request_tbl)}}{Parse the
+  abnormal returns and return an \code{ARResults} object.}
+  \item{\code{get_car(path, analysis_report_tbl)}}{Parse the cumulative
+  abnormal returns and return a \code{CAResults} object.}
+  \item{\code{get_aar(path, analysis_report)}}{Parse the average abnormal
+  returns and return an \code{AARResults} object.}
+  \item{\code{get_caar(path)}}{Parse the cumulative average abnormal returns
+  and return a \code{CAAResults} object.}
 }
 }
 
 \examples{
 \dontrun{
-# Assume you already performed an Event Study and result files are saved in 
-# the actual working directory.
+# Assume you already performed an Event Study and the result files are saved
+# in the "results" directory of the working directory.
 estParser <- ResultParser$new()
 
-# parse request file
-estParser$parseRequestFile("01_RequestFile.csv")
-
-# parse result files
-estParser$parseReport("Analysis report.csv")
-estParser$parseAR("AR results.csv")
-estParser$parseAAR("AAR results.csv")
+request_data    <- estParser$get_request_file("01_RequestFile.csv")
+analysis_report <- estParser$get_analysis_report("results/analysis_report.csv")
+ar   <- estParser$get_ar("results/ar_results.csv", analysis_report, request_data)
+aar  <- estParser$get_aar("results/aar_results.csv", analysis_report)
+car  <- estParser$get_car("results/car_results.csv", analysis_report)
+caar <- estParser$get_caar("results/caar_results.csv")
 }
 
 }
@@ -56,18 +56,18 @@ estParser$parseAAR("AAR results.csv")
 \section{Methods}{
 \subsection{Public methods}{
 \itemize{
-\item \href{#method-ResultParser-get_request_file}{\code{ResultParser$get_request_file()}}
-\item \href{#method-ResultParser-get_analysis_report}{\code{ResultParser$get_analysis_report()}}
-\item \href{#method-ResultParser-get_ar}{\code{ResultParser$get_ar()}}
-\item \href{#method-ResultParser-get_car}{\code{ResultParser$get_car()}}
-\item \href{#method-ResultParser-get_aar}{\code{ResultParser$get_aar()}}
-\item \href{#method-ResultParser-get_caar}{\code{ResultParser$get_caar()}}
-\item \href{#method-ResultParser-clone}{\code{ResultParser$clone()}}
+\item \href{#method-get_request_file}{\code{ResultParser$get_request_file()}}
+\item \href{#method-get_analysis_report}{\code{ResultParser$get_analysis_report()}}
+\item \href{#method-get_ar}{\code{ResultParser$get_ar()}}
+\item \href{#method-get_car}{\code{ResultParser$get_car()}}
+\item \href{#method-get_aar}{\code{ResultParser$get_aar()}}
+\item \href{#method-get_caar}{\code{ResultParser$get_caar()}}
+\item \href{#method-clone}{\code{ResultParser$clone()}}
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-ResultParser-get_request_file"></a>}}
-\if{latex}{\out{\hypertarget{method-ResultParser-get_request_file}{}}}
+\if{html}{\out{<a id="method-get_request_file"></a>}}
+\if{latex}{\out{\hypertarget{method-get_request_file}{}}}
 \subsection{Method \code{get_request_file()}}{
 Parse request file
 \subsection{Usage}{
@@ -83,8 +83,8 @@ Parse request file
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-ResultParser-get_analysis_report"></a>}}
-\if{latex}{\out{\hypertarget{method-ResultParser-get_analysis_report}{}}}
+\if{html}{\out{<a id="method-get_analysis_report"></a>}}
+\if{latex}{\out{\hypertarget{method-get_analysis_report}{}}}
 \subsection{Method \code{get_analysis_report()}}{
 Parse request file
 \subsection{Usage}{
@@ -100,8 +100,8 @@ Parse request file
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-ResultParser-get_ar"></a>}}
-\if{latex}{\out{\hypertarget{method-ResultParser-get_ar}{}}}
+\if{html}{\out{<a id="method-get_ar"></a>}}
+\if{latex}{\out{\hypertarget{method-get_ar}{}}}
 \subsection{Method \code{get_ar()}}{
 Parse request file
 \subsection{Usage}{
@@ -125,8 +125,8 @@ Parse request file
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-ResultParser-get_car"></a>}}
-\if{latex}{\out{\hypertarget{method-ResultParser-get_car}{}}}
+\if{html}{\out{<a id="method-get_car"></a>}}
+\if{latex}{\out{\hypertarget{method-get_car}{}}}
 \subsection{Method \code{get_car()}}{
 Parse Cumulative Abnormal Return
 \subsection{Usage}{
@@ -144,8 +144,8 @@ Parse Cumulative Abnormal Return
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-ResultParser-get_aar"></a>}}
-\if{latex}{\out{\hypertarget{method-ResultParser-get_aar}{}}}
+\if{html}{\out{<a id="method-get_aar"></a>}}
+\if{latex}{\out{\hypertarget{method-get_aar}{}}}
 \subsection{Method \code{get_aar()}}{
 Parse AAR results
 \subsection{Usage}{
@@ -163,8 +163,8 @@ Parse AAR results
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-ResultParser-get_caar"></a>}}
-\if{latex}{\out{\hypertarget{method-ResultParser-get_caar}{}}}
+\if{html}{\out{<a id="method-get_caar"></a>}}
+\if{latex}{\out{\hypertarget{method-get_caar}{}}}
 \subsection{Method \code{get_caar()}}{
 Parse caar results
 \subsection{Usage}{
@@ -180,8 +180,8 @@ Parse caar results
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-ResultParser-clone"></a>}}
-\if{latex}{\out{\hypertarget{method-ResultParser-clone}{}}}
+\if{html}{\out{<a id="method-clone"></a>}}
+\if{latex}{\out{\hypertarget{method-clone}{}}}
 \subsection{Method \code{clone()}}{
 The objects of this class are cloneable with this method.
 \subsection{Usage}{

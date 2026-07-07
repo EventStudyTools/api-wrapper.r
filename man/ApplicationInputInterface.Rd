@@ -42,16 +42,16 @@ Abstract class no description.
 \section{Methods}{
 \subsection{Public methods}{
 \itemize{
-\item \href{#method-ApplicationInputInterface-setResultFileType}{\code{ApplicationInputInterface$setResultFileType()}}
-\item \href{#method-ApplicationInputInterface-setNamedList}{\code{ApplicationInputInterface$setNamedList()}}
-\item \href{#method-ApplicationInputInterface-serializeToJson}{\code{ApplicationInputInterface$serializeToJson()}}
-\item \href{#method-ApplicationInputInterface-serialize}{\code{ApplicationInputInterface$serialize()}}
-\item \href{#method-ApplicationInputInterface-clone}{\code{ApplicationInputInterface$clone()}}
+\item \href{#method-setResultFileType}{\code{ApplicationInputInterface$setResultFileType()}}
+\item \href{#method-setNamedList}{\code{ApplicationInputInterface$setNamedList()}}
+\item \href{#method-serializeToJson}{\code{ApplicationInputInterface$serializeToJson()}}
+\item \href{#method-serialize}{\code{ApplicationInputInterface$serialize()}}
+\item \href{#method-clone}{\code{ApplicationInputInterface$clone()}}
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-ApplicationInputInterface-setResultFileType"></a>}}
-\if{latex}{\out{\hypertarget{method-ApplicationInputInterface-setResultFileType}{}}}
+\if{html}{\out{<a id="method-setResultFileType"></a>}}
+\if{latex}{\out{\hypertarget{method-setResultFileType}{}}}
 \subsection{Method \code{setResultFileType()}}{
 Set result file type
 \subsection{Usage}{
@@ -67,8 +67,8 @@ Set result file type
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-ApplicationInputInterface-setNamedList"></a>}}
-\if{latex}{\out{\hypertarget{method-ApplicationInputInterface-setNamedList}{}}}
+\if{html}{\out{<a id="method-setNamedList"></a>}}
+\if{latex}{\out{\hypertarget{method-setNamedList}{}}}
 \subsection{Method \code{setNamedList()}}{
 Function to setup hierarchical \code{lists}.
 For internal usage.
@@ -96,8 +96,8 @@ For internal usage.
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-ApplicationInputInterface-serializeToJson"></a>}}
-\if{latex}{\out{\hypertarget{method-ApplicationInputInterface-serializeToJson}{}}}
+\if{html}{\out{<a id="method-serializeToJson"></a>}}
+\if{latex}{\out{\hypertarget{method-serializeToJson}{}}}
 \subsection{Method \code{serializeToJson()}}{
 Serialize a list to json. For internal use.
 \subsection{Usage}{
@@ -113,8 +113,8 @@ Serialize a list to json. For internal use.
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-ApplicationInputInterface-serialize"></a>}}
-\if{latex}{\out{\hypertarget{method-ApplicationInputInterface-serialize}{}}}
+\if{html}{\out{<a id="method-serialize"></a>}}
+\if{latex}{\out{\hypertarget{method-serialize}{}}}
 \subsection{Method \code{serialize()}}{
 Serialize. For internal use.
 \subsection{Usage}{
@@ -123,8 +123,8 @@ Serialize. For internal use.
 
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-ApplicationInputInterface-clone"></a>}}
-\if{latex}{\out{\hypertarget{method-ApplicationInputInterface-clone}{}}}
+\if{html}{\out{<a id="method-clone"></a>}}
+\if{latex}{\out{\hypertarget{method-clone}{}}}
 \subsection{Method \code{clone()}}{
 The objects of this class are cloneable with this method.
 \subsection{Usage}{

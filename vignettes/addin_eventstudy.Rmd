@@ -33,4 +33,4 @@ Please note that we have designed the add-in to include an upload field for the 
 
 # How to Cite {#how-to-cite}
 
-Please cite our work in your [publication](https://eventstudytools.com/how-cite-eventstudytoolscom).
+Please cite our work in your [publication](https://www.eventstudytools.com/how-cite-eventstudytoolscom).

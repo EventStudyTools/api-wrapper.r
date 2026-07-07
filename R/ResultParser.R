@@ -25,37 +25,37 @@
 #' can be used for plotting your results.
 #' 
 #' @section Methods:
-#' 
+#'
 #' \describe{
-#'   \item{\code{new(dir)}}{This method is used to create object of this class 
-#'   with \code{dir} as the directory of result files.}
-#'   \item{\code{parseReport(path = "analysis_report.csv")}}{This method 
-#'   parses the analysis report file (analysis_report.csv).}
-#'   \item{\code{parseAR(path = "ar_results.csv")}}{This method parses the 
-#'   abnormal return file (ar_results.csv). Furthermore, it triggers 
-#'   \code{parseReport} and join firm and index name.}
-#'   \item{\code{parseCAR(path = "car_results.csv")}}{This method parses the 
-#'   cumulative abnormal return file (ar_results.csv). Furthermore, it triggers 
-#'   \code{parseReport} and join firm and index name.}
+#'   \item{\code{new()}}{Constructor for the result parser.}
+#'   \item{\code{get_request_file(path)}}{Parse the request file.}
+#'   \item{\code{get_analysis_report(path)}}{Parse the analysis report file.}
+#'   \item{\code{get_ar(path, analysis_report_tbl, request_tbl)}}{Parse the
+#'   abnormal returns and return an \code{ARResults} object.}
+#'   \item{\code{get_car(path, analysis_report_tbl)}}{Parse the cumulative
+#'   abnormal returns and return a \code{CAResults} object.}
+#'   \item{\code{get_aar(path, analysis_report)}}{Parse the average abnormal
+#'   returns and return an \code{AARResults} object.}
+#'   \item{\code{get_caar(path)}}{Parse the cumulative average abnormal returns
+#'   and return a \code{CAAResults} object.}
 #' }
-#'   
+#'
 #' @format \code{\link[R6]{R6Class}} object.
-#' 
-#' @examples 
+#'
+#' @examples
 #' \dontrun{
-#' # Assume you already performed an Event Study and result files are saved in 
-#' # the actual working directory.
+#' # Assume you already performed an Event Study and the result files are saved
+#' # in the "results" directory of the working directory.
 #' estParser <- ResultParser$new()
-#' 
-#' # parse request file
-#' estParser$parseRequestFile("01_RequestFile.csv")
-#' 
-#' # parse result files
-#' estParser$parseReport("Analysis report.csv")
-#' estParser$parseAR("AR results.csv")
-#' estParser$parseAAR("AAR results.csv")
+#'
+#' request_data    <- estParser$get_request_file("01_RequestFile.csv")
+#' analysis_report <- estParser$get_analysis_report("results/analysis_report.csv")
+#' ar   <- estParser$get_ar("results/ar_results.csv", analysis_report, request_data)
+#' aar  <- estParser$get_aar("results/aar_results.csv", analysis_report)
+#' car  <- estParser$get_car("results/car_results.csv", analysis_report)
+#' caar <- estParser$get_caar("results/caar_results.csv")
 #' }
-#' 
+#'
 #' @export
 ResultParser <- R6::R6Class(classname = "ResultParser",
                             public = list(
@@ -137,14 +137,12 @@ ResultParser <- R6::R6Class(classname = "ResultParser",
                                 }
                                 
                                 if (!is.null(analysis_report_tbl)) {
-                                  analysis_report_tbl %>% 
+                                  analysis_report_tbl %>%
                                     dplyr::select(c("Event ID", "Firm")) -> report_tbl
                                   car_result_tbl %>%
                                     dplyr::left_join(report_tbl, by = "Event ID") -> car_result_tbl
-                                  CAResults$new(car_result_tbl)
-                                } else {
-                                  warning("Please add analysis report!")
                                 }
+                                CAResults$new(car_result_tbl)
                               },
                               #' @description Parse AAR results
                               #' 

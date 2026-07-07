@@ -1,9 +1,9 @@
-[![cran version](http://www.r-pkg.org/badges/version/EventStudy)](https://cran.r-project.org/package=EventStudy) [![Downloads](http://cranlogs.r-pkg.org/badges/grand-total/EventStudy)](https://cran.r-project.org/package=EventStudy) [![rstudio mirror downloads](http://cranlogs.r-pkg.org/badges/EventStudy?)](https://cran.r-project.org/package=EventStudy)
+[![cran version](https://www.r-pkg.org/badges/version/EventStudy)](https://cran.r-project.org/package=EventStudy) [![Downloads](https://cranlogs.r-pkg.org/badges/grand-total/EventStudy)](https://cran.r-project.org/package=EventStudy) [![rstudio mirror downloads](https://cranlogs.r-pkg.org/badges/EventStudy?)](https://cran.r-project.org/package=EventStudy)
 
 # EventStudyTools (EST) API R Wrapper
 
 
-# **[Get Started](https://CRAN.R-project.org/package=EventStudy/vignettes/get_started.html)**
+# **[Get Started](https://github.com/EventStudyTools/api-wrapper.r/blob/main/vignettes/get_started.Rmd)**
 
 <p align="center">
 <img src='vignettes/landing_page.png' width='350' style="display: block; margin: 0 auto">
@@ -30,14 +30,14 @@
 
 ## Installation
 
-Developer Version
+From GitHub (current, recommended):
 
-    library(devtools)
-    install_github("EventStudyTools/api-wrapper.r")
+    # install.packages("remotes")
+    remotes::install_github("EventStudyTools/api-wrapper.r")
 
-CRAN Version
-
-    install.packages("EventStudy")
+The package was previously published on CRAN but is currently archived
+there, so `install.packages("EventStudy")` no longer works. Install from
+GitHub instead.
 
 ## Simple Example of an Abnormal Returns Calculator (ARC) launch
 
@@ -93,7 +93,7 @@ CRAN Version
 
 ## Details can be found in our vignettes
 
--   [Get Started](https://CRAN.R-project.org/package=EventStudy/vignettes/get_started.html)
--   [Use Case: Dieselgate](https://CRAN.R-project.org/package=EventStudy/vignettes/howto_eventstudy.html)
--   [Parameters](https://CRAN.R-project.org/package=EventStudy/vignettes/parameters.html)
--   [RStudio Addin](https://CRAN.R-project.org/package=EventStudy/vignettes/addin_eventstudy.html)
+-   [Get Started](vignettes/get_started.Rmd)
+-   [Use Case: Dieselgate](vignettes/use_case_dieselgate.Rmd)
+-   [Parameters](vignettes/parameters.Rmd)
+-   [RStudio Addin](vignettes/addin_eventstudy.Rmd)

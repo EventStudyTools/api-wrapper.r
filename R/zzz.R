@@ -24,8 +24,3 @@
   invisible()
 }
 
-.onAttach = function(libname, pkgname) {
-  if (interactive()) {
-    packageStartupMessage("Dates before 01.01.1970 are currently not working.")
-  }
-}

@@ -21,7 +21,7 @@
 #' \url{https://www.eventstudytools.com}. 
 #'
 #' For more details see the help vignette:
-#' \code{vignette("introduction_eventstudy", package = "EventStudy")}
+#' \code{vignette("get_started", package = "EventStudy")}
 #'
 #' @format \code{\link[R6]{R6Class}} object
 #'
@@ -85,7 +85,7 @@
 #' # set Event Study parameters
 #' estType <- "arc"
 #' dataFiles <- c("request_file" = "01_RequestFile.csv", 
-#'                "firm_data"    = "02_firmData.csv", 
+#'                "firm_data"    = "02_FirmData.csv", 
 #'                "market_data"  = "03_MarketData.csv")
 #' resultPath <- "results"
 #' 
@@ -153,7 +153,7 @@ EventStudyAPI <- R6::R6Class(classname = "EventStudyAPI",
                                #' @param checkFiles Check input files.
                                performEventStudy = function(estParams     = NULL,
                                                             dataFiles     = c("request_file" = "01_RequestFile.csv", 
-                                                                           "firm_data"   = "02_firmData.csv", 
+                                                                           "firm_data"   = "02_FirmData.csv", 
                                                                            "market_data" = "03_MarketData.csv"), 
                                                             destDir       = "results",
                                                             downloadFiles = T,
@@ -215,7 +215,7 @@ EventStudyAPI <- R6::R6Class(classname = "EventStudyAPI",
                                #' @param checkFiles Check input files.
                                performDefaultEventStudy = function(estType       = "arc", 
                                                                    dataFiles     = c("request_file" = "01_RequestFile.csv", 
-                                                                                     "firm_data"    = "02_firmData.csv", 
+                                                                                     "firm_data"    = "02_FirmData.csv", 
                                                                                      "market_data"  = "03_MarketData.csv"), 
                                                                    destDir       = "results",
                                                                    downloadFiles = T,
@@ -420,7 +420,8 @@ EventStudyAPI <- R6::R6Class(classname = "EventStudyAPI",
                                      dplyr::mutate(results = purrr::map(data, .f = function(x) {
                                        cat('Downloading: ', x$name, "\n")
                                        curl_download_save <- purrr::safely(curl::curl_download)
-                                       dl_ <- curl_download_save(url =  x$url, destfile = file.path(destDir, x$basename), quiet = T)
+                                       dl_ <- curl_download_save(url = x$url, destfile = file.path(destDir, x$basename), quiet = T,
+                                                                 handle = curl::new_handle(useragent = "EventStudy-r/0.40.0"))
                                        if (is.null(dl_$error)) {
                                          return('Success')
                                        } else {

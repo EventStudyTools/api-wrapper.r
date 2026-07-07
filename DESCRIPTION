@@ -1,10 +1,10 @@
 Package: EventStudy
 Type: Package
 Title: Event Study Analysis
-Description: Perform Event Studies from through our <https://EventStudyTools.com> Application Programming Interface, parse the results, visualize it, and / or use the results in further analysis.
+Description: Perform Event Studies from through our <https://www.eventstudytools.com> Application Programming Interface, parse the results, visualize it, and / or use the results in further analysis.
 Author: EST Team
-Date: 2023-03-28
-Version: 0.39.2
+Date: 2026-07-07
+Version: 0.40.0
 Encoding: UTF-8
 URL: https://www.eventstudytools.com
 Maintainer: EST Team <no-reply@eventstudytools.com>

@@ -15,7 +15,7 @@ We recommend to use the \code{set} functionality to setup your Event Study,
 as we check input parameters.
 
 For more details see the help vignette:
-\code{vignette("parameters_eventstudy", package = "EventStudy")}
+\code{vignette("parameters", package = "EventStudy")}
 }
 \section{Methods}{
 
@@ -63,8 +63,8 @@ estSetup$authentication(apiKey)
 # Perform Event Study
 estSetup$performEventStudy(estParams = avcParams, 
                            dataFiles = c("request_file" = "01_RequestFile.csv",
-                                         "firm_data"    = "02_firmData.csv",
-                                         "market_data"  = "03_marketData.csv"))
+                                         "firm_data"    = "02_FirmData.csv",
+                                         "market_data"  = "03_MarketData.csv"))
 
 # Download task results and save them in the actiual working directory
 estSetup$getTaskResults()
@@ -84,29 +84,29 @@ estSetup$getTaskResults()
 \section{Methods}{
 \subsection{Public methods}{
 \itemize{
-\item \href{#method-AVCApplicationInput-clone}{\code{AVCApplicationInput$clone()}}
+\item \href{#method-clone}{\code{AVCApplicationInput$clone()}}
 }
 }
-\if{html}{\out{
-<details><summary>Inherited methods</summary>
-<ul>
-<li><span class="pkg-link" data-pkg="EventStudy" data-topic="ApplicationInputInterface" data-id="serialize"><a href='../../EventStudy/html/ApplicationInputInterface.html#method-ApplicationInputInterface-serialize'><code>EventStudy::ApplicationInputInterface$serialize()</code></a></span></li>
-<li><span class="pkg-link" data-pkg="EventStudy" data-topic="ApplicationInputInterface" data-id="serializeToJson"><a href='../../EventStudy/html/ApplicationInputInterface.html#method-ApplicationInputInterface-serializeToJson'><code>EventStudy::ApplicationInputInterface$serializeToJson()</code></a></span></li>
-<li><span class="pkg-link" data-pkg="EventStudy" data-topic="ApplicationInputInterface" data-id="setNamedList"><a href='../../EventStudy/html/ApplicationInputInterface.html#method-ApplicationInputInterface-setNamedList'><code>EventStudy::ApplicationInputInterface$setNamedList()</code></a></span></li>
-<li><span class="pkg-link" data-pkg="EventStudy" data-topic="ApplicationInputInterface" data-id="setResultFileType"><a href='../../EventStudy/html/ApplicationInputInterface.html#method-ApplicationInputInterface-setResultFileType'><code>EventStudy::ApplicationInputInterface$setResultFileType()</code></a></span></li>
-<li><span class="pkg-link" data-pkg="EventStudy" data-topic="EventStudyApplicationInput" data-id="setup"><a href='../../EventStudy/html/EventStudyApplicationInput.html#method-EventStudyApplicationInput-setup'><code>EventStudy::EventStudyApplicationInput$setup()</code></a></span></li>
-<li><span class="pkg-link" data-pkg="EventStudy" data-topic="ARCApplicationInput" data-id="setBenchmarkModel"><a href='../../EventStudy/html/ARCApplicationInput.html#method-ARCApplicationInput-setBenchmarkModel'><code>EventStudy::ARCApplicationInput$setBenchmarkModel()</code></a></span></li>
-<li><span class="pkg-link" data-pkg="EventStudy" data-topic="ARCApplicationInput" data-id="setDataFiles"><a href='../../EventStudy/html/ARCApplicationInput.html#method-ARCApplicationInput-setDataFiles'><code>EventStudy::ARCApplicationInput$setDataFiles()</code></a></span></li>
-<li><span class="pkg-link" data-pkg="EventStudy" data-topic="ARCApplicationInput" data-id="setEMail"><a href='../../EventStudy/html/ARCApplicationInput.html#method-ARCApplicationInput-setEMail'><code>EventStudy::ARCApplicationInput$setEMail()</code></a></span></li>
-<li><span class="pkg-link" data-pkg="EventStudy" data-topic="ARCApplicationInput" data-id="setNonTradingDays"><a href='../../EventStudy/html/ARCApplicationInput.html#method-ARCApplicationInput-setNonTradingDays'><code>EventStudy::ARCApplicationInput$setNonTradingDays()</code></a></span></li>
-<li><span class="pkg-link" data-pkg="EventStudy" data-topic="ARCApplicationInput" data-id="setReturnType"><a href='../../EventStudy/html/ARCApplicationInput.html#method-ARCApplicationInput-setReturnType'><code>EventStudy::ARCApplicationInput$setReturnType()</code></a></span></li>
-<li><span class="pkg-link" data-pkg="EventStudy" data-topic="ARCApplicationInput" data-id="setTestStatistics"><a href='../../EventStudy/html/ARCApplicationInput.html#method-ARCApplicationInput-setTestStatistics'><code>EventStudy::ARCApplicationInput$setTestStatistics()</code></a></span></li>
-</ul>
-</details>
-}}
+\if{html}{
+\out{<details ><summary>Inherited methods</summary>}
+\itemize{
+\item \out{<span class="pkg-link" data-pkg="EventStudy" data-topic="ApplicationInputInterface" data-id="serialize">}\href{../../EventStudy/html/ApplicationInputInterface.html#method-serialize}{\code{EventStudy::ApplicationInputInterface$serialize()}}\out{</span>}
+\item \out{<span class="pkg-link" data-pkg="EventStudy" data-topic="ApplicationInputInterface" data-id="serializeToJson">}\href{../../EventStudy/html/ApplicationInputInterface.html#method-serializeToJson}{\code{EventStudy::ApplicationInputInterface$serializeToJson()}}\out{</span>}
+\item \out{<span class="pkg-link" data-pkg="EventStudy" data-topic="ApplicationInputInterface" data-id="setNamedList">}\href{../../EventStudy/html/ApplicationInputInterface.html#method-setNamedList}{\code{EventStudy::ApplicationInputInterface$setNamedList()}}\out{</span>}
+\item \out{<span class="pkg-link" data-pkg="EventStudy" data-topic="ApplicationInputInterface" data-id="setResultFileType">}\href{../../EventStudy/html/ApplicationInputInterface.html#method-setResultFileType}{\code{EventStudy::ApplicationInputInterface$setResultFileType()}}\out{</span>}
+\item \out{<span class="pkg-link" data-pkg="EventStudy" data-topic="EventStudyApplicationInput" data-id="setup">}\href{../../EventStudy/html/EventStudyApplicationInput.html#method-setup}{\code{EventStudy::EventStudyApplicationInput$setup()}}\out{</span>}
+\item \out{<span class="pkg-link" data-pkg="EventStudy" data-topic="ARCApplicationInput" data-id="setBenchmarkModel">}\href{../../EventStudy/html/ARCApplicationInput.html#method-setBenchmarkModel}{\code{EventStudy::ARCApplicationInput$setBenchmarkModel()}}\out{</span>}
+\item \out{<span class="pkg-link" data-pkg="EventStudy" data-topic="ARCApplicationInput" data-id="setDataFiles">}\href{../../EventStudy/html/ARCApplicationInput.html#method-setDataFiles}{\code{EventStudy::ARCApplicationInput$setDataFiles()}}\out{</span>}
+\item \out{<span class="pkg-link" data-pkg="EventStudy" data-topic="ARCApplicationInput" data-id="setEMail">}\href{../../EventStudy/html/ARCApplicationInput.html#method-setEMail}{\code{EventStudy::ARCApplicationInput$setEMail()}}\out{</span>}
+\item \out{<span class="pkg-link" data-pkg="EventStudy" data-topic="ARCApplicationInput" data-id="setNonTradingDays">}\href{../../EventStudy/html/ARCApplicationInput.html#method-setNonTradingDays}{\code{EventStudy::ARCApplicationInput$setNonTradingDays()}}\out{</span>}
+\item \out{<span class="pkg-link" data-pkg="EventStudy" data-topic="ARCApplicationInput" data-id="setReturnType">}\href{../../EventStudy/html/ARCApplicationInput.html#method-setReturnType}{\code{EventStudy::ARCApplicationInput$setReturnType()}}\out{</span>}
+\item \out{<span class="pkg-link" data-pkg="EventStudy" data-topic="ARCApplicationInput" data-id="setTestStatistics">}\href{../../EventStudy/html/ARCApplicationInput.html#method-setTestStatistics}{\code{EventStudy::ARCApplicationInput$setTestStatistics()}}\out{</span>}
+}
+\out{</details>}
+}
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-AVCApplicationInput-clone"></a>}}
-\if{latex}{\out{\hypertarget{method-AVCApplicationInput-clone}{}}}
+\if{html}{\out{<a id="method-clone"></a>}}
+\if{latex}{\out{\hypertarget{method-clone}{}}}
 \subsection{Method \code{clone()}}{
 The objects of this class are cloneable with this method.
 \subsection{Usage}{

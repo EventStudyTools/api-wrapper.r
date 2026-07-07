@@ -58,18 +58,18 @@ An R6 object that contains AAR results.
 \section{Methods}{
 \subsection{Public methods}{
 \itemize{
-\item \href{#method-AARResults-new}{\code{AARResults$new()}}
-\item \href{#method-AARResults-print}{\code{AARResults$print()}}
-\item \href{#method-AARResults-plot}{\code{AARResults$plot()}}
-\item \href{#method-AARResults-plot_cumulative}{\code{AARResults$plot_cumulative()}}
-\item \href{#method-AARResults-confidence_interval}{\code{AARResults$confidence_interval()}}
-\item \href{#method-AARResults-plot_test_statistics}{\code{AARResults$plot_test_statistics()}}
-\item \href{#method-AARResults-clone}{\code{AARResults$clone()}}
+\item \href{#method-new}{\code{AARResults$new()}}
+\item \href{#method-print}{\code{AARResults$print()}}
+\item \href{#method-plot}{\code{AARResults$plot()}}
+\item \href{#method-plot_cumulative}{\code{AARResults$plot_cumulative()}}
+\item \href{#method-confidence_interval}{\code{AARResults$confidence_interval()}}
+\item \href{#method-plot_test_statistics}{\code{AARResults$plot_test_statistics()}}
+\item \href{#method-clone}{\code{AARResults$clone()}}
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-AARResults-new"></a>}}
-\if{latex}{\out{\hypertarget{method-AARResults-new}{}}}
+\if{html}{\out{<a id="method-new"></a>}}
+\if{latex}{\out{\hypertarget{method-new}{}}}
 \subsection{Method \code{new()}}{
 Class initialization
 \subsection{Usage}{
@@ -87,8 +87,8 @@ Class initialization
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-AARResults-print"></a>}}
-\if{latex}{\out{\hypertarget{method-AARResults-print}{}}}
+\if{html}{\out{<a id="method-print"></a>}}
+\if{latex}{\out{\hypertarget{method-print}{}}}
 \subsection{Method \code{print()}}{
 Print key characteristics.
 \subsection{Usage}{
@@ -97,8 +97,8 @@ Print key characteristics.
 
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-AARResults-plot"></a>}}
-\if{latex}{\out{\hypertarget{method-AARResults-plot}{}}}
+\if{html}{\out{<a id="method-plot"></a>}}
+\if{latex}{\out{\hypertarget{method-plot}{}}}
 \subsection{Method \code{plot()}}{
 Plots AAR results for each analysis group.
 \subsection{Usage}{
@@ -137,8 +137,8 @@ Plots AAR results for each analysis group.
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-AARResults-plot_cumulative"></a>}}
-\if{latex}{\out{\hypertarget{method-AARResults-plot_cumulative}{}}}
+\if{html}{\out{<a id="method-plot_cumulative"></a>}}
+\if{latex}{\out{\hypertarget{method-plot_cumulative}{}}}
 \subsection{Method \code{plot_cumulative()}}{
 Plot Cumulative Abnormal Return. No test statistic is available.
 \subsection{Usage}{
@@ -165,8 +165,8 @@ Plot Cumulative Abnormal Return. No test statistic is available.
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-AARResults-confidence_interval"></a>}}
-\if{latex}{\out{\hypertarget{method-AARResults-confidence_interval}{}}}
+\if{html}{\out{<a id="method-confidence_interval"></a>}}
+\if{latex}{\out{\hypertarget{method-confidence_interval}{}}}
 \subsection{Method \code{confidence_interval()}}{
 Calculates Confidence band for given test statistic.
 \subsection{Usage}{
@@ -190,8 +190,8 @@ Calculates Confidence band for given test statistic.
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-AARResults-plot_test_statistics"></a>}}
-\if{latex}{\out{\hypertarget{method-AARResults-plot_test_statistics}{}}}
+\if{html}{\out{<a id="method-plot_test_statistics"></a>}}
+\if{latex}{\out{\hypertarget{method-plot_test_statistics}{}}}
 \subsection{Method \code{plot_test_statistics()}}{
 Plots a heatmap with test statistics on y axis and Day Relative to Event on x axis. Colorization is done according to significance according to given p.
 \subsection{Usage}{
@@ -209,8 +209,8 @@ Plots a heatmap with test statistics on y axis and Day Relative to Event on x ax
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-AARResults-clone"></a>}}
-\if{latex}{\out{\hypertarget{method-AARResults-clone}{}}}
+\if{html}{\out{<a id="method-clone"></a>}}
+\if{latex}{\out{\hypertarget{method-clone}{}}}
 \subsection{Method \code{clone()}}{
 The objects of this class are cloneable with this method.
 \subsection{Usage}{
@@ -237,15 +237,15 @@ Class initialization}
 \section{Methods}{
 \subsection{Public methods}{
 \itemize{
-\item \href{#method-ARResults-new}{\code{ARResults$new()}}
-\item \href{#method-ARResults-print}{\code{ARResults$print()}}
-\item \href{#method-ARResults-plot}{\code{ARResults$plot()}}
-\item \href{#method-ARResults-clone}{\code{ARResults$clone()}}
+\item \href{#method-new}{\code{ARResults$new()}}
+\item \href{#method-print}{\code{ARResults$print()}}
+\item \href{#method-plot}{\code{ARResults$plot()}}
+\item \href{#method-clone}{\code{ARResults$clone()}}
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-ARResults-new"></a>}}
-\if{latex}{\out{\hypertarget{method-ARResults-new}{}}}
+\if{html}{\out{<a id="method-new"></a>}}
+\if{latex}{\out{\hypertarget{method-new}{}}}
 \subsection{Method \code{new()}}{
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{ARResults$new(ar_tbl)}\if{html}{\out{</div>}}
@@ -260,8 +260,8 @@ Class initialization}
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-ARResults-print"></a>}}
-\if{latex}{\out{\hypertarget{method-ARResults-print}{}}}
+\if{html}{\out{<a id="method-print"></a>}}
+\if{latex}{\out{\hypertarget{method-print}{}}}
 \subsection{Method \code{print()}}{
 Print key characteristics.
 \subsection{Usage}{
@@ -270,8 +270,8 @@ Print key characteristics.
 
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-ARResults-plot"></a>}}
-\if{latex}{\out{\hypertarget{method-ARResults-plot}{}}}
+\if{html}{\out{<a id="method-plot"></a>}}
+\if{latex}{\out{\hypertarget{method-plot}{}}}
 \subsection{Method \code{plot()}}{
 Plot abnormal returns in the event window of single or multiple
 firms.
@@ -297,8 +297,8 @@ a ggplot2 object
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-ARResults-clone"></a>}}
-\if{latex}{\out{\hypertarget{method-ARResults-clone}{}}}
+\if{html}{\out{<a id="method-clone"></a>}}
+\if{latex}{\out{\hypertarget{method-clone}{}}}
 \subsection{Method \code{clone()}}{
 The objects of this class are cloneable with this method.
 \subsection{Usage}{
@@ -325,14 +325,14 @@ Class initialization}
 \section{Methods}{
 \subsection{Public methods}{
 \itemize{
-\item \href{#method-CAResults-new}{\code{CAResults$new()}}
-\item \href{#method-CAResults-print}{\code{CAResults$print()}}
-\item \href{#method-CAResults-clone}{\code{CAResults$clone()}}
+\item \href{#method-new}{\code{CAResults$new()}}
+\item \href{#method-print}{\code{CAResults$print()}}
+\item \href{#method-clone}{\code{CAResults$clone()}}
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-CAResults-new"></a>}}
-\if{latex}{\out{\hypertarget{method-CAResults-new}{}}}
+\if{html}{\out{<a id="method-new"></a>}}
+\if{latex}{\out{\hypertarget{method-new}{}}}
 \subsection{Method \code{new()}}{
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{CAResults$new(car_tbl)}\if{html}{\out{</div>}}
@@ -347,8 +347,8 @@ Class initialization}
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-CAResults-print"></a>}}
-\if{latex}{\out{\hypertarget{method-CAResults-print}{}}}
+\if{html}{\out{<a id="method-print"></a>}}
+\if{latex}{\out{\hypertarget{method-print}{}}}
 \subsection{Method \code{print()}}{
 Print key characteristics.
 \subsection{Usage}{
@@ -357,8 +357,8 @@ Print key characteristics.
 
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-CAResults-clone"></a>}}
-\if{latex}{\out{\hypertarget{method-CAResults-clone}{}}}
+\if{html}{\out{<a id="method-clone"></a>}}
+\if{latex}{\out{\hypertarget{method-clone}{}}}
 \subsection{Method \code{clone()}}{
 The objects of this class are cloneable with this method.
 \subsection{Usage}{

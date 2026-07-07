@@ -13,7 +13,7 @@ getSP500ExampleFiles(targetDir = getwd())
 }
 \description{
 For more details see the help vignette:
-\code{vignette("introduction_eventstudy", package = "EventStudy")}
+\code{vignette("get_started", package = "EventStudy")}
 }
 \details{
 or on our website:

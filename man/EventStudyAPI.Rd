@@ -11,7 +11,7 @@ R interface for performing Event Studies on
 \url{https://www.eventstudytools.com}. 
 
 For more details see the help vignette:
-\code{vignette("introduction_eventstudy", package = "EventStudy")}
+\code{vignette("get_started", package = "EventStudy")}
 }
 \section{Usage}{
 
@@ -67,7 +67,7 @@ For usage details see \bold{Methods, Arguments, and Examples} sections.
 \dontrun{
 apiKey <- "{Please insert your aPI key here}"
 
-The URL is already set by default
+# The URL is already set by default
 options(EventStudy.KEY = apiKey)
 
 # initialize object
@@ -79,7 +79,7 @@ getSP500ExampleFiles()
 # set Event Study parameters
 estType <- "arc"
 dataFiles <- c("request_file" = "01_RequestFile.csv", 
-               "firm_data"    = "02_firmData.csv", 
+               "firm_data"    = "02_FirmData.csv", 
                "market_data"  = "03_MarketData.csv")
 resultPath <- "results"
 
@@ -101,26 +101,26 @@ estResult <- estSetup$performDefaultEventStudy(estType    = estType,
 \section{Methods}{
 \subsection{Public methods}{
 \itemize{
-\item \href{#method-EventStudyAPI-new}{\code{EventStudyAPI$new()}}
-\item \href{#method-EventStudyAPI-authentication}{\code{EventStudyAPI$authentication()}}
-\item \href{#method-EventStudyAPI-performEventStudy}{\code{EventStudyAPI$performEventStudy()}}
-\item \href{#method-EventStudyAPI-performDefaultEventStudy}{\code{EventStudyAPI$performDefaultEventStudy()}}
-\item \href{#method-EventStudyAPI-processTask}{\code{EventStudyAPI$processTask()}}
-\item \href{#method-EventStudyAPI-configureTask}{\code{EventStudyAPI$configureTask()}}
-\item \href{#method-EventStudyAPI-uploadFile}{\code{EventStudyAPI$uploadFile()}}
-\item \href{#method-EventStudyAPI-deleteFileParts}{\code{EventStudyAPI$deleteFileParts()}}
-\item \href{#method-EventStudyAPI-splitFile}{\code{EventStudyAPI$splitFile()}}
-\item \href{#method-EventStudyAPI-get_token}{\code{EventStudyAPI$get_token()}}
-\item \href{#method-EventStudyAPI-commitData}{\code{EventStudyAPI$commitData()}}
-\item \href{#method-EventStudyAPI-getTaskStatus}{\code{EventStudyAPI$getTaskStatus()}}
-\item \href{#method-EventStudyAPI-getTaskResults}{\code{EventStudyAPI$getTaskResults()}}
-\item \href{#method-EventStudyAPI-getApiVersion}{\code{EventStudyAPI$getApiVersion()}}
-\item \href{#method-EventStudyAPI-clone}{\code{EventStudyAPI$clone()}}
+\item \href{#method-new}{\code{EventStudyAPI$new()}}
+\item \href{#method-authentication}{\code{EventStudyAPI$authentication()}}
+\item \href{#method-performEventStudy}{\code{EventStudyAPI$performEventStudy()}}
+\item \href{#method-performDefaultEventStudy}{\code{EventStudyAPI$performDefaultEventStudy()}}
+\item \href{#method-processTask}{\code{EventStudyAPI$processTask()}}
+\item \href{#method-configureTask}{\code{EventStudyAPI$configureTask()}}
+\item \href{#method-uploadFile}{\code{EventStudyAPI$uploadFile()}}
+\item \href{#method-deleteFileParts}{\code{EventStudyAPI$deleteFileParts()}}
+\item \href{#method-splitFile}{\code{EventStudyAPI$splitFile()}}
+\item \href{#method-get_token}{\code{EventStudyAPI$get_token()}}
+\item \href{#method-commitData}{\code{EventStudyAPI$commitData()}}
+\item \href{#method-getTaskStatus}{\code{EventStudyAPI$getTaskStatus()}}
+\item \href{#method-getTaskResults}{\code{EventStudyAPI$getTaskResults()}}
+\item \href{#method-getApiVersion}{\code{EventStudyAPI$getApiVersion()}}
+\item \href{#method-clone}{\code{EventStudyAPI$clone()}}
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-EventStudyAPI-new"></a>}}
-\if{latex}{\out{\hypertarget{method-EventStudyAPI-new}{}}}
+\if{html}{\out{<a id="method-new"></a>}}
+\if{latex}{\out{\hypertarget{method-new}{}}}
 \subsection{Method \code{new()}}{
 Class initialization
 \subsection{Usage}{
@@ -136,8 +136,8 @@ Class initialization
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-EventStudyAPI-authentication"></a>}}
-\if{latex}{\out{\hypertarget{method-EventStudyAPI-authentication}{}}}
+\if{html}{\out{<a id="method-authentication"></a>}}
+\if{latex}{\out{\hypertarget{method-authentication}{}}}
 \subsection{Method \code{authentication()}}{
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{EventStudyAPI$authentication(apiKey = NULL)}\if{html}{\out{</div>}}
@@ -152,14 +152,14 @@ Class initialization
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-EventStudyAPI-performEventStudy"></a>}}
-\if{latex}{\out{\hypertarget{method-EventStudyAPI-performEventStudy}{}}}
+\if{html}{\out{<a id="method-performEventStudy"></a>}}
+\if{latex}{\out{\hypertarget{method-performEventStudy}{}}}
 \subsection{Method \code{performEventStudy()}}{
 Performs an event study with given parameters and files.
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{EventStudyAPI$performEventStudy(
   estParams = NULL,
-  dataFiles = c(request_file = "01_RequestFile.csv", firm_data = "02_firmData.csv",
+  dataFiles = c(request_file = "01_RequestFile.csv", firm_data = "02_FirmData.csv",
     market_data = "03_MarketData.csv"),
   destDir = "results",
   downloadFiles = T,
@@ -184,14 +184,14 @@ Performs an event study with given parameters and files.
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-EventStudyAPI-performDefaultEventStudy"></a>}}
-\if{latex}{\out{\hypertarget{method-EventStudyAPI-performDefaultEventStudy}{}}}
+\if{html}{\out{<a id="method-performDefaultEventStudy"></a>}}
+\if{latex}{\out{\hypertarget{method-performDefaultEventStudy}{}}}
 \subsection{Method \code{performDefaultEventStudy()}}{
 Performs an event study with default parameters and files.
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{EventStudyAPI$performDefaultEventStudy(
   estType = "arc",
-  dataFiles = c(request_file = "01_RequestFile.csv", firm_data = "02_firmData.csv",
+  dataFiles = c(request_file = "01_RequestFile.csv", firm_data = "02_FirmData.csv",
     market_data = "03_MarketData.csv"),
   destDir = "results",
   downloadFiles = T,
@@ -216,8 +216,8 @@ Performs an event study with default parameters and files.
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-EventStudyAPI-processTask"></a>}}
-\if{latex}{\out{\hypertarget{method-EventStudyAPI-processTask}{}}}
+\if{html}{\out{<a id="method-processTask"></a>}}
+\if{latex}{\out{\hypertarget{method-processTask}{}}}
 \subsection{Method \code{processTask()}}{
 Process the task. Internal use.
 \subsection{Usage}{
@@ -226,8 +226,8 @@ Process the task. Internal use.
 
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-EventStudyAPI-configureTask"></a>}}
-\if{latex}{\out{\hypertarget{method-EventStudyAPI-configureTask}{}}}
+\if{html}{\out{<a id="method-configureTask"></a>}}
+\if{latex}{\out{\hypertarget{method-configureTask}{}}}
 \subsection{Method \code{configureTask()}}{
 Configure the task. Internal usasge.
 \subsection{Usage}{
@@ -243,8 +243,8 @@ Configure the task. Internal usasge.
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-EventStudyAPI-uploadFile"></a>}}
-\if{latex}{\out{\hypertarget{method-EventStudyAPI-uploadFile}{}}}
+\if{html}{\out{<a id="method-uploadFile"></a>}}
+\if{latex}{\out{\hypertarget{method-uploadFile}{}}}
 \subsection{Method \code{uploadFile()}}{
 Upload files to server. Internal usage.
 \subsection{Usage}{
@@ -264,8 +264,8 @@ Upload files to server. Internal usage.
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-EventStudyAPI-deleteFileParts"></a>}}
-\if{latex}{\out{\hypertarget{method-EventStudyAPI-deleteFileParts}{}}}
+\if{html}{\out{<a id="method-deleteFileParts"></a>}}
+\if{latex}{\out{\hypertarget{method-deleteFileParts}{}}}
 \subsection{Method \code{deleteFileParts()}}{
 Delete files. Internal usage.
 \subsection{Usage}{
@@ -281,8 +281,8 @@ Delete files. Internal usage.
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-EventStudyAPI-splitFile"></a>}}
-\if{latex}{\out{\hypertarget{method-EventStudyAPI-splitFile}{}}}
+\if{html}{\out{<a id="method-splitFile"></a>}}
+\if{latex}{\out{\hypertarget{method-splitFile}{}}}
 \subsection{Method \code{splitFile()}}{
 Split files Internal usage.
 \subsection{Usage}{
@@ -300,8 +300,8 @@ Split files Internal usage.
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-EventStudyAPI-get_token"></a>}}
-\if{latex}{\out{\hypertarget{method-EventStudyAPI-get_token}{}}}
+\if{html}{\out{<a id="method-get_token"></a>}}
+\if{latex}{\out{\hypertarget{method-get_token}{}}}
 \subsection{Method \code{get_token()}}{
 Get token. Internal usage.
 \subsection{Usage}{
@@ -310,8 +310,8 @@ Get token. Internal usage.
 
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-EventStudyAPI-commitData"></a>}}
-\if{latex}{\out{\hypertarget{method-EventStudyAPI-commitData}{}}}
+\if{html}{\out{<a id="method-commitData"></a>}}
+\if{latex}{\out{\hypertarget{method-commitData}{}}}
 \subsection{Method \code{commitData()}}{
 Commit data. Internal usage.
 \subsection{Usage}{
@@ -320,8 +320,8 @@ Commit data. Internal usage.
 
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-EventStudyAPI-getTaskStatus"></a>}}
-\if{latex}{\out{\hypertarget{method-EventStudyAPI-getTaskStatus}{}}}
+\if{html}{\out{<a id="method-getTaskStatus"></a>}}
+\if{latex}{\out{\hypertarget{method-getTaskStatus}{}}}
 \subsection{Method \code{getTaskStatus()}}{
 Fetch task status. Internal usage.
 \subsection{Usage}{
@@ -337,8 +337,8 @@ Fetch task status. Internal usage.
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-EventStudyAPI-getTaskResults"></a>}}
-\if{latex}{\out{\hypertarget{method-EventStudyAPI-getTaskResults}{}}}
+\if{html}{\out{<a id="method-getTaskResults"></a>}}
+\if{latex}{\out{\hypertarget{method-getTaskResults}{}}}
 \subsection{Method \code{getTaskResults()}}{
 Fetch results Internal usage.
 \subsection{Usage}{
@@ -356,8 +356,8 @@ Fetch results Internal usage.
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-EventStudyAPI-getApiVersion"></a>}}
-\if{latex}{\out{\hypertarget{method-EventStudyAPI-getApiVersion}{}}}
+\if{html}{\out{<a id="method-getApiVersion"></a>}}
+\if{latex}{\out{\hypertarget{method-getApiVersion}{}}}
 \subsection{Method \code{getApiVersion()}}{
 Get API version.
 \subsection{Usage}{
@@ -366,8 +366,8 @@ Get API version.
 
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-EventStudyAPI-clone"></a>}}
-\if{latex}{\out{\hypertarget{method-EventStudyAPI-clone}{}}}
+\if{html}{\out{<a id="method-clone"></a>}}
+\if{latex}{\out{\hypertarget{method-clone}{}}}
 \subsection{Method \code{clone()}}{
 The objects of this class are cloneable with this method.
 \subsection{Usage}{
